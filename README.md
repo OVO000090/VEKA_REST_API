@@ -4,4 +4,4 @@ Overzicht van de externe partner APIs aangeboden door VEKA
 
 ## API Documentation
 
-* [Melding Centrale Stooktoestellen voor Woningpas](https://www.vlaanderen.be)
+* [Melding Centrale Stooktoestellen voor Woningpas](../docs/mcs-api-wp.md)
