@@ -5,11 +5,11 @@ window.onload = function() {
   window.ui = SwaggerUIBundle({
     urls: [
 	{
-		name : "Melding Centrale Stooktoestellen voor Woningpas API",
+		name : "V1 - Melding Centrale Stooktoestellen voor Woningpas API",
 		url: "datadienstenv1.yaml"
 	},
 	{
-		name : "Energie attesten API",
+		name : "V1 - Energie attesten API",
 		url: "energie-attesten-api-docs.json"
 	}
 	],
