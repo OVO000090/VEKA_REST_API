@@ -6,11 +6,11 @@ window.onload = function() {
     urls: [
 	{
 		name : "Melding Centrale Stooktoestellen voor Woningpas API",
-		url: "/api-specs/datadienstenv1.yaml"
+		url: "datadienstenv1.yaml"
 	},
 	{
 		name : "Energie attesten API",
-		url: "/api-specs/energie-attesten-api-docs.json"
+		url: "energie-attesten-api-docs.json"
 	}
 	],
     dom_id: '#swagger-ui',
