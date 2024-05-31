@@ -1,4 +1,6 @@
-# Energie attesten API
+# EPC NR energie attesten API
+
+API voor EPC voor attesten van Niet-residentiële gebouweenheden.
 
 ## API Definitie
 
