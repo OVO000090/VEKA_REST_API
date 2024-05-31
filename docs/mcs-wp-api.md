@@ -1,5 +1,12 @@
 # Melding Centrale Stooktoestellen voor Woningpas API
 
-## API Definitie
+Melding centrale stookstoestellen API
 
-[Swagger] (https://ovo000090.github.io/VEKA_REST_API/?urls.primaryName=V1+-+Melding+Centrale+Stooktoestellen+voor+Woningpas+API) 
+## API Definitie
+[Swagger UI](https://ovo000090.github.io/VEKA_REST_API/?urls.primaryName=V1+-+Melding+Centrale+Stooktoestellen+voor+Woningpas+API) 
+
+[OpenAPI Specificatie](../datadienstenv1.yaml)
+
+
+
+## Authenticatie
