@@ -17,101 +17,24 @@ paths:
           schema:
             type: integer
             format: int64
-        - name: X-Authenticated-UserId
-          in: header
-          description: Bevat gebruikersinformatie over welke gebruiker deze oproep doet
       responses:
         '200':
           description: Success
           content:
-            text/plain:
-              schema:
-                $ref: '#/components/schemas/Veka.Sophie.DataDiensten.Api.Contract.Mcs.MeldingenLijst'
             application/json:
               schema:
-                $ref: '#/components/schemas/Veka.Sophie.DataDiensten.Api.Contract.Mcs.MeldingenLijst'
-            text/json:
-              schema:
-                $ref: '#/components/schemas/Veka.Sophie.DataDiensten.Api.Contract.Mcs.MeldingenLijst'
-        '400':
-          description: Bad Request
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
+                $ref: '#/components/schemas/Mcs.MeldingenLijst'
+              example: {"meldingen":[{"meldingId":"0ba8ab6e-d135-4470-a544-7a6550727c03","geldigTot":"2025-01-01","toestelEindbeoordeling":"Goedgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":true,"isStookplaatsConform":null,"isStooktoestelConform":true,"isToestelWerkingGoed":true,"isToestelWerkingVeilig":true,"isVerbrandingscontroleConform":null},"activiteit":{"type":"ONDERHOUD_STOOKTOESTEL","uitvoeringsDatum":"2024-01-01","wettelijkVerplicht":true,"adresId":"4996611","gebouwEenheidId":"7299482","erkenningsnummer":"GV49852"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"AARDGAS","merk":"Junkers","type":"CONDENSERENDE_KETEL","bouwjaar":2012}},{"meldingId":"e5247220-3be7-44bf-9ef6-b8389989eb87","geldigTot":null,"toestelEindbeoordeling":"Afgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":false,"isStookplaatsConform":null,"isStooktoestelConform":false,"isToestelWerkingGoed":false,"isToestelWerkingVeilig":false,"isVerbrandingscontroleConform":null},"activiteit":{"type":"KEURING_STOOKTOESTEL","uitvoeringsDatum":"2024-07-08","wettelijkVerplicht":true,"adresId":"2999623","gebouwEenheidId":"15995133","erkenningsnummer":"GV56111"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"HOUTPELLETS","merk":"VAILLANT","type":"ONBEKEND","bouwjaar":2024}}]}
         '500':
           description: Server Error
           content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
-        '503':
-          description: Server Error
-          content:
-            text/plain:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
-            text/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Veka.Sophie.Api.Contract.Fout'
+                $ref: '#/components/schemas/ProblemDetails'
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = e4466209-3a43-4aca-93aa-939940c488a9"}
 components:
   schemas:
-    Veka.Sophie.Api.Contract.Fout:
-      type: object
-      properties:
-        bron:
-          enum:
-            - None
-            - Magda
-            - Sophie
-          type: string
-        dienst:
-          type: string
-          nullable: true
-        diagnose:
-          type: string
-          nullable: true
-        identificatie:
-          type: string
-          nullable: true
-        referte:
-          type: string
-          nullable: true
-      additionalProperties: false
-    Veka.Sophie.DataDiensten.Api.Contract.Mcs.Eindbeoordeling:
+    Mcs.Eindbeoordeling:
       type: object
       properties:
         isRookgasafvoerkanaalConform:
@@ -131,7 +54,7 @@ components:
           type: boolean
           nullable: true
       additionalProperties: false
-    Veka.Sophie.DataDiensten.Api.Contract.Mcs.Gegevensactiviteit:
+    Mcs.Gegevensactiviteit:
       type: object
       properties:
         type:
@@ -152,7 +75,7 @@ components:
           type: string
           nullable: true
       additionalProperties: false
-    Veka.Sophie.DataDiensten.Api.Contract.Mcs.KenmerkenToestel:
+    Mcs.KenmerkenToestel:
       type: object
       properties:
         fabricatienummer:
@@ -172,7 +95,7 @@ components:
           format: int32
           nullable: true
       additionalProperties: false
-    Veka.Sophie.DataDiensten.Api.Contract.Mcs.Melding:
+    Mcs.Melding:
       type: object
       properties:
         meldingId:
@@ -183,24 +106,40 @@ components:
           format: date
           nullable: true
         eindbeoordeling:
-          $ref: '#/components/schemas/Veka.Sophie.DataDiensten.Api.Contract.Mcs.Eindbeoordeling'
+          $ref: '#/components/schemas/Mcs.Eindbeoordeling'
         activiteit:
-          $ref: '#/components/schemas/Veka.Sophie.DataDiensten.Api.Contract.Mcs.Gegevensactiviteit'
+          $ref: '#/components/schemas/Mcs.Gegevensactiviteit'
         toestel:
-          $ref: '#/components/schemas/Veka.Sophie.DataDiensten.Api.Contract.Mcs.KenmerkenToestel'
+          $ref: '#/components/schemas/Mcs.KenmerkenToestel'
         toestelEindbeoordeling:
           enum:
             - Goedgekeurd
             - Afgekeurd
           type: string
       additionalProperties: false
-    Veka.Sophie.DataDiensten.Api.Contract.Mcs.MeldingenLijst:
+    Mcs.MeldingenLijst:
       type: object
       properties:
         meldingen:
           type: array
           items:
-            $ref: '#/components/schemas/Veka.Sophie.DataDiensten.Api.Contract.Mcs.Melding'
+            $ref: '#/components/schemas/Mcs.Melding'
+          nullable: true
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+        detail:
+          type: string
           nullable: true
       additionalProperties: false
 tags:
