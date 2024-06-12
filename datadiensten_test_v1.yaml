@@ -1,0 +1,147 @@
+openapi: 3.0.1
+info:
+  title: Veka.DataDiensten.Api
+  description: Platform voor het consulteren van data gekend door VEKA
+  version: v1
+paths:
+  /api/datadiensten/v1/mcs/meldingen:
+    get:
+      tags:
+        - Mcs
+      summary: Geeft keuringen en onderhouden terug voor een specifiek gebouwEenheidId
+      parameters:
+        - name: gebouwEenheidId
+          in: query
+          description: de id van het gebouw
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mcs.MeldingenLijst'
+              example: {"meldingen":[{"meldingId":"0ba8ab6e-d135-4470-a544-7a6550727c03","geldigTot":"2025-01-01","toestelEindbeoordeling":"Goedgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":true,"isStookplaatsConform":null,"isStooktoestelConform":true,"isToestelWerkingGoed":true,"isToestelWerkingVeilig":true,"isVerbrandingscontroleConform":null},"activiteit":{"type":"ONDERHOUD_STOOKTOESTEL","uitvoeringsDatum":"2024-01-01","wettelijkVerplicht":true,"adresId":"4996611","gebouwEenheidId":"7299482","erkenningsnummer":"GV49852"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"AARDGAS","merk":"Junkers","type":"CONDENSERENDE_KETEL","bouwjaar":2012}},{"meldingId":"e5247220-3be7-44bf-9ef6-b8389989eb87","geldigTot":null,"toestelEindbeoordeling":"Afgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":false,"isStookplaatsConform":null,"isStooktoestelConform":false,"isToestelWerkingGoed":false,"isToestelWerkingVeilig":false,"isVerbrandingscontroleConform":null},"activiteit":{"type":"KEURING_STOOKTOESTEL","uitvoeringsDatum":"2024-07-08","wettelijkVerplicht":true,"adresId":"2999623","gebouwEenheidId":"15995133","erkenningsnummer":"GV56111"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"HOUTPELLETS","merk":"VAILLANT","type":"ONBEKEND","bouwjaar":2024}}]}
+        '500':
+          description: Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 1f592b33-a2d0-406a-bfd7-f341a832749b"}
+components:
+  schemas:
+    Mcs.Eindbeoordeling:
+      type: object
+      properties:
+        isRookgasafvoerkanaalConform:
+          type: boolean
+          nullable: true
+        isStookplaatsConform:
+          type: boolean
+          nullable: true
+        isStooktoestelConform:
+          type: boolean
+          nullable: true
+        isToestelWerkingGoed:
+          type: boolean
+        isToestelWerkingVeilig:
+          type: boolean
+        isVerbrandingscontroleConform:
+          type: boolean
+          nullable: true
+      additionalProperties: false
+    Mcs.Gegevensactiviteit:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        uitvoeringsDatum:
+          type: string
+          format: date
+        wettelijkVerplicht:
+          type: boolean
+        adresId:
+          type: string
+          nullable: true
+        gebouwEenheidId:
+          type: string
+          nullable: true
+        erkenningsnummer:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Mcs.KenmerkenToestel:
+      type: object
+      properties:
+        fabricatienummer:
+          type: string
+          nullable: true
+        brandstof:
+          type: string
+          nullable: true
+        merk:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        bouwjaar:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    Mcs.Melding:
+      type: object
+      properties:
+        meldingId:
+          type: string
+          format: uuid
+        geldigTot:
+          type: string
+          format: date
+          nullable: true
+        eindbeoordeling:
+          $ref: '#/components/schemas/Mcs.Eindbeoordeling'
+        activiteit:
+          $ref: '#/components/schemas/Mcs.Gegevensactiviteit'
+        toestel:
+          $ref: '#/components/schemas/Mcs.KenmerkenToestel'
+        toestelEindbeoordeling:
+          enum:
+            - Goedgekeurd
+            - Afgekeurd
+          type: string
+      additionalProperties: false
+    Mcs.MeldingenLijst:
+      type: object
+      properties:
+        meldingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mcs.Melding'
+          nullable: true
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+        detail:
+          type: string
+          nullable: true
+      additionalProperties: false
+tags:
+  - name: Mcs
+    description: Service voor informatie over stooktoestellen
