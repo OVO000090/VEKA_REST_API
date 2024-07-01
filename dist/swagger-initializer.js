@@ -5,7 +5,7 @@ window.onload = function() {
   window.ui = SwaggerUIBundle({
     urls: [
     {
-		name : "V1 - Melding Centrale Stooktoestellen voor Woningpas API - UAT",
+		name : "V1 - API voor het ontsluiten van VEKA data aan externe afnemers - UAT",
 		url: "datadiensten_uat_v1.yaml"
 	},
 	{

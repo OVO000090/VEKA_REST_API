@@ -1,9 +1,11 @@
-# Melding Centrale Stooktoestellen voor Woningpas API
+# API voor het ontsluiten van VEKA data aan externe afnemers
 
-Melding centrale stookstoestellen API - UAT
+API voor het ontsluiten van VEKA data aan externe afnemers - UAT
+* Melding Centrale Stooktoestellen voor Woningpas API
+* Mijn Verbouw Premie voor Woningpas API 
 
 ## API Definitie
-[Swagger UI](https://ovo000090.github.io/VEKA_REST_API/?urls.primaryName=V1+-+Melding+Centrale+Stooktoestellen+voor+Woningpas+API+-+UAT) 
+[Swagger UI](https://ovo000090.github.io/VEKA_REST_API/?urls.primaryName=V1+-+API+voor+het+ontsluiten+van+VEKA+data+aan+externe+afnemers+-+UAT) 
 
 [OpenAPI Specificatie](../datadiensten_uat_v1.yaml)
 
