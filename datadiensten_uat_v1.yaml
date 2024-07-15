@@ -19,19 +19,19 @@ paths:
             format: int64
       responses:
         '200':
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Mcs.MeldingenLijst'
               example: {"meldingen":[{"meldingId":"0ba8ab6e-d135-4470-a544-7a6550727c03","geldigTot":"2025-01-01","toestelEindbeoordeling":"Goedgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":true,"isStookplaatsConform":null,"isStooktoestelConform":true,"isToestelWerkingGoed":true,"isToestelWerkingVeilig":true,"isVerbrandingscontroleConform":null},"activiteit":{"type":"ONDERHOUD_STOOKTOESTEL","uitvoeringsDatum":"2024-01-01","wettelijkVerplicht":true,"adresId":"4996611","gebouweenheidId":"7299482","erkenningsnummer":"GV49852"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"AARDGAS","merk":"Junkers","type":"CONDENSERENDE_KETEL","bouwjaar":2012}},{"meldingId":"e5247220-3be7-44bf-9ef6-b8389989eb87","geldigTot":null,"toestelEindbeoordeling":"Afgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":false,"isStookplaatsConform":null,"isStooktoestelConform":false,"isToestelWerkingGoed":false,"isToestelWerkingVeilig":false,"isVerbrandingscontroleConform":null},"activiteit":{"type":"KEURING_STOOKTOESTEL","uitvoeringsDatum":"2024-07-08","wettelijkVerplicht":true,"adresId":"2999623","gebouweenheidId":"15995133","erkenningsnummer":"GV56111"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"HOUTPELLETS","merk":"VAILLANT","type":"ONBEKEND","bouwjaar":2024}}]}
         '500':
-          description: Server Error
+          description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = cc53e3ef-389e-4e2d-bc98-c77af6bb8fdc"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 45a79706-15db-4a9d-91c7-561172c06aad"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -47,19 +47,19 @@ paths:
             format: int64
       responses:
         '200':
-          description: Success
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Mvp.WerkenLijst'
               example: {"werken":[{"werkId":"87a2c980c7ab1576c310d42765b79c12d02beb00d93970b239692487681d85e3","type":"navullenSpouwmuur","dossierNummer":"23-MVP-000001","facturatieDatum":null,"gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":"2023-01-03","uitvoerder":"aannemer","dak":null,"buitenmuur":{"type":null,"teVerwijderenAsbest":false,"oppervlakteAsbest":null,"oppervlakte":null,"dikteSpouw":45.10,"lambdaWaarde":0.035,"rdWaarde":null,"stsNummer":"4568745236"},"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":null,"hernieuwbareEnergieproductie":null,"gascondensatieketel":null},{"werkId":"821f307234185a4be1e9fd6f5d7e53445c768d3bd25eeeef1ba0981a6b38e747","type":"elektriciteit","dossierNummer":"23-MVP-000006","facturatieDatum":"2022-05-02","gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":null,"uitvoerder":"aannemer","dak":null,"buitenmuur":null,"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":{"netbeheerder":"Eandis"},"hernieuwbareEnergieproductie":null,"gascondensatieketel":null}]}
         '500':
-          description: Server Error
+          description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 3ba65f4d-6324-49c2-af1e-d772f4c90043"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = f3f5fba4-b23d-4b75-84ad-1c9231520ce6"}
 components:
   schemas:
     Mcs.Eindbeoordeling:
