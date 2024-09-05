@@ -8,9 +8,13 @@ window.onload = function() {
 		name : "V1 - API voor het ontsluiten van VEKA data aan externe afnemers - UAT",
 		url: "datadiensten_uat_v1.yaml"
 	},
+    {
+        name : "V1 - Energie attesten API - UAT",
+        url: "energie-attesten/energie-attesten-api-uat-v1.yaml"
+    },
 	{
-		name : "V1 - Energie attesten API",
-		url: "energie-attesten-api.yaml"
+		name : "V1 - Energie attesten API - PROD",
+		url: "energie-attesten/energie-attesten-api-prod-v1.yaml"
 	}
 	],
     dom_id: '#swagger-ui',

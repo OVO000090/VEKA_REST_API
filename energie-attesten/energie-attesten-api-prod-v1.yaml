@@ -1,0 +1,1655 @@
+openapi: 3.0.3
+info:
+  title: VEKA energie attesten API
+  description: >-
+    Rest API services voor energie attesten van het Vlaams Energie- en Klimaatagentschap
+  license:
+    name: European Union Public Licence (EUPL)
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
+  version: '1.0'
+servers:
+  - url: https://energie-secure.api.vlaanderen.be
+tags:
+  - name: Energie attesten
+    description: Epcnr Energie Attest Controller
+paths:
+  /energie-attesten-api/v1/energie-attesten:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de gegevens terug van alle energie attesten die voldoen aan de criteria.
+      operationId: getEnergieAttestenUsingGET_1
+      parameters:
+        - name: energieAttestNummer
+          in: query
+          description: energieAttestNummer
+          required: false
+          style: form
+          schema:
+            maxLength: 256
+            minLength: 0
+            type: string
+        - name: datumIngediendVanaf
+          in: query
+          description: datumIngediendVanaf
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+        - name: energieAttestType
+          in: query
+          description: energieAttestType
+          required: false
+          style: form
+          schema:
+            type: string
+            enum:
+              - EPB
+              - EPC
+        - name: gebouwId
+          in: query
+          description: gebouwId
+          required: false
+          style: form
+          schema:
+            maxLength: 32
+            minLength: 0
+            type: string
+        - name: gebouweenheidId
+          in: query
+          description: gebouweenheidId
+          required: false
+          style: form
+          schema:
+            maxLength: 32
+            minLength: 0
+            type: string
+        - name: gemeente
+          in: query
+          description: gemeente
+          required: false
+          style: form
+          schema:
+            maxLength: 64
+            minLength: 0
+            type: string
+        - name: postcode
+          in: query
+          description: postcode
+          required: false
+          style: form
+          schema:
+            maxLength: 4
+            minLength: 0
+            type: string
+        - name: straat
+          in: query
+          description: straat
+          required: false
+          style: form
+          schema:
+            maxLength: 128
+            minLength: 0
+            type: string
+        - name: huisnummer
+          in: query
+          description: huisnummer
+          required: false
+          style: form
+          schema:
+            maxLength: 32
+            minLength: 0
+            type: string
+        - name: busnummer
+          in: query
+          description: busnummer
+          required: false
+          style: form
+          schema:
+            maxLength: 32
+            minLength: 0
+            type: string
+        - name: geldig
+          in: query
+          description: geldig
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: gemeenschappelijkDeel
+          in: query
+          description: gemeenschappelijkDeel
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: nietResidentieel
+          in: query
+          description: nietResidentieel
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: residentieel
+          in: query
+          description: residentieel
+          required: false
+          style: form
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnergieAttesten'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van een energie attest op basis van id.
+      operationId: getEnergieAttestUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnergieAttestDetail'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/adviezen:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de adviezen op basis van id.
+      operationId: getAdviezenUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Adviezen'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/attesten/{documentId}:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de inhoud terug van een attest op basis van certificaat id en
+        document id.
+      operationId: getEnergieAttestInhoudUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: documentId
+          in: path
+          description: documentId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DocumentInhoud'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/documenten:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef het overzicht van de documenten van het energie attest.
+      operationId: getDocumentenUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AttestDocumenten'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/energie-meters/{meterId}/documenten:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef het overzicht van de documenten van de meter.
+      operationId: getMeterDocumentenUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: meterId
+          in: path
+          description: meterId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AttestDocumenten'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/energie-metingen:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de energie metingen op basis van id.
+      operationId: getEnergieMetingenUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnergieMeting'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/erkenning:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de erkenning van de energiedeskundige.
+      operationId: getErkenningUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Erkenning'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/fotos/{fotoId}:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de inhoud terug van een foto op basis van certificaat id en foto
+        id.
+      operationId: getFotoUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: fotoId
+          in: path
+          description: fotoId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/DocumentInhoud'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/indicatoren:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van alle energie indicatoren op basis van id.
+      operationId: getIndicatorenUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EnergieIndicatoren'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-koeling:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van installaties voor koeling op basis van id.
+      operationId: getInstallatiesVoorKoelingUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InstallatiesVoorKoeling'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ruimteverwarming:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de gegevens terug van de installaties en ruimteclusters van
+        ruimteverwarming op basis van id.
+      operationId: getInstallatiesVoorRuimteverwarmingUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InstallatiesVoorRuimteverwarming'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-sanitair-warm-water:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de gegevens terug van de installaties sanitair warm water op basis
+        van id.
+      operationId: getInstallatiesVoorSanitairWarmWaterUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InstallatiesVoorSanitairWarmWater'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ventilatie-en-bevochtiging:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de gegevens terug van de installaties ventilatie en bevochtiging op
+        basis van id.
+      operationId: getInstallatiesVoorVentilatieEnBevochtigingUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InstallatiesVoorVentilatieEnBevochtiging'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-verlichting:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de gegevens terug van de installaties voor verlichting op basis van
+        id.
+      operationId: getInstallatiesVoorVerlichtingUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/InstallatiesVoorVerlichting'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/opwekker/{opwekkerId}:
+    get:
+      tags:
+        - Energie attesten
+      summary: >-
+        Geef de gegevens terug van de opwekker voor een gegeven energieattest op
+        basis van id.
+      operationId: getOpwekkerUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+        - name: opwekkerId
+          in: path
+          description: opwekkerId
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Opwekker'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-attesten-api/v1/energie-attesten/{id}/schildelen:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de schildelen op basis van id.
+      operationId: getSchildelenUsingGET_2
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AttestSchildelen'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+components:
+  schemas:
+    Aanbeveling:
+      title: Aanbeveling
+      type: object
+      properties:
+        aanbevelingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/AanbevelingDetail'
+        categorie:
+          type: string
+        huidigeSituatie:
+          type: string
+        informatie:
+          type: string
+        opmerkingEnergiedeskundige:
+          type: string
+        titel:
+          type: string
+        volgnummer:
+          type: integer
+          format: int32
+    AanbevelingDetail:
+      title: AanbevelingDetail
+      type: object
+      properties:
+        omschrijving:
+          type: string
+        volgnummer:
+          type: integer
+          format: int32
+    Adres:
+      title: Adres
+      type: object
+      properties:
+        adresId:
+          type: string
+        busnummer:
+          type: string
+        gemeente:
+          type: string
+        huisnummer:
+          type: string
+        postcode:
+          type: string
+        straat:
+          type: string
+    Adviezen:
+      title: Adviezen
+      type: object
+      properties:
+        aanbevelingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aanbeveling'
+        opmerkingEnergiedeskundige:
+          type: string
+    AttestDocumenten:
+      title: AttestDocumenten
+      type: object
+      properties:
+        documenten:
+          type: array
+          items:
+            $ref: '#/components/schemas/DocumentDetail'
+    AttestSchildelen:
+      title: AttestSchildelen
+      type: object
+      properties:
+        schildelen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schildeel'
+    Beglazing:
+      title: Beglazing
+      type: object
+      properties:
+        beglazingType:
+          type: string
+        gwaardeGlas:
+          $ref: '#/components/schemas/WaardeMetEis«double»'
+        uwaardeGlas:
+          $ref: '#/components/schemas/WaardeMetEis«double»'
+    Constructiedeel:
+      title: Constructiedeel
+      type: object
+      properties:
+        beglazing:
+          $ref: '#/components/schemas/Beglazing'
+        begrenzing:
+          type: string
+        categorie:
+          type: string
+        conformiteit:
+          type: string
+        energiedoelstelling:
+          type: string
+        energiedoelstellingPrioriteit:
+          type: string
+        isolatieDeurOfPoort:
+          type: string
+        isolatielagen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Isolatielaag'
+        luchtlaag:
+          type: string
+        materiaalDeurOfPoort:
+          type: string
+        naam:
+          type: string
+        nettoOppervlakte:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        opengaandeDelenInLichteGevels:
+          type: string
+        oppervlaktefractie:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+        orientatie:
+          type: string
+        paneel:
+          $ref: '#/components/schemas/Paneel'
+        profiel:
+          $ref: '#/components/schemas/Profiel'
+        raamstijl:
+          $ref: '#/components/schemas/Raamstijl'
+        rwaarde:
+          $ref: '#/components/schemas/WaardeMetEis«double»'
+        soort:
+          type: string
+        subtype:
+          type: string
+        type:
+          type: string
+        uwaarde:
+          $ref: '#/components/schemas/WaardeMetEis«double»'
+        ventilatieroosterAanwezig:
+          type: boolean
+        zonwering:
+          $ref: '#/components/schemas/Zonwering'
+    DocumentDetail:
+      title: DocumentDetail
+      type: object
+      properties:
+        extensie:
+          type: string
+        id:
+          type: string
+        inhoud:
+          $ref: '#/components/schemas/Reference'
+        naam:
+          type: string
+        type:
+          type: string
+    DocumentInhoud:
+      title: DocumentInhoud
+      type: object
+      properties:
+        id:
+          type: string
+        inhoud:
+          type: string
+          format: byte
+    DuurMeetPeriode:
+      title: DuurMeetPeriode
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: integer
+          format: int32
+    EnergieAttest:
+      title: EnergieAttest
+      type: object
+      properties:
+        adressen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adres'
+        bestemming:
+          type: string
+        datumGeldigheid:
+          type: string
+          format: date
+        datumIngediend:
+          type: string
+          format: date
+        detail:
+          $ref: '#/components/schemas/Reference'
+        energieAttestNummer:
+          type: string
+        energieAttestStatus:
+          type: string
+        energieAttestType:
+          type: string
+        gebouwId:
+          type: string
+        gebouweenheidId:
+          type: string
+        hoofdBestemming:
+          type: string
+        id:
+          type: string
+        overheidsgebouw:
+          type: boolean
+        publiekGebouw:
+          type: boolean
+    EnergieAttestDetail:
+      title: EnergieAttestDetail
+      type: object
+      properties:
+        adressen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adres'
+        adviezen:
+          $ref: '#/components/schemas/Reference'
+        alleEnergieIndicatoren:
+          $ref: '#/components/schemas/Reference'
+        bestemming:
+          type: string
+        bouwvorm:
+          type: string
+        brutoVloerOpperVlakte:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        datumGeldigheid:
+          type: string
+          format: date
+        datumIngediend:
+          type: string
+          format: date
+        detail:
+          $ref: '#/components/schemas/Reference'
+        documenten:
+          $ref: '#/components/schemas/Reference'
+        energieAttestNummer:
+          type: string
+        energieAttestStatus:
+          type: string
+        energieAttestType:
+          type: string
+        energieIndicatoren:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnergieIndicator«Serializable»'
+        energieMetingen:
+          $ref: '#/components/schemas/Reference'
+        erkenning:
+          $ref: '#/components/schemas/Reference'
+        gebouwId:
+          type: string
+        gebouweenheidId:
+          type: string
+        hoofdBestemming:
+          type: string
+        id:
+          type: string
+        infiltratiedebiet:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        installatiesVoorKoeling:
+          $ref: '#/components/schemas/Reference'
+        installatiesVoorRuimteverwarming:
+          $ref: '#/components/schemas/Reference'
+        installatiesVoorSanitairWarmWater:
+          $ref: '#/components/schemas/Reference'
+        installatiesVoorVentilatieEnBevochtiging:
+          $ref: '#/components/schemas/Reference'
+        installatiesVoorVerlichting:
+          $ref: '#/components/schemas/Reference'
+        overheidsgebouw:
+          type: boolean
+        publiekGebouw:
+          type: boolean
+        schildelen:
+          $ref: '#/components/schemas/Reference'
+        thermischeMassa:
+          type: string
+    EnergieAttesten:
+      title: EnergieAttesten
+      type: object
+      properties:
+        energieAttesten:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnergieAttest'
+    EnergieIndicatoren:
+      title: EnergieIndicatoren
+      type: object
+      properties:
+        energieIndicatoren:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnergieIndicator«Serializable»'
+    EnergieIndicator«Serializable»:
+      title: EnergieIndicator«Serializable»
+      type: object
+      properties:
+        conformiteit:
+          type: string
+        doelstelling:
+          $ref: '#/components/schemas/Serializable'
+        eis:
+          $ref: '#/components/schemas/Serializable'
+        meeteenheid:
+          type: string
+        soort:
+          type: string
+        waarde:
+          $ref: '#/components/schemas/Serializable'
+    EnergieMeter:
+      title: EnergieMeter
+      type: object
+      properties:
+        beschrijvingEnergieMeter:
+          type: string
+        documenten:
+          $ref: '#/components/schemas/Reference'
+        eancode:
+          type: string
+        energiestroom:
+          $ref: '#/components/schemas/Energiestroom'
+        locatieEnergieMeter:
+          type: string
+        meterstanden:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meterstand'
+        nummerEnergieMeter:
+          type: string
+        nutsbedrijf:
+          type: string
+        soortEnergieMeter:
+          type: string
+        typeEnergieMeter:
+          type: string
+    EnergieMeting:
+      title: EnergieMeting
+      type: object
+      properties:
+        energieMeters:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnergieMeter'
+        meetPeriode:
+          $ref: '#/components/schemas/MeetPeriode'
+    Energiestroom:
+      title: Energiestroom
+      type: object
+      properties:
+        gekoppeldeLokaleOpwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker'
+        id:
+          type: string
+        naamEnergiestroom:
+          type: string
+        opwekker:
+          $ref: '#/components/schemas/Opwekker'
+        soortEnergiestroom:
+          type: string
+        typeEnergie:
+          type: string
+        typeEnergiestroom:
+          type: string
+    Erkenning:
+      title: Erkenning
+      type: object
+      properties:
+        erkenningsnummer:
+          type: string
+        id:
+          type: string
+        namensRechtspersoon:
+          type: boolean
+        persoon:
+          $ref: '#/components/schemas/Persoon'
+        rechtspersoon:
+          $ref: '#/components/schemas/Rechtspersoon'
+        rol:
+          type: string
+    InstallatieBevochtiging:
+      title: InstallatieBevochtiging
+      type: object
+      properties:
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker'
+        gekoppeldeRuimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuimteclusterVentilatieEnBevochtiging'
+        id:
+          type: string
+        naam:
+          type: string
+    InstallatieKoeling:
+      title: InstallatieKoeling
+      type: object
+      properties:
+        afgiftesysteem:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker'
+        gekoppeldeRuimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuimteclusterKoeling'
+        id:
+          type: string
+        koudetransportmedium:
+          type: string
+        naam:
+          type: string
+        regelingKoelingPerRuimte:
+          type: string
+        type:
+          type: string
+    InstallatieRuimteverwarming:
+      title: InstallatieRuimteverwarming
+      type: object
+      properties:
+        afgiftesysteem:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker'
+        gekoppeldeRuimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuimteclusterRuimteverwarming'
+        id:
+          type: string
+        naam:
+          type: string
+        type:
+          type: string
+        typeElektrischeWeerstandsVerwarming:
+          type: string
+        warmteregeling:
+          type: string
+        warmtetransportmedium:
+          type: string
+    InstallatieSanitairWarmWater:
+      title: InstallatieSanitairWarmWater
+      type: object
+      properties:
+        aantalDouchesOfBaden:
+          type: string
+        distributieType:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker'
+        id:
+          type: string
+        isOpslagvatAanwezig:
+          type: string
+        isolatieLeiding:
+          type: string
+        lengteLeiding:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+        liggingLeiding:
+          type: string
+        naam:
+          type: string
+        soortTappunten:
+          type: array
+          items:
+            type: string
+    InstallatieVentilatie:
+      title: InstallatieVentilatie
+      type: object
+      properties:
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker'
+        gekoppeldeRuimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuimteclusterVentilatieEnBevochtiging'
+        id:
+          type: string
+        naam:
+          type: string
+        regelingType:
+          type: string
+    InstallatieVerlichting:
+      title: InstallatieVerlichting
+      type: object
+      properties:
+        bezettingsregelingType:
+          type: string
+        daglichtregelingType:
+          type: string
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlakte:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+        verlichtingstechnologieType:
+          type: string
+    InstallatiesVoorKoeling:
+      title: InstallatiesVoorKoeling
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieKoeling'
+        ruimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuimteclusterKoeling'
+    InstallatiesVoorRuimteverwarming:
+      title: InstallatiesVoorRuimteverwarming
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieRuimteverwarming'
+        ruimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuimteclusterRuimteverwarming'
+    InstallatiesVoorSanitairWarmWater:
+      title: InstallatiesVoorSanitairWarmWater
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieSanitairWarmWater'
+    InstallatiesVoorVentilatieEnBevochtiging:
+      title: InstallatiesVoorVentilatieEnBevochtiging
+      type: object
+      properties:
+        installatiesVoorBevochting:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieBevochtiging'
+        installatiesVoorVentilatie:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieVentilatie'
+        ruimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuimteclusterVentilatieEnBevochtiging'
+    InstallatiesVoorVerlichting:
+      title: InstallatiesVoorVerlichting
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieVerlichting'
+    Isolatielaag:
+      title: Isolatielaag
+      type: object
+      properties:
+        dikte:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        isolatiemateriaal:
+          type: string
+        isolatiemateriaalType:
+          type: string
+        lambda:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        onderbrekingIsolatie:
+          type: string
+        onderbrekingMateriaal:
+          type: string
+        rwaarde:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+    MeetPeriode:
+      title: MeetPeriode
+      type: object
+      properties:
+        duurMeetPeriode:
+          $ref: '#/components/schemas/DuurMeetPeriode'
+        eindeMeetPeriode:
+          type: string
+          format: date
+        startMeetPeriode:
+          type: string
+          format: date
+    Meterstand:
+      title: Meterstand
+      type: object
+      properties:
+        eindMeterstand:
+          $ref: '#/components/schemas/MeterstandWaarde'
+        isDag:
+          type: boolean
+        isGebruik:
+          type: boolean
+        isInjectie:
+          type: boolean
+        isNacht:
+          type: boolean
+        saldoMeterstand:
+          $ref: '#/components/schemas/MeterstandWaarde'
+        startMeterstand:
+          $ref: '#/components/schemas/MeterstandWaarde'
+    MeterstandWaarde:
+      title: MeterstandWaarde
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        meetwaarde:
+          type: integer
+          format: int32
+    Opwekker:
+      title: Opwekker
+      type: object
+      properties:
+        COPtest:
+          type: number
+          format: double
+        EERnom:
+          type: number
+          format: double
+        GWPwaarde:
+          type: integer
+          format: int32
+        afgiftemedium:
+          type: string
+        afgiftemediumCondensor:
+          type: string
+        afgiftemediumCondensorDetail:
+          type: string
+        afgiftemediumDetail:
+          type: string
+        apertuuroppervlakte:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        bypass:
+          type: string
+        capaciteitsprofiel:
+          type: string
+        collectiviteit:
+          type: string
+        configuratieOpslagvatWarmtewisselaar:
+          type: string
+        detail:
+          $ref: '#/components/schemas/Reference'
+        elektrischVermogen:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        elektrischVermogenRange:
+          type: string
+        energieEfficientieSWW:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        energieEfficientieklasseRV:
+          type: string
+        energieEfficientieklasseSWW:
+          type: string
+        energieLabels:
+          type: array
+          items:
+            type: string
+        energiedrager:
+          type: string
+        energiedragerDetail:
+          type: string
+        fabricagejaar:
+          type: integer
+          format: int32
+        hellingsgraad:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        hernieuwbaarPercentage:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        id:
+          type: string
+        isAutomatischeDebietsregeling:
+          type: boolean
+        isEcolabelAanwezig:
+          type: boolean
+        isFreeChillingAanwezig:
+          type: boolean
+        isInstelwaardeInUitDebietGelijkNominaal:
+          type: boolean
+        isKoelmiddelGekend:
+          type: boolean
+        isKoeltorenAanwezig:
+          type: boolean
+        isOpslagvatAanwezig:
+          type: boolean
+        isOzonlaagafbreekbarestoffen:
+          type: boolean
+        isVochtrecuperatie:
+          type: boolean
+        isWTW:
+          type: boolean
+        isWarmtewisselaarAanwezig:
+          type: boolean
+        koelmiddel:
+          type: string
+        locatie:
+          type: string
+        naamOpwekker:
+          type: string
+        orientatie:
+          type: string
+        piekvermogen:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        regelingVentilatoren:
+          type: string
+        soortOpwekker:
+          type: string
+        testrendementDeellastBw:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        testrendementDeellastOw:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        testrendementWTW:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        thermischVermogen:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        toepassingen:
+          type: array
+          items:
+            type: string
+        typeCollector:
+          type: string
+        typeCompressiekoelmachine:
+          type: string
+        typeKetel:
+          type: string
+        typeOpwekker:
+          type: string
+        typeVentilatie:
+          type: string
+        typeWKK:
+          type: string
+        typeWarmtepomp:
+          type: string
+        typeWarmteterugwinning:
+          type: string
+        typeZonneboiler:
+          type: string
+        vermogenOmvormer:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        volumeOpslagvat:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+        warmhoudverliesS:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+        warmtebron:
+          type: string
+        warmtebronDetail:
+          type: string
+        warmtebronVerdamper:
+          type: string
+        warmtebronVerdamperDetail:
+          type: string
+    Paneel:
+      title: Paneel
+      type: object
+      properties:
+        isolatiePaneel:
+          type: string
+        paneelType:
+          type: string
+        uwaarde:
+          $ref: '#/components/schemas/WaardeMetEis«double»'
+    Persoon:
+      title: Persoon
+      type: object
+      properties:
+        naam:
+          type: string
+        roepnaam:
+          type: string
+        voornaam:
+          type: string
+    Profiel:
+      title: Profiel
+      type: object
+      properties:
+        profielType:
+          type: string
+        uwaarde:
+          $ref: '#/components/schemas/WaardeMetEis«double»'
+    Raamstijl:
+      title: Raamstijl
+      type: object
+      properties:
+        raamstijlType:
+          type: string
+        uwaarde:
+          $ref: '#/components/schemas/WaardeMetEis«double»'
+    Rechtspersoon:
+      title: Rechtspersoon
+      type: object
+      properties:
+        kboNummer:
+          type: string
+        naam:
+          type: string
+        rechtsvorm:
+          type: string
+    Reference:
+      title: Reference
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+    RuimteclusterKoeling:
+      title: RuimteclusterKoeling
+      type: object
+      properties:
+        gekoppeldeInstallaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieKoeling'
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlaktefractie:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+    RuimteclusterRuimteverwarming:
+      title: RuimteclusterRuimteverwarming
+      type: object
+      properties:
+        gekoppeldeInstallaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieRuimteverwarming'
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlaktefractie:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+    RuimteclusterVentilatieEnBevochtiging:
+      title: RuimteclusterVentilatieEnBevochtiging
+      type: object
+      properties:
+        gekoppeldeInstallatiesVoorBevochtiging:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieBevochtiging'
+        gekoppeldeInstallatiesVoorVentilatie:
+          type: array
+          items:
+            $ref: '#/components/schemas/InstallatieVentilatie'
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlaktefractie:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+    Schildeel:
+      title: Schildeel
+      type: object
+      properties:
+        constructiedelen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Constructiedeel'
+        nettoOppervlakte:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        oppervlaktefractie:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+        schildeelType:
+          type: string
+    Serializable:
+      title: Serializable
+      type: object
+    WaardeMetEis«double»:
+      title: WaardeMetEis«double»
+      type: object
+      properties:
+        bepaling:
+          type: string
+        doelstelling:
+          type: number
+          format: double
+        eis:
+          type: number
+          format: double
+        meeteenheid:
+          type: string
+        waarde:
+          type: number
+          format: double
+    WaardeMetMeeteenheid«double»:
+      title: WaardeMetMeeteenheid«double»
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: number
+          format: double
+    WaardeMetMeeteenheid«int»:
+      title: WaardeMetMeeteenheid«int»
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: integer
+          format: int32
+    Zonwering:
+      title: Zonwering
+      type: object
+      properties:
+        oppervlaktefractie:
+          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
+        zonweringBediening:
+          type: string
+        zonweringType:
+          type: string

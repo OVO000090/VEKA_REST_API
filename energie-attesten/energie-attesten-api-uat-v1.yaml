@@ -8,12 +8,7 @@ info:
     url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
   version: '1.0'
 servers:
-  - url: https://energie-dev.api.vlaanderen.be
-    description: Development
-  - url: https://energie-dev.api.vlaanderen.be
-    description: Test en integratie
-  - url: https://energie-dev.api.vlaanderen.be
-    description: Productie
+  - url: https://energie-ti-secure.api.vlaanderen.be
 tags:
   - name: Energie attesten
     description: Epcnr Energie Attest Controller

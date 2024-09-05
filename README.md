@@ -8,4 +8,4 @@ Overzicht van de publieke VEKA API's.
 
 ## API Documentatie PRODUCTIE
 
-* [Energie attesten API](/docs/energie-attesten-api.md)
+* [Energie attesten API](/docs/energie-attesten-v1)
