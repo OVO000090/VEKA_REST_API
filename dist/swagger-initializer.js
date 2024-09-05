@@ -10,7 +10,7 @@ window.onload = function() {
 	},
 	{
 		name : "V1 - Energie attesten API",
-		url: "energie-attesten-api-docs.json"
+		url: "energie-attesten-api.yaml"
 	}
 	],
     dom_id: '#swagger-ui',
