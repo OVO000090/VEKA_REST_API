@@ -1,0 +1,2268 @@
+openapi: 3.0.3
+info:
+  title: VEKA energie API
+  description: Rest API services energie van het Vlaams Energie- en Klimaatagentschap
+  license:
+    name: European Union Public Licence (EUPL)
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
+  version: '1.0'
+servers:
+  - url: https://energie-ti.api.vlaanderen.be
+tags:
+  - name: Epc NR berekeningen
+    description: Epc Nr Calculations Controller
+  - name: Epc berekeningen
+    description: Calculations Controller
+paths:
+  /energie-api/v1/berekenIndicatief:
+    post:
+      tags:
+        - Epc berekeningen
+      summary: Bereken indicatieve energieprestatie op basis van de input.
+      operationId: calculateUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BerekeningIndicatiefVerzoek'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Berekening'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/berekenVenster:
+    post:
+      tags:
+        - Epc berekeningen
+      summary: Bereken energieprestatie van een venster op basis van de input.
+      operationId: calculateVensterUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateOpeningRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculateVensterResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/berekenVerwarming:
+    post:
+      tags:
+        - Epc berekeningen
+      summary: Bereken energieprestatie van een ruimteverwarming op basis van de input.
+      operationId: calculateRuimteverwarmingUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateRuimteverwarmingRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculateRuimteverwarmingResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/berekenVlak:
+    post:
+      tags:
+        - Epc berekeningen
+      summary: Bereken energieprestatie van een vlak op basis van de input.
+      description: >-
+        Let op: van zodra er &eacute;&eacute;n parameter van een isolatielaag
+        gekend is (dikteIsolatieMateriaal, lambdaWaardeIsolatie, naamMateriaal
+        of rwaarde), moet het veld aanwezigheidIsolatie weggelaten worden uit de
+        request. Zoniet krijgt dit veld voorrang en worden de parameters van de
+        isolatielaag niet verder verwerkt.
+      operationId: calculateVlakUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CalculateVlakRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CalculateVlakResponse'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/berekening:
+    post:
+      tags:
+        - Epc berekeningen
+      summary: Bereken energieprestatie op basis van de input.
+      operationId: calculateUsingPOST_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BerekeningsVerzoek'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Berekening'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/locatieInfo:
+    get:
+      tags:
+        - Epc berekeningen
+      summary: getLocatieInfo
+      operationId: getLocatieInfoUsingGET
+      parameters:
+        - name: jaar
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: locatie
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: type
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: typologie
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TypologieLocatieInfo'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-api/v1/locatieInfos/{startsWith}:
+    get:
+      tags:
+        - Epc berekeningen
+      summary: getLocatieInfos
+      operationId: getLocatieInfosUsingGET
+      parameters:
+        - name: startsWith
+          in: path
+          description: startsWith
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Locatie info distinct DTO'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /energie-api/v1/epcnr/berekenAandeelHernieuwbareEnergie:
+    post:
+      tags:
+        - Epc NR berekeningen
+      summary: Bereken het aandeel hernieuwbare energie op basis van de input.
+      operationId: getHernieuwbareEnergieUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/Berekening aandeel hernieuwbare energie
+                verzoek
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  #/components/schemas/Berekening aandeel hernieuwbare energie
+                  response
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/epcnr/berekenGebouweenheid:
+    post:
+      tags:
+        - Epc NR berekeningen
+      summary: Bereken de energiescore van een gebouweenheid op basis van de input.
+      operationId: getEnergiescoreUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/Gebouweenheid met aanbevelingen calculation
+                request
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: >-
+                  #/components/schemas/Berekening gebouweenheid met
+                  aanbevelingen response
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/epcnr/berekenUWaardeSchildeel:
+    post:
+      tags:
+        - Epc NR berekeningen
+      summary: Bereken de U-waarde van een schildeel op basis van de input.
+      operationId: getUWaardeSchildeelUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schildeel'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Berekening schildeel response'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /energie-api/v1/epcnr/berekenUWaardeSchildeelInProfiel:
+    post:
+      tags:
+        - Epc NR berekeningen
+      summary: Bereken de U-waarde van een schildeel in profiel op basis van de input.
+      operationId: getUWaardeSchildeelInProfielUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schildeel in profiel'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Berekening schildeel in profiel response'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Aanbeveling response:
+      title: Aanbeveling response
+      type: object
+      properties:
+        aanbeveling:
+          type: string
+        code:
+          type: string
+        extraInfo:
+          type: string
+        huidigeSituatie:
+          type: string
+        titel:
+          type: string
+      description: Detail over de aanbeveling
+    Afgifte en regelsysteem van de ruimteverwarming:
+      title: Afgifte en regelsysteem van de ruimteverwarming
+      type: object
+      properties:
+        afgifteSysteemType:
+          type: string
+        buitenvoeler:
+          type: string
+        individueleTemperatuurscorrectie:
+          type: string
+        kamerThermostaat:
+          type: string
+        pompregeling:
+          type: string
+        radiatorkranen:
+          type: string
+      description: Detail over afgifte en regelsysteem van de ruimteverwarming.
+    Beglazing:
+      title: Beglazing
+      type: object
+      properties:
+        gWaardeGlas:
+          type: number
+          format: double
+        type:
+          type: string
+        uWaardeGlas:
+          type: number
+          format: double
+      description: Detail over de beglazing.
+    BeglazingRequest:
+      title: BeglazingRequest
+      type: object
+      properties:
+        gWaarde:
+          type: number
+          format: double
+        type:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+    Berekening:
+      title: Berekening
+      type: object
+      properties:
+        co2Emissie:
+          type: number
+          format: double
+        disclaimer:
+          type: string
+        energiedoelstelling:
+          type: boolean
+        gemiddeldInstallatierendementVoorRuimteverwarming:
+          type: number
+          format: double
+        gemiddeldeUWaardeBeglazing:
+          type: number
+          format: double
+        gemiddeldeUWaardeDaken:
+          type: number
+          format: double
+        gemiddeldeUWaardeDeurenPoortenPanelen:
+          type: number
+          format: double
+        gemiddeldeUWaardeGevels:
+          type: number
+          format: double
+        gemiddeldeUWaardeSchil:
+          type: number
+          format: double
+        gemiddeldeUWaardeVensters:
+          type: number
+          format: double
+        gemiddeldeUWaardeVloeren:
+          type: number
+          format: double
+        kleurcode:
+          type: string
+        kleurenbalk:
+          type: string
+        label:
+          type: string
+        maatregelenpakket:
+          type: boolean
+        primairEnergieverbruikPerM2:
+          type: integer
+          format: int32
+        primairEnergieverbruikRuimteverwarming:
+          type: number
+          format: double
+        primairEnergieverbruikSanitairWarmWater:
+          type: number
+          format: double
+        sFactor:
+          type: integer
+          format: int32
+        streefdoel:
+          type: number
+          format: double
+        totaalPrimairEnergieverbruik:
+          type: number
+          format: double
+      description: Detail over de berekeningsresultaat.
+    Berekening aandeel hernieuwbare energie response:
+      title: Berekening aandeel hernieuwbare energie response
+      type: object
+      properties:
+        aanbevelingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aanbeveling response'
+        aandeelElektriciteitInTotaleEnergiegebruik:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        aandeelWarmteInTotaleEnergiegebruik:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        eigengebruikHernieuwbareElektriciteitsproductie:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        energieLabel:
+          type: string
+        gewogenHoeveelheidGeexporteerdeHernieuwbareEnergie:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gewogenHoeveelheidGeexporteerdeNietHernieuwbareEnergie:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gewogenHoeveelheidGeleverdeHernieuwbareEnergieAanEenheid:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gewogenHoeveelheidGeleverdeNietHernieuwbareEnergieAanEenheid:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        indicatorVoorLangetermijndoelstelling:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        indicatorVoorLangetermijndoelstellingElektriciteitsbehoefte:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        indicatorVoorLangetermijndoelstellingHernieuwbareWarmte:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        indicatorVoorLangetermijndoelstellingRestwarmte:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        indicatorVoorLangetermijndoelstellingWarmtebehoefte:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        koolstofEfficientie:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoHernieuwbareEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoNietRestwarmteNietHernieuwbareEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoRestwarmteGebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        totaleNettoEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: '#/components/schemas/ResultaatRestDto'
+      description: Detail over de berekening aandeel hernieuwbare energie response.
+    Berekening aandeel hernieuwbare energie verzoek:
+      title: Berekening aandeel hernieuwbare energie verzoek
+      required:
+        - id
+      type: object
+      properties:
+        energiegebruikBuitenEenheid:
+          $ref: '#/components/schemas/Energiegebruik buiten eenheid'
+        geexporteerdeEnergieen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Geëxporteerde energie'
+        geleverdeEnergieen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Geleverde energie'
+        id:
+          type: string
+        verplichteMeetgegevensAfwezig:
+          type: boolean
+      description: Detail over de berekening aandeel hernieuwbare energie verzoek.
+    Berekening gebouweenheid met aanbevelingen response:
+      title: Berekening gebouweenheid met aanbevelingen response
+      type: object
+      properties:
+        aanbevelingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aanbeveling response'
+        beschermdVolume:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        energieScore:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        geleverdeEnergieen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Geleverde energie response'
+        gemiddeldeInstallatierendementVoorAlleInstallatiesXVoorRuimteverwarming:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVanAlleDakdelenZoldervloerenEnPlafonds:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVanAlleGeveldelen:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVanAlleVloerdelen:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVanDeGebouweenheid:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVoorAlleBeglazing:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVoorAlleLichteGevels:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVoorAllePoorten:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        gemiddeldeUWaardeVoorAlleVensters:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        installaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Installatie response'
+        nettoOppervlakteAlleGevelsAOROfKelder:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleGevelsBuiten:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleGevelsVolleGrond:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleHellendeDaken:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleLichteGevels:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAllePlafondsAOR:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAllePlatteDaken:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAllePoortenOfDeuren:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleVenstersHellendeDaken:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleVenstersInGevel:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleVenstersPlatteDaken:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleVloerenAOR:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleVloerenBuiten:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleVloerenKelder:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        nettoOppervlakteAlleVloerenVolleGrond:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        opwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker response'
+        primairEnergiebesparingWkk:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        primairEnergiegebruikHulpenergie:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        primairEnergiegebruikKoeling:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        primairEnergiegebruikRuimteverwarming:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        primairEnergiegebruikSanitairWarmWater:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        primairEnergiegebruikVerlichting:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        schildeelOpbouwen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schildeel opbouw response'
+        totaalPrimairEnergiegebruik:
+          $ref: '#/components/schemas/ResultaatRestDto'
+      description: Detail over de berekening van een gebouweenheid, met aanbevelingen
+    Berekening isolatie R-waarde response:
+      title: Berekening isolatie R-waarde response
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        rWaarde:
+          type: number
+          format: double
+      description: Detail over de berekening van een schildeel isolatie.
+    Berekening schildeel in profiel response:
+      title: Berekening schildeel in profiel response
+      type: object
+      properties:
+        gWaardeGlas:
+          type: number
+          format: double
+        uWaarde:
+          type: number
+          format: double
+        uWaardeGlas:
+          type: number
+          format: double
+        uWaardePaneel:
+          type: number
+          format: double
+        uWaardeProfiel:
+          type: number
+          format: double
+        uWaardeRaamStijl:
+          type: number
+          format: double
+      description: Detail over de berekening van een schildeel in profiel.
+    Berekening schildeel response:
+      title: Berekening schildeel response
+      type: object
+      properties:
+        isolatielagen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Berekening isolatie R-waarde response'
+        uWaarde:
+          type: number
+          format: double
+      description: Detail over de berekening van een schildeel.
+    BerekeningIndicatiefVerzoek:
+      title: BerekeningIndicatiefVerzoek
+      type: object
+      properties:
+        bouwjaarVolgensEPC:
+          type: integer
+          format: int32
+        pvAanwezig:
+          type: boolean
+        typeDak:
+          type: string
+        typeGeometrie:
+          type: string
+        typeGevelIsolatie:
+          type: string
+        typeHellendDakIsolatie:
+          type: string
+        typePlatDakIsolatie:
+          type: string
+        typeVenster:
+          type: string
+        typeVentilatie:
+          type: string
+        typeVerwarming:
+          type: string
+        typeVloer:
+          type: string
+        typeVloerBovenKelderIsolatie:
+          type: string
+        typeVloerOpVolleGrondIsolatie:
+          type: string
+        typeWoning:
+          type: string
+        verwarmSanitairWarmWaterMet:
+          type: string
+        verwarmingEnergiedrager:
+          type: string
+        zonneboilerAanwezig:
+          type: boolean
+      description: Detail over de berekening indicatief verzoek.
+    BerekeningsVerzoek:
+      title: BerekeningsVerzoek
+      type: object
+      properties:
+        beschermdVolume:
+          type: number
+          format: double
+        bouwjaarGekend:
+          type: boolean
+        bouwjaarVolgensEPC:
+          type: integer
+          format: int32
+        brutoVloeroppervlakte:
+          type: number
+          format: double
+        gebouwType:
+          type: string
+        installaties:
+          $ref: '#/components/schemas/Installaties'
+        luchtdichtheid:
+          type: number
+          format: double
+        schildelen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schildeel'
+        thermischeMassa:
+          type: string
+        ventilatieRuimtes:
+          type: array
+          items:
+            $ref: '#/components/schemas/VentilatieRuimte'
+        ventilatieToestellen:
+          type: array
+          items:
+            $ref: '#/components/schemas/VentilatieToestel'
+      description: Detail over de berekeningsverzoek.
+    Bevochtiging calculation request:
+      title: Bevochtiging calculation request
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+        opwekkerIds:
+          type: array
+          items:
+            type: string
+        ventilatieIds:
+          type: array
+          items:
+            type: string
+      description: Detail over de bevochtiging request.
+    CalculateOpeningRequest:
+      title: CalculateOpeningRequest
+      type: object
+      properties:
+        aantal:
+          type: integer
+          format: int32
+        afstandshouderLabel:
+          type: string
+        bedieningBuitenzonwering:
+          type: string
+        beglazing:
+          $ref: '#/components/schemas/Beglazing'
+        begrenzing:
+          type: string
+        brutoOppervlakte:
+          type: number
+          format: double
+        buitenzonwering:
+          type: boolean
+        categorie:
+          type: string
+        isolatielagen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Isolatielaag'
+        luchtspouw:
+          type: string
+        orientatie:
+          type: string
+        profiel:
+          $ref: '#/components/schemas/Profiel'
+        rWaarde:
+          type: number
+          format: double
+        soort:
+          type: string
+        type:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+      description: Detail over de calculate request van een opening.
+    CalculateRuimteverwarmingRequest:
+      title: CalculateRuimteverwarmingRequest
+      type: object
+      properties:
+        afgifteEnRegelSysteem:
+          $ref: '#/components/schemas/Afgifte en regelsysteem van de ruimteverwarming'
+        beschermdVolume:
+          type: number
+          format: double
+        distributieSysteem:
+          $ref: '#/components/schemas/Distributiesysteem voor ruimteverwarming'
+        naam:
+          type: string
+        opwekkingstoestellen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekkingstoestel'
+        typeVerwarming:
+          type: string
+      description: Detail over de calculate request van een ruimteverwarming.
+    CalculateRuimteverwarmingResponse:
+      title: CalculateRuimteverwarmingResponse
+      type: object
+      properties:
+        aantalOpwekkers:
+          type: integer
+          format: int32
+        afgifteRendement:
+          type: number
+          format: double
+        distributieRendement:
+          type: number
+          format: double
+        installatieRendement:
+          type: number
+          format: double
+        investeringsKosten:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvesteringsKostResponse'
+        opwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpwekkerResponse'
+        regelRendement:
+          type: number
+          format: double
+        verwarmingVoldoet:
+          type: boolean
+      description: Detail over de calculate response van een ruimteverwarming.
+    CalculateVensterResponse:
+      title: CalculateVensterResponse
+      type: object
+      properties:
+        gWaardeGlas:
+          type: number
+          format: double
+        investeringsKosten:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvesteringsKostResponse'
+        uWaardeGlas:
+          type: number
+          format: double
+        uWaardeProfiel:
+          type: number
+          format: double
+        uWaardeVenster:
+          type: number
+          format: double
+      description: Detail over de calculate response van een venster.
+    CalculateVlakRequest:
+      title: CalculateVlakRequest
+      type: object
+      properties:
+        aantalDakkapellen:
+          type: integer
+          format: int32
+        aantalOrientaties:
+          type: integer
+          format: int32
+        begrenzing:
+          type: string
+        brutoOppervlakte:
+          type: number
+          format: double
+        categorie:
+          type: string
+        diepte:
+          type: number
+          format: double
+        helling:
+          type: integer
+          format: int32
+        isolatielagen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Isolatielaag'
+        luchtlaagEen:
+          type: string
+        luchtlaagTwee:
+          type: string
+        openingenInfo:
+          type: array
+          items:
+            $ref: '#/components/schemas/VlakOpeningKostenInfo'
+        orientatie:
+          type: string
+        perimeter:
+          type: number
+          format: double
+        rWaarde:
+          type: number
+          format: double
+        soort:
+          type: string
+        type:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+        vloerverwarmingAanwezig:
+          type: boolean
+      description: Detail over de calculate request van een vlak.
+    CalculateVlakResponse:
+      title: CalculateVlakResponse
+      type: object
+      properties:
+        investeringsKosten:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvesteringsKostResponse'
+        uWaarde:
+          type: number
+          format: double
+      description: Detail over de calculate response van een vlak.
+    Distributiesysteem voor ruimteverwarming:
+      title: Distributiesysteem voor ruimteverwarming
+      type: object
+      properties:
+        aantalEqWooneenhedenAangeslotenOpCombilus:
+          type: integer
+          format: int32
+        combilusOngeisoleerdEnBuitenBV:
+          type: string
+        distributieleidingOngeisoleerdEnBuitenBV:
+          type: string
+        externeStookplaats:
+          type: boolean
+      description: Detail over het distributiesysteem voor ruimteverwarming.
+    Energiegebruik buiten eenheid:
+      title: Energiegebruik buiten eenheid
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+        metingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meting'
+      description: Detail over het energiegebruik buiten de eenheid.
+    Gebouweenheid calculation request:
+      title: Gebouweenheid calculation request
+      required:
+        - automatiseringControleSysteemVerplicht
+      type: object
+      properties:
+        aantalBereideMaaltijdenPerDienst:
+          type: integer
+          format: int32
+        aantalBouwlagen:
+          type: integer
+          format: int32
+        aantalGevelvlakken:
+          type: integer
+          format: int32
+        automatiseringControleSysteemVerplicht:
+          type: boolean
+        beschermdVolume:
+          type: number
+          format: double
+        bestemming:
+          type: string
+        bevochtigingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bevochtiging calculation request'
+        bruikbareVloeroppervlakte:
+          type: number
+          format: double
+        functies:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        geometrie:
+          $ref: '#/components/schemas/Geometrie calculation request'
+        hellingsgraadHellendDak:
+          type: number
+          format: double
+        hoogteVerdieping:
+          type: number
+          format: double
+        keukenAanwezig:
+          type: string
+        luchtdichtheidVoorKoelberekeningen:
+          type: number
+          format: double
+        luchtdichtheidVoorVerwarmingsberekeningen:
+          type: number
+          format: double
+        opwekkers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekker calculation request'
+        ruimteclusters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ruimtecluster calculation request'
+        ruimtekoelingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ruimtekoeling calculation request'
+        ruimteverwarmingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ruimteverwarming calculation request'
+        sanitairWarmWater:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sanitair warm water calculation request'
+        schildelen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schildeel'
+        schildelenInProfiel:
+          type: array
+          items:
+            $ref: '#/components/schemas/Schildeel in profiel'
+        thermischeMassaGebouweenheid:
+          type: string
+        ventilaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ventilatie calculation request'
+        verlichtingszones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Verlichtingszone calculation request'
+      description: Detail over de gebouweenheid request.
+    Gebouweenheid met aanbevelingen calculation request:
+      title: Gebouweenheid met aanbevelingen calculation request
+      required:
+        - gebouweenheid
+      type: object
+      properties:
+        gebouweenheid:
+          $ref: '#/components/schemas/Gebouweenheid calculation request'
+        hernieuwbareEnergie:
+          $ref: '#/components/schemas/Berekening aandeel hernieuwbare energie verzoek'
+      description: Detail over de gebouweenheid met aanbevelingen request.
+    Geleverde energie:
+      title: Geleverde energie
+      required:
+        - energiedrager
+        - geleverdeEnergieType
+        - id
+        - producentType
+      type: object
+      properties:
+        afgiftemedium:
+          type: string
+        aparteMetingenVoorVerwarmEnKoelModus:
+          type: boolean
+        benamingKoelmachine:
+          type: string
+        elektrischRendement:
+          type: number
+          format: double
+        energiedrager:
+          type: string
+        fractieHernieuwbaarNietRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        fractieHernieuwbaarRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        fractieNietHernieuwbaarNietRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        fractieNietHernieuwbaarRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        geleverdeEnergieType:
+          type: string
+        id:
+          type: string
+        koelingType:
+          type: string
+        metingenMetMeetlocatie:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meting met meetlocatie'
+        producentType:
+          type: string
+        seer:
+          type: number
+          format: double
+        spf:
+          type: number
+          format: double
+        thermischRendement:
+          type: number
+          format: double
+        warmtebron:
+          type: string
+      description: Detail over de geleverde energie.
+    Geleverde energie response:
+      title: Geleverde energie response
+      type: object
+      properties:
+        berekendeSPFp:
+          type: number
+          format: double
+        id:
+          type: string
+      description: 'Detail over het geleverde energie '
+    Geometrie calculation request:
+      title: Geometrie calculation request
+      type: object
+      properties:
+        aandeelGevelAOROfKelder:
+          type: number
+          format: double
+        aandeelGevelBuiten:
+          type: number
+          format: double
+        aandeelGevelVolleGrond:
+          type: number
+          format: double
+        aandeelHellendDak:
+          type: number
+          format: double
+        aandeelLichteGevels:
+          type: number
+          format: double
+        aandeelPlafondAOR:
+          type: number
+          format: double
+        aandeelPlatDak:
+          type: number
+          format: double
+        aandeelPoortenOfDeuren:
+          type: number
+          format: double
+        aandeelVenstersHellendDak:
+          type: number
+          format: double
+        aandeelVenstersHellendDakGekend:
+          type: boolean
+        aandeelVenstersInGevel:
+          type: number
+          format: double
+        aandeelVenstersPlatDak:
+          type: number
+          format: double
+        aandeelVenstersPlatDakGekend:
+          type: boolean
+        aandeelVloerAOR:
+          type: number
+          format: double
+        aandeelVloerBuiten:
+          type: number
+          format: double
+        aandeelVloerKelder:
+          type: number
+          format: double
+        aandeelVloerVolleGrond:
+          type: number
+          format: double
+      description: Detail over de geometrie request.
+    Geëxporteerde energie:
+      title: Geëxporteerde energie
+      required:
+        - id
+      type: object
+      properties:
+        geexporteerdeEnergieType:
+          type: string
+        geleverdeEnergieen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Referentie'
+        id:
+          type: string
+        metingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meting'
+      description: Detail over de geëxporteerde energie.
+    Installatie fotovoltaischPaneel:
+      title: Installatie fotovoltaischPaneel
+      type: object
+      properties:
+        oppervlakte:
+          type: number
+          format: double
+        orientatie:
+          type: string
+        wattpiek:
+          type: number
+          format: double
+      description: Detail over het fotovoltaisch paneel.
+    Installatie response:
+      title: Installatie response
+      type: object
+      properties:
+        gemiddeldeRendement:
+          $ref: '#/components/schemas/ResultaatRestDto'
+        id:
+          type: string
+      description: Detail over de installatie
+    Installatie voor koeling:
+      title: Installatie voor koeling
+      type: object
+      properties:
+        actieveKoeling:
+          type: boolean
+        volume:
+          type: number
+          format: double
+      description: Detail over de installatie voor koeling.
+    Installatie voor ruimteverwarming:
+      title: Installatie voor ruimteverwarming
+      type: object
+      properties:
+        afgifteEnRegelSysteem:
+          $ref: '#/components/schemas/Afgifte en regelsysteem van de ruimteverwarming'
+        distributieSysteem:
+          $ref: '#/components/schemas/Distributiesysteem voor ruimteverwarming'
+        naam:
+          type: string
+        opwekkingstoestellen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opwekkingstoestel'
+        typeVerwarming:
+          type: string
+      description: Detail over de installatie voor ruimteverwarming.
+    Installatie voor sanitair warm water:
+      title: Installatie voor sanitair warm water
+      type: object
+      properties:
+        aantalEquivalenteWooneenhedenAangeslotenOpInstallatie:
+          type: integer
+          format: int64
+        bestemmingSWW:
+          type: string
+        circulatieleidingAantalEquivalenteWooneenheden:
+          type: integer
+          format: int64
+        circulatieleidingen:
+          type: string
+        combilusAantalEquivalenteWooneenheden:
+          type: integer
+          format: int64
+        koppelingCvRv:
+          type: string
+        lengteCombilus:
+          type: string
+        opwekkingstoestel:
+          $ref: '#/components/schemas/Opwekkingstoestel'
+        voorraadvaten:
+          type: array
+          items:
+            $ref: '#/components/schemas/Voorraadvat'
+      description: Detail over de installatie voor sanitair warm water.
+    Installaties:
+      title: Installaties
+      type: object
+      properties:
+        fotovoltaischePanelen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Installatie fotovoltaischPaneel'
+        installatiesVoorRuimteverwarming:
+          type: array
+          items:
+            $ref: '#/components/schemas/Installatie voor ruimteverwarming'
+        installatiesVoorSanitairWarmWater:
+          type: array
+          items:
+            $ref: '#/components/schemas/Installatie voor sanitair warm water'
+        koelingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Installatie voor koeling'
+        zonneThermischeInstallaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Zonne thermische installatie'
+      description: Detail over de installaties.
+    InvesteringsKostDetailResponse:
+      title: InvesteringsKostDetailResponse
+      type: object
+      properties:
+        type:
+          type: string
+        waarde:
+          type: integer
+          format: int32
+      description: Detail over de investeringskost detail, one level deeper.
+    InvesteringsKostResponse:
+      title: InvesteringsKostResponse
+      type: object
+      properties:
+        afgerondeWaarde:
+          type: integer
+          format: int32
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvesteringsKostDetailResponse'
+        getoondOpEPC:
+          type: boolean
+        type:
+          type: string
+        waarde:
+          type: integer
+          format: int32
+      description: Detail over de investeringskost.
+    Isolatielaag:
+      title: Isolatielaag
+      type: object
+      properties:
+        aanwezigheidIsolatie:
+          type: string
+        dikteIsolatieMateriaal:
+          type: integer
+          format: int32
+        isBinnenIsolatie:
+          type: boolean
+        lambdaWaardeIsolatieMateriaal:
+          type: number
+          format: double
+        naamMateriaal:
+          type: string
+        onderbrekingIsolatie:
+          type: string
+        plaatsIsolatie:
+          type: string
+        rwaarde:
+          type: number
+          format: double
+        verbouwjaarIsolatiemateriaal:
+          type: integer
+          format: int32
+      description: Detail over de isolatielaag.
+    IsolatielaagRequest:
+      title: IsolatielaagRequest
+      type: object
+      properties:
+        dikteWaarde:
+          type: number
+          format: double
+        id:
+          type: string
+          format: uuid
+        isolatieLaagType:
+          type: string
+        lambdaWaarde:
+          type: number
+          format: double
+        luchtlaagIsolatieLaag:
+          type: string
+        materiaalOnderbrekingIsolatie:
+          type: string
+        materiaalType:
+          type: string
+        onderbrekingIsolatie:
+          type: string
+    Locatie info distinct DTO:
+      title: Locatie info distinct DTO
+      type: object
+      properties:
+        locatie:
+          type: string
+        type:
+          type: string
+      description: Detail over locatie info distinct on type and locatie.
+    Meting:
+      title: Meting
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        meetwaarde:
+          type: number
+          format: double
+      description: Detail over de meting.
+    Meting met meetlocatie:
+      title: Meting met meetlocatie
+      required:
+        - meetlocatie
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        meetlocatie:
+          type: string
+        meetwaarde:
+          type: number
+          format: double
+      description: Detail over de meting met meetlocatie.
+    Opening:
+      title: Opening
+      type: object
+      properties:
+        afstandshouderLabel:
+          type: string
+        bedieningBuitenzonwering:
+          type: string
+        beglazing:
+          $ref: '#/components/schemas/Beglazing'
+        begrenzing:
+          type: string
+        brutoOppervlakte:
+          type: number
+          format: double
+        buitenzonwering:
+          type: boolean
+        categorie:
+          type: string
+        isolatielagen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Isolatielaag'
+        luchtspouw:
+          type: string
+        orientatie:
+          type: string
+        profiel:
+          $ref: '#/components/schemas/Profiel'
+        rWaarde:
+          type: number
+          format: double
+        soort:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+      description: Detail over de opening.
+    Opwekker calculation request:
+      title: Opwekker calculation request
+      required:
+        - id
+      type: object
+      properties:
+        afgiftemedium:
+          type: string
+        afgiftemediumCondensor:
+          type: string
+        automatischeDebietsregelingAanwezig:
+          type: boolean
+        benamingKoelmachine:
+          type: string
+        bypassType:
+          type: string
+        capaciteitsprofielSww:
+          type: string
+        collectorType:
+          type: string
+        cop:
+          type: number
+          format: double
+        ecolabelKoelingAanwezig:
+          type: boolean
+        eerNom:
+          type: number
+          format: double
+        elektrischVermogen:
+          type: number
+          format: double
+        energieEfficientieSww:
+          maximum: 3
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        energieEfficientieklasseRv:
+          type: string
+        energieEfficientieklasseSww:
+          type: string
+        energiedrager:
+          type: string
+        equivalentePrimaireEnergiefactor:
+          type: number
+          format: double
+        fabricagejaar:
+          type: integer
+          format: int32
+        fractieHernieuwbaarNietRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        fractieHernieuwbaarRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        fractieNietHernieuwbaarNietRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        fractieNietHernieuwbaarRestwarmte:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        freeChilling:
+          type: boolean
+        gwpWaarde:
+          type: number
+          format: double
+        id:
+          type: string
+        ingevoerdeThermischRendement:
+          type: number
+          format: double
+        instelwaardeInUitgaandDebiet:
+          type: boolean
+        koeltorenAanwezig:
+          type: boolean
+        labels:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        locatieOpwekker:
+          type: string
+        nietCondenserendeKetelType:
+          type: string
+        oppervlakteCollector:
+          type: number
+          format: double
+        opwekkerSoort:
+          type: string
+        opwekkerType:
+          type: string
+        orientatieCollector:
+          type: string
+        ozonlaagafbrekendeStoffenAanwezig:
+          type: boolean
+        soortRegelingVentilatoren:
+          type: string
+        testrendementDeellastBovensteVerbrandingswaarde:
+          type: number
+          format: double
+        testrendementDeellastOndersteVerbrandingswaarde:
+          type: number
+          format: double
+        testrendementWtw:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          format: double
+        thermischVermogen:
+          type: number
+          format: double
+        ventilatieType:
+          type: string
+        vochtrecuperatie:
+          type: boolean
+        voorraadvat:
+          $ref: '#/components/schemas/Voorraadvat calculation request'
+        warmteTerugwinningType:
+          type: string
+        warmtebron:
+          type: string
+        warmtebronVerdamper:
+          type: string
+        warmtepompType:
+          type: string
+        wkkType:
+          type: string
+      description: Detail over de opwekker request.
+    Opwekker response:
+      title: Opwekker response
+      type: object
+      properties:
+        id:
+          type: string
+        minimumElektrischRendement:
+          type: number
+          format: double
+        minimumSEER:
+          type: number
+          format: double
+        minimumSPF:
+          type: number
+          format: double
+        minimumThermischRendement:
+          type: number
+          format: double
+      description: Detail over de opwekker
+    OpwekkerResponse:
+      title: OpwekkerResponse
+      type: object
+      properties:
+        efficient:
+          type: boolean
+        energiedrager:
+          type: string
+        opwekkingsRendement:
+          type: number
+          format: double
+        preferent:
+          type: string
+        soortOpwekkingstoestel:
+          type: string
+        typeOpwekkingstoestel:
+          type: string
+      description: >-
+        Detail over de opwekker response, gebruikt in de calculate
+        ruimteverwarming response.
+    Opwekkingstoestel:
+      title: Opwekkingstoestel
+      type: object
+      properties:
+        aantalEquivalenteWooneenheden:
+          type: integer
+          format: int32
+        capaciteitsprofielToestel:
+          type: string
+        cop:
+          type: number
+          format: double
+        energieEfficientieklasse:
+          type: string
+        energiedrager:
+          type: string
+        fabricagejaarKetel:
+          type: integer
+          format: int32
+        labelToestel:
+          type: string
+        soortOpwekkingstoestel:
+          type: string
+        testRendementDeellastProcent:
+          type: number
+          format: double
+        testRendementDeellastTenOpZichteVan:
+          type: string
+        toestelBinnenHetBeschermdVolume:
+          type: boolean
+        typeOpwekkingstoestel:
+          type: string
+        typeWarmtepomp:
+          type: string
+        vermogen:
+          type: integer
+          format: int32
+      description: Detail over het opwekkingstoestel.
+    PaneelRequest:
+      title: PaneelRequest
+      type: object
+      properties:
+        isolatieAanwezigheid:
+          type: string
+        type:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+    PoortRequest:
+      title: PoortRequest
+      type: object
+      properties:
+        isolatieAanwezigheid:
+          type: string
+        materiaal:
+          type: string
+    Profiel:
+      title: Profiel
+      type: object
+      properties:
+        type:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+      description: Detail over de profiel.
+    ProfielRequest:
+      title: ProfielRequest
+      type: object
+      properties:
+        type:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+    RaamstijlRequest:
+      title: RaamstijlRequest
+      type: object
+      properties:
+        type:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+    Referentie:
+      title: Referentie
+      required:
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+    ResultaatRestDto:
+      title: ResultaatRestDto
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: number
+          format: double
+    Ruimtecluster calculation request:
+      title: Ruimtecluster calculation request
+      required:
+        - id
+        - ruimteclusterType
+        - volumefractie
+      type: object
+      properties:
+        id:
+          type: string
+        koelingIds:
+          type: array
+          items:
+            type: string
+        ruimteclusterType:
+          type: string
+        ventilatieIds:
+          type: array
+          items:
+            type: string
+        verwarmingIds:
+          type: array
+          items:
+            type: string
+        volumefractie:
+          maximum: 1
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: true
+          type: number
+          format: double
+      description: Detail over de ruimtecluster request.
+    Ruimtekoeling calculation request:
+      title: Ruimtekoeling calculation request
+      required:
+        - id
+      type: object
+      properties:
+        afgiftesysteemType:
+          type: string
+        id:
+          type: string
+        koudetransportmedium:
+          type: string
+        opwekkerIds:
+          type: array
+          items:
+            type: string
+        regelingKoelingPerRuimte:
+          type: string
+        ruimteclusterIds:
+          type: array
+          items:
+            type: string
+      description: Detail over de ruimtekoeling request.
+    Ruimteverwarming calculation request:
+      title: Ruimteverwarming calculation request
+      required:
+        - id
+      type: object
+      properties:
+        afgiftesysteemType:
+          type: string
+        combilus:
+          type: string
+        id:
+          type: string
+        opwekkerIds:
+          type: array
+          items:
+            type: string
+        regelingVerwarmingPerRuimte:
+          type: string
+        ruimteclusterIds:
+          type: array
+          items:
+            type: string
+        ruimteverwarmingInstallatieType:
+          type: string
+        systeemType:
+          type: string
+        warmtetransportmedium:
+          type: string
+      description: Detail over de ruimteverwarming request.
+    Sanitair warm water calculation request:
+      title: Sanitair warm water calculation request
+      required:
+        - id
+      type: object
+      properties:
+        aantalDouchesOfBaden:
+          type: string
+        circulatieleidingAanwezig:
+          type: string
+        combilusAanwezig:
+          type: string
+        id:
+          type: string
+        isolatieLeiding:
+          type: string
+        lengteLeiding:
+          type: number
+          format: double
+        liggingLeiding:
+          type: string
+        opwekkerIds:
+          type: array
+          items:
+            type: string
+        soortTappunten:
+          type: array
+          items:
+            type: string
+        warmteopslag:
+          type: string
+      description: Detail over de sanitair warm water request.
+    Schildeel:
+      title: Schildeel
+      required:
+        - id
+      type: object
+      properties:
+        aandeelOpbouw:
+          type: number
+          format: double
+        begrenzing:
+          type: string
+        id:
+          type: string
+        ingevoerdeUWaarde:
+          type: number
+          format: double
+        isolatielagen:
+          type: array
+          items:
+            $ref: '#/components/schemas/IsolatielaagRequest'
+        luchtlaag:
+          type: string
+        schildeelOpbouwType:
+          type: string
+        schildeelType:
+          type: string
+        totaleOppervlakte:
+          type: number
+          format: double
+      description: Detail over het schildeel.
+    Schildeel in profiel:
+      title: Schildeel in profiel
+      required:
+        - begrenzing
+        - schildeelType
+      type: object
+      properties:
+        aandeelOpbouw:
+          type: number
+          format: double
+        bedieningZonwering:
+          type: string
+        beglazing:
+          $ref: '#/components/schemas/BeglazingRequest'
+        begrenzing:
+          type: string
+        ingevoerdeUWaarde:
+          type: number
+          format: double
+        opengaandeDelenInLichteGevelAanwezig:
+          type: string
+        orientatie:
+          type: string
+        paneel:
+          $ref: '#/components/schemas/PaneelRequest'
+        poort:
+          $ref: '#/components/schemas/PoortRequest'
+        profiel:
+          $ref: '#/components/schemas/ProfielRequest'
+        raamstijlen:
+          $ref: '#/components/schemas/RaamstijlRequest'
+        schildeelType:
+          type: string
+        totaleOppervlakte:
+          type: number
+          format: double
+        ventilatieroostersAanwezig:
+          type: boolean
+        zonweringType:
+          type: string
+      description: Detail over het schildeel in profiel.
+    Schildeel opbouw response:
+      title: Schildeel opbouw response
+      type: object
+      properties:
+        id:
+          type: string
+        isolaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Berekening isolatie R-waarde response'
+        uwaarde:
+          type: number
+          format: double
+        uwaardeBekend:
+          type: boolean
+      description: Detail over het schildeel opbouw
+    TypologieLocatieInfo:
+      title: TypologieLocatieInfo
+      type: object
+      properties:
+        alleBouwjaren:
+          type: integer
+          format: int32
+        bouwjaarNa2006:
+          type: integer
+          format: int32
+        bouwjaarTot2006:
+          type: integer
+          format: int32
+        creatieDatum:
+          type: string
+          format: date-time
+        geldig:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        jaar:
+          type: integer
+          format: int32
+        labelA:
+          type: number
+          format: float
+        labelAPLUS:
+          type: number
+          format: float
+        labelB:
+          type: number
+          format: float
+        labelC:
+          type: number
+          format: float
+        labelD:
+          type: number
+          format: float
+        labelE:
+          type: number
+          format: float
+        labelF:
+          type: number
+          format: float
+        labelG:
+          type: number
+          format: float
+        labelH:
+          type: number
+          format: float
+        labelI:
+          type: number
+          format: float
+        labelJ:
+          type: number
+          format: float
+        labelK:
+          type: number
+          format: float
+        locatie:
+          type: string
+        totaalAangiftesGeoLocatie:
+          type: integer
+          format: int32
+        totaalEPCGeoLocatie:
+          type: integer
+          format: int32
+        type:
+          type: string
+        typologie:
+          type: string
+    Ventilatie calculation request:
+      title: Ventilatie calculation request
+      required:
+        - id
+        - opwekkerId
+      type: object
+      properties:
+        id:
+          type: string
+        opwekkerId:
+          type: string
+        regelingType:
+          type: string
+        ruimteclusterIds:
+          type: array
+          items:
+            type: string
+      description: Detail over de ventilatie request.
+    VentilatieRuimte:
+      title: VentilatieRuimte
+      type: object
+      properties:
+        beschrijving:
+          type: string
+        code:
+          type: string
+        id:
+          type: integer
+          format: int64
+        natteRuimteKeukenBadkamerOfDouchekamer:
+          type: boolean
+        natuurlijkeVentilatievoorzieningMetVerticaalAfvoerkanaal:
+          type: boolean
+        natuurlijkeVentilatievoorzieningZonderVerticaalAfvoerkanaal:
+          type: boolean
+        natuurlijkeVoorziening:
+          type: boolean
+        nietPermanentDraaiendeMechanischeVentilatievoorziening:
+          type: boolean
+        permanentDraaiendeMechanischeVentilatievoorziening:
+          type: boolean
+        ruimteConform:
+          type: boolean
+        typeRuimte:
+          type: string
+        ventilatieToestel:
+          $ref: '#/components/schemas/VentilatieToestel'
+        ventilatieVoorzieningAanwezig:
+          type: boolean
+    VentilatieToestel:
+      title: VentilatieToestel
+      type: object
+      properties:
+        beschrijving:
+          type: string
+        beschrijvingBekend:
+          type: boolean
+        bypassAanwezig:
+          type: boolean
+        code:
+          type: string
+        collectiviteit:
+          type: string
+        gemeenschappelijkDeel:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        oldGd:
+          type: boolean
+        ventFabricageJaarBekend:
+          type: boolean
+        ventFabricagejaar:
+          type: integer
+          format: int32
+        ventReductiefactorRegBekend:
+          type: boolean
+        ventReductiefactorRegeling:
+          type: number
+          format: double
+        ventRegelingAanwezig:
+          type: boolean
+        ventRegelingType:
+          type: string
+        ventRendementWtw:
+          type: number
+          format: double
+        ventRendementWtwBekend:
+          type: boolean
+        ventilatieType:
+          type: string
+        wtwAanwezig:
+          type: boolean
+    Verlichtingszone calculation request:
+      title: Verlichtingszone calculation request
+      required:
+        - id
+      type: object
+      properties:
+        bezettingsregelingType:
+          type: string
+        daglichtRegelingType:
+          type: string
+        id:
+          type: string
+        oppervlaktefractie:
+          minimum: 0
+          exclusiveMinimum: true
+          type: number
+          format: double
+        verlichtingstechnologieType:
+          type: string
+      description: Detail over de verlichtingszone request.
+    Vlak:
+      title: Vlak
+      type: object
+      properties:
+        begrenzing:
+          type: string
+        brutoOppervlakte:
+          type: number
+          format: double
+        categorie:
+          type: string
+        diepte:
+          type: number
+          format: double
+        helling:
+          type: integer
+          format: int32
+        isolatielagen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Isolatielaag'
+        luchtlaagEen:
+          type: string
+        luchtlaagTwee:
+          type: string
+        openingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opening'
+        orientatie:
+          type: string
+        perimeter:
+          type: number
+          format: double
+        rWaarde:
+          type: number
+          format: double
+        soort:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+        vloerverwarmingAanwezig:
+          type: boolean
+      description: Detail over het vlak voor de volledige calculate endpoint.
+    VlakOpeningKostenInfo:
+      title: VlakOpeningKostenInfo
+      type: object
+      properties:
+        aantal:
+          type: integer
+          format: int32
+        oppervlakte:
+          type: number
+          format: double
+        type:
+          type: string
+      description: Detail over de openingen in een vlak om kosten te berekenen.
+    Voorraadvat:
+      title: Voorraadvat
+      type: object
+      properties:
+        energieLabel:
+          type: string
+        hoogte:
+          type: number
+          format: double
+        isolatie:
+          type: string
+        omtrek:
+          type: number
+          format: double
+        productkaartlabel:
+          type: array
+          items:
+            type: string
+        volume:
+          type: integer
+          format: int64
+        voorraadvatEnOpwekkerEenGeheel:
+          type: boolean
+      description: Detail over de voorraadvat.
+    Voorraadvat calculation request:
+      title: Voorraadvat calculation request
+      type: object
+      properties:
+        configuratieOpslagOfWarmtewisselaar:
+          type: string
+        geisoleerd:
+          type: string
+        volume:
+          type: integer
+          format: int32
+        warmhoudverlies:
+          type: integer
+          format: int32
+        warmteopslag:
+          type: string
+      description: Detail over het voorraadvat.
+    Zonne thermische installatie:
+      title: Zonne thermische installatie
+      type: object
+      properties:
+        oppervlakte:
+          type: number
+          format: double
+        orientatie:
+          type: string
+      description: Detail over de zonne thermische installatie

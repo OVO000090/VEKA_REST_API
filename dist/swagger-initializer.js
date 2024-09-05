@@ -9,13 +9,29 @@ window.onload = function() {
 		url: "datadiensten_uat_v1.yaml"
 	},
     {
+        name : "V1 - Energie attesten API - TEST",
+        url: "energie-attesten/energie-attesten-api-test-v1.yaml"
+    },
+    {
         name : "V1 - Energie attesten API - UAT",
         url: "energie-attesten/energie-attesten-api-uat-v1.yaml"
     },
 	{
 		name : "V1 - Energie attesten API - PROD",
 		url: "energie-attesten/energie-attesten-api-prod-v1.yaml"
-	}
+	},
+    {
+        name : "V1 - Energie API - TEST",
+        url: "energie/energie-api-test-v1.yaml"
+    },
+    {
+        name : "V1 - Energie API - UAT",
+        url: "energie/energie-api-uat-v1.yaml"
+    },
+    {
+        name : "V1 - Energie API - PROD",
+        url: "energie/energie-api-prod-v1.yaml"
+    }
 	],
     dom_id: '#swagger-ui',
     deepLinking: true,
