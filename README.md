@@ -6,6 +6,7 @@ Overzicht van de publieke VEKA API's.
 
 * [Energie attesten API](/docs/energie-attesten-test-v1.md)
 * [Energie API](/docs/energie-test-v1.md)
+* [Examens API](/docs/examens-test-v1.md)
  
 ## API Documentatie UAT
 
@@ -13,9 +14,11 @@ Overzicht van de publieke VEKA API's.
 
 * [Energie attesten API](/docs/energie-attesten-uat-v1.md)
 * [Energie API](/docs/energie-uat-v1.md)
+* [Examens API](/docs/examens-uat-v1.md)
 
 
 ## API Documentatie PRODUCTIE
 
 * [Energie attesten API](/docs/energie-attesten-prod-v1.md)
 * [Energie API](/docs/energie-prod-v1.md)
+* [Examens API](/docs/examens-prod-v1.md)

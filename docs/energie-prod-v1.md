@@ -1,4 +1,4 @@
-# Energie attesten API
+# Energie API
 
 API voor energie prestatie berekeningen.
 

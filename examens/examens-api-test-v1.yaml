@@ -1,0 +1,376 @@
+openapi: 3.0.3
+info:
+  title: VEKA Examens API
+  description: >-
+    Rest API services voor de examens van het Vlaams Energie- en
+    Klimaatagentschap
+  license:
+    name: European Union Public Licence (EUPL)
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
+  version: '1.0'
+servers:
+  - url: https://energie-dev-secure.api.vlaanderen.be
+tags:
+  - name: Examen controller
+    description: Examen Controller
+paths:
+  /examens-api/v1/examens:
+    get:
+      tags:
+        - Examen controller
+      summary: Geef alle examens op basis van criteria terug.
+      operationId: getExamenUsingGET
+      parameters:
+        - name: examenDatumTot
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+        - name: examenDatumVan
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+        - name: examenType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: isVerborgen
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: registratieRol
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExamenOutputRestDto'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+    post:
+      tags:
+        - Examen controller
+      summary: Sla de registratie op van een nieuw aangemaakt examen
+      operationId: postExamenUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostExamenInputRestDto'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /examens-api/v1/examens/{examenId}:
+    put:
+      tags:
+        - Examen controller
+      summary: Wijzig een examen op basis van examenId
+      operationId: wijzigExamenUsingPUT
+      parameters:
+        - name: examenId
+          in: path
+          description: examenId
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutExamenInputRestDto'
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Examen controller
+      summary: Verwijder een examen op basis van examenId
+      operationId: verwijderExamenUsingDELETE
+      parameters:
+        - name: examenId
+          in: path
+          description: examenId
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: No Content
+  /examens-api/v1/examens/{examenId}/resultaten:
+    post:
+      tags:
+        - Examen controller
+      summary: Examen resultaten toevoegen voor een examen
+      operationId: postExamenResultatenUsingPOST
+      parameters:
+        - name: examenId
+          in: path
+          description: examenId
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              uniqueItems: true
+              type: array
+              items:
+                $ref: '#/components/schemas/PostExamenResultatenInputRestDto'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /examens-api/v1/examens/{id}/inschrijvingen:
+    get:
+      tags:
+        - Examen controller
+      summary: Ingeschreven personen op een examen.
+      operationId: getInschrijvingenEnergiedeskundigeTypeDUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InschrijvingOutputRestDto'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+components:
+  schemas:
+    CentrumAdres:
+      title: CentrumAdres
+      required:
+        - gemeente
+        - huisnummer
+        - land
+        - postcode
+        - straat
+      type: object
+      properties:
+        busNummer:
+          type: string
+        gemeente:
+          type: string
+        huisnummer:
+          type: string
+        land:
+          type: string
+        postcode:
+          type: string
+        straat:
+          type: string
+    ExamenOutputRestDto:
+      title: ExamenOutputRestDto
+      type: object
+      properties:
+        centrumAdres:
+          $ref: '#/components/schemas/CentrumAdres'
+        centrumNaam:
+          type: string
+        datum:
+          type: string
+          format: date
+        examenId:
+          type: integer
+          format: int64
+        examenType:
+          type: string
+        isVerborgen:
+          type: boolean
+        maxAantalDeelnemers:
+          type: integer
+          format: int32
+        registratieRol:
+          type: string
+        uitersteInschrijvingsdatum:
+          type: string
+          format: date
+        uur:
+          type: string
+    InschrijvingOutputRestDto:
+      title: InschrijvingOutputRestDto
+      type: object
+      properties:
+        email:
+          type: string
+        geboorteDatum:
+          type: string
+          format: date
+        inschrijvingsDatum:
+          type: string
+          format: date
+        naam:
+          type: string
+        paswoord:
+          type: string
+        rijksregisternummer:
+          type: string
+        telefoonNummer:
+          type: string
+        voornaam:
+          type: string
+    PostDeelResultaat:
+      title: PostDeelResultaat
+      type: object
+      properties:
+        deelNaam:
+          type: string
+        deelPercentage:
+          type: number
+          format: double
+    PostExamenInputRestDto:
+      title: PostExamenInputRestDto
+      required:
+        - centrumAdres
+        - centrumNaam
+        - datum
+        - examenId
+        - registratieRol
+        - uitersteInschrijvingsdatum
+        - uur
+      type: object
+      properties:
+        centrumAdres:
+          $ref: '#/components/schemas/CentrumAdres'
+        centrumNaam:
+          type: string
+        datum:
+          type: string
+          format: date
+        examenId:
+          type: integer
+          format: int64
+        examenType:
+          type: string
+        maxAantalDeelnemers:
+          type: integer
+          format: int32
+        registratieRol:
+          type: string
+        uitersteInschrijvingsdatum:
+          type: string
+          format: date
+        uur:
+          pattern: ^(2[0-3]|[01]?\d):([0-5]?\d)$
+          type: string
+        verborgen:
+          type: boolean
+    PostExamenResultatenInputRestDto:
+      title: PostExamenResultatenInputRestDto
+      type: object
+      properties:
+        deelResultaten:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostDeelResultaat'
+        isAanwezigOpExamen:
+          type: boolean
+        isGeslaagd:
+          type: boolean
+        rijksregisternummer:
+          type: string
+        totaalPercentage:
+          type: number
+          format: double
+    PutExamenInputRestDto:
+      title: PutExamenInputRestDto
+      required:
+        - centrumAdres
+        - centrumNaam
+        - datum
+        - examenId
+        - registratieRol
+        - uitersteInschrijvingsdatum
+        - uur
+      type: object
+      properties:
+        centrumAdres:
+          $ref: '#/components/schemas/CentrumAdres'
+        centrumNaam:
+          type: string
+        datum:
+          type: string
+          format: date
+        examenId:
+          type: integer
+          format: int64
+        examenType:
+          type: string
+        maxAantalDeelnemers:
+          type: integer
+          format: int32
+        registratieRol:
+          type: string
+        uitersteInschrijvingsdatum:
+          type: string
+          format: date
+        uur:
+          pattern: ^(2[0-3]|[01]?\d):([0-5]?\d)$
+          type: string
+        verborgen:
+          type: boolean
