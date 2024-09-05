@@ -43,6 +43,18 @@ window.onload = function () {
             {
                 name: "V1 - Examens API - PROD",
                 url: "examens/examens-api-prod-v1.yaml"
+            },
+            {
+                name: "V1 - Dossier API - TEST",
+                url: "dossier/dossier-api-test-v1.yaml"
+            },
+            {
+                name: "V1 - Dossier API - UAT",
+                url: "dossier/dossier-api-uat-v1.yaml"
+            },
+            {
+                name: "V1 - Dossier API - PROD",
+                url: "dossier/dossier-api-prod-v1.yaml"
             }
         ],
         dom_id: '#swagger-ui',

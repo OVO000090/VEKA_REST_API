@@ -1,0 +1,2573 @@
+openapi: 3.0.3
+info:
+  title: VEKA dossier API
+  description: Rest API services dossier van het Vlaams Energie- en Klimaatagentschap
+  license:
+    name: European Union Public Licence (EUPL)
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
+  version: '1.0'
+servers:
+  - url: https://energie-ti-secure.api.vlaanderen.be
+tags:
+  - name: Aangifte
+    description: Aangifte Controller
+  - name: Aangifte document
+    description: Aangifte Document Controller
+  - name: Bestand
+    description: Bestand Controller
+  - name: Certificaat
+    description: Certificaat Controller
+  - name: Document
+    description: Document Controller
+  - name: Dossier
+    description: Dossier Controller
+  - name: EPC document
+    description: Epc Document Controller
+  - name: Erkenning
+    description: Erkenning Controller
+  - name: Registratie
+    description: Registratie Controller
+  - name: Startverklaring
+    description: Startverklaring Controller
+  - name: Startverklaring document
+    description: Startverklaring Document Controller
+  - name: Vergunning
+    description: Vergunning Controller
+paths:
+  /dossier-api/v1/aangifte/{id}:
+    get:
+      tags:
+        - Aangifte
+      summary: get
+      operationId: getUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Aangifte'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/aangifte/{id}/constructiedelen:
+    get:
+      tags:
+        - Aangifte
+      summary: getAangifteConstructiedelenById
+      operationId: getAangifteConstructiedelenByIdUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AangifteConstructieDelen'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/aangifte/{id}/ventilatieruimtes:
+    get:
+      tags:
+        - Aangifte
+      summary: getVentilatieRuimtes
+      operationId: getVentilatieRuimtesUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Ventilatieruimtes'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/aangiftes:
+    get:
+      tags:
+        - Aangifte
+      summary: aangiftes
+      operationId: aangiftesUsingGET
+      parameters:
+        - name: nummer
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+            enum:
+              - ACTIEF
+              - VERVALLEN
+              - VERVANGEN
+              - VRIJGEGEVEN
+              - VRIJGEGEVEN_VOOR_CONTROLE
+        - name: type
+          in: query
+          required: false
+          style: pipeDelimited
+          schema:
+            type: array
+            items:
+              type: string
+            enum:
+              - CONTROLE_AANGIFTE
+              - GEWONE_AANGIFTE
+              - HERNIEUWINGSAANGIFTE
+              - SPECIALE_AANGIFTE
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Aangifte'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/aangiftedocument/{id}:
+    get:
+      tags:
+        - Aangifte document
+      summary: get
+      operationId: getUsingGET_1
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/AangifteDocument'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/bestand/{id}:
+    get:
+      tags:
+        - Bestand
+      summary: get
+      operationId: getUsingGET_2
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Bestand'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/certificaten:
+    get:
+      tags:
+        - Certificaat
+      summary: >-
+        Geef de gegevens terug van alle certificaten op basis van de meegegeven
+        criteria.
+      operationId: certificatenUsingGET
+      parameters:
+        - name: attestnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: busnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: datumIngediendVanaf
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+        - name: epcEenheidType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: gebouwEenheidId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: gebouwId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: geldig
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: gemeenschappelijkDeel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: gemeente
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: huisnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: nietResidentieel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: postcode
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: residentieel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: straat
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Certificaat'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/document/aanmaken:
+    post:
+      tags:
+        - Document
+      summary: >-
+        Geef de gegevens terug van het gegenereerde document op basis van de
+        meegegeven inhoud.
+      operationId: generateAndGetDocumentUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AanmakenDocumentRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Document'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /dossier-api/v1/dossier/{id}:
+    get:
+      tags:
+        - Dossier
+      summary: get
+      operationId: getUsingGET_3
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Dossier'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/dossiers:
+    get:
+      tags:
+        - Dossier
+      summary: dossiers
+      operationId: dossiersUsingGET
+      parameters:
+        - name: busnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: gemeente
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: gemeenteCode
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: huisnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: indicatieOverheid
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int32
+        - name: nisCode
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: straat
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ZoekDossierResponse'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/dossierbeheer/aangifte/{id}:
+    get:
+      tags:
+        - Aangifte
+      summary: get
+      operationId: getUsingGET_4
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Aangifte'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/epcDocument/{id}:
+    get:
+      tags:
+        - EPC document
+      summary: get
+      operationId: getUsingGET_5
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/EpcDocument'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/erkenning/{erkenningsnummer}:
+    get:
+      tags:
+        - Erkenning
+      summary: >-
+        Geef de detail gegevens terug van een erkenning op basis van de
+        registratie.
+      operationId: getUsingGET_6
+      parameters:
+        - name: erkenningsnummer
+          in: path
+          description: erkenningsnummer
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Erkenning'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/extern/aangiftes:
+    get:
+      tags:
+        - Aangifte
+      summary: >-
+        Geef de gegevens terug van alle aangiftes op basis van de meegegeven
+        criteria.
+      operationId: getAangiftesByCriteriaUsingGET
+      parameters:
+        - name: attestnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: busnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: datumIngediendVanaf
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+        - name: epcEenheidType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: gebouwEenheidId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: gebouwId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: geldig
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: gemeenschappelijkDeel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: gemeente
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: huisnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: nietResidentieel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: postcode
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: reden
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: residentieel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: straat
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Certificaat'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/extern/certificaat:
+    get:
+      tags:
+        - Certificaat
+      summary: Geef het detail terug van één certificaat.
+      operationId: getCertificaatUsingGET
+      parameters:
+        - name: attestnummer
+          in: query
+          description: attestnummer
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: reden
+          in: query
+          description: reden
+          required: true
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CertificaatDetail'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/extern/certificaten:
+    get:
+      tags:
+        - Certificaat
+      summary: >-
+        Geef de gegevens terug van alle certificaten op basis van de meegegeven
+        criteria.
+      operationId: getCertificatenByCriteriaUsingGET
+      parameters:
+        - name: attestnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: busnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: datumIngediendVanaf
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+        - name: epcEenheidType
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: gebouwEenheidId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: gebouwId
+          in: query
+          required: false
+          style: form
+          schema:
+            type: integer
+            format: int64
+        - name: geldig
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: gemeenschappelijkDeel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: gemeente
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: huisnummer
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: nietResidentieel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: postcode
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+        - name: reden
+          in: query
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: residentieel
+          in: query
+          required: false
+          style: form
+          schema:
+            type: boolean
+        - name: straat
+          in: query
+          required: false
+          style: form
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Certificaat'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/registratie/{id}:
+    get:
+      tags:
+        - Registratie
+      summary: >-
+        Geef de gegevens terug van de registratie van een persoon op basis van
+        de id.
+      operationId: getUsingGET_7
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Registratie'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/registratieRol/{id}:
+    get:
+      tags:
+        - Registratie
+      summary: Geef de gegevens terug van de registratieRol op basis van de id.
+      operationId: getRegistratieRolUsingGET
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Registratie rol'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/registraties:
+    post:
+      tags:
+        - Registratie
+      summary: >-
+        Geef de gegevens terug van de registraties van een persoon op basis van
+        de meegegeven criteria.
+      operationId: registratiesUsingPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistratieSearchRequest'
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Registraties'
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /dossier-api/v1/startverklaring/{id}:
+    get:
+      tags:
+        - Startverklaring
+      summary: get
+      operationId: getUsingGET_8
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Startverklaring'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/startverklaringdocument/{id}:
+    get:
+      tags:
+        - Startverklaring document
+      summary: get
+      operationId: getUsingGET_9
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/StartverkaringDocument'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+  /dossier-api/v1/vergunning/{id}:
+    get:
+      tags:
+        - Vergunning
+      summary: get
+      operationId: getUsingGET_10
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          style: simple
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Vergunning'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+components:
+  schemas:
+    Aanbeveling:
+      title: Aanbeveling
+      type: object
+      properties:
+        categorie:
+          type: string
+        energiescore:
+          $ref: '#/components/schemas/ScoreDto'
+        huidigeSituatie:
+          type: string
+        prioriteit:
+          type: integer
+          format: int32
+        subtype:
+          type: string
+        type:
+          type: string
+        uitvoeringsmethodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Uitvoeringsmethode'
+      description: Een aanbeveling voor een EPC.
+    Aangifte:
+      title: Aangifte
+      type: object
+      properties:
+        aangifteDocumentRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/AangifteDocumentRef'
+        aangifteplichtigen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aangifteplichtige'
+        adressen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adres'
+        bestandRef:
+          $ref: '#/components/schemas/BestandRef'
+        bestemming:
+          type: string
+        bestemmingSubtypes:
+          type: array
+          items:
+            type: string
+        boetes:
+          $ref: '#/components/schemas/Boetes'
+        bouwvorm:
+          type: string
+        brutoVloeroppervlakte:
+          type: number
+          format: double
+        dossierCode:
+          type: string
+        dossierNaam:
+          type: string
+        eigenaren:
+          type: array
+          items:
+            $ref: '#/components/schemas/Eigenaar'
+        einddatumWerken:
+          type: string
+          format: date-time
+        epbDossierNummer:
+          type: string
+        epbEenheidNaam:
+          type: string
+        epbEenheidNummer:
+          type: string
+        gebouw:
+          $ref: '#/components/schemas/Gebouw'
+        gebouwCode:
+          type: string
+        gebouwNaam:
+          type: string
+        gebouweenheid:
+          $ref: '#/components/schemas/Gebouweenheid'
+        id:
+          type: integer
+          format: int64
+        ingebruiknameDatum:
+          type: string
+          format: date-time
+        ingediendDatum:
+          type: string
+          format: date-time
+        nieuwGecreeerdBeschermdVolume:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        nummer:
+          type: string
+        ontvangstDatum:
+          type: string
+          format: date-time
+        resultaten:
+          $ref: '#/components/schemas/Resultaten'
+        softwareNaam:
+          type: string
+        softwareVersie:
+          type: string
+        startdatumWerken:
+          type: string
+          format: date-time
+        status:
+          type: string
+        type:
+          type: string
+        verbouwdBeschermdVolume:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        vergunningAanvraagDatum:
+          type: string
+          format: date-time
+        verslaggever:
+          $ref: '#/components/schemas/Verslaggever'
+      description: De aangifte.
+    AangifteConstructieDelen:
+      title: AangifteConstructieDelen
+      type: object
+      properties:
+        aangifteId:
+          type: integer
+          format: int64
+        constructiedelen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Constructiedelen'
+        gemiddeldeUwaardes:
+          $ref: '#/components/schemas/GemiddeldeUwaardes'
+        gemiddeldeUwaardesGemeenschappelijkeDelen:
+          type: array
+          items:
+            $ref: '#/components/schemas/GemiddeldeUwaardes'
+        ingediendDatum:
+          type: string
+          format: date-time
+        nummer:
+          type: string
+        status:
+          type: string
+        totaleTransmissieBoetes:
+          $ref: '#/components/schemas/TotaleTransmissieBoetes'
+      description: De aangifte constructiedelen.
+    AangifteConstructieDelenRef:
+      title: AangifteConstructieDelenRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+      description: Reference naar de constructiedelen.
+    AangifteDocument:
+      title: AangifteDocument
+      type: object
+      properties:
+        data:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+      description: Het aangifte document.
+    AangifteDocumentRef:
+      title: AangifteDocumentRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        url:
+          type: string
+      description: De reference naar het aangifte document.
+    AangifteRef:
+      title: AangifteRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        ingediendDatum:
+          type: string
+          format: date-time
+        nummer:
+          type: string
+        status:
+          type: string
+        url:
+          type: string
+      description: Detail over de aangifte.
+    Aangifteplichtige:
+      title: Aangifteplichtige
+      type: object
+      properties:
+        adres:
+          $ref: '#/components/schemas/Adres'
+        contactAdres:
+          $ref: '#/components/schemas/Adres'
+        naam:
+          type: string
+        onderneming:
+          $ref: '#/components/schemas/Onderneming'
+        prioriteit:
+          type: integer
+          format: int32
+        rijksregisternummer:
+          type: string
+        voornaam:
+          type: string
+      description: Detail over de aangifteplichtige.
+    AanmakenDocumentRequest:
+      title: AanmakenDocumentRequest
+      required:
+        - inputData
+        - template
+        - versie
+      type: object
+      properties:
+        inputData:
+          type: string
+        referte:
+          type: string
+          format: uuid
+        template:
+          type: string
+        versie:
+          type: string
+      description: Request voor het genereren van een document.
+    Adres:
+      title: Adres
+      type: object
+      properties:
+        busnummer:
+          type: string
+        gemeente:
+          type: string
+        huisnummer:
+          type: string
+        land:
+          type: string
+        postcode:
+          type: string
+        straat:
+          type: string
+      description: Detail over het adres.
+    AdresDetailRestDto:
+      title: AdresDetailRestDto
+      type: object
+      properties:
+        arId:
+          type: integer
+          format: int64
+        busnummer:
+          type: string
+        crabcode:
+          $ref: '#/components/schemas/Crabcode'
+        gemeente:
+          type: string
+        huisnummer:
+          type: string
+        land:
+          type: string
+        postcode:
+          type: string
+        straat:
+          type: string
+      description: Detail over het adres met crabcode en adres id van het gebouwregister.
+    AndereTransparanteDelen:
+      title: AndereTransparanteDelen
+      type: object
+      properties:
+        gerealiseerdeUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        isVoldaan:
+          type: boolean
+        maximaleUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        oppervlakte:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Andere transparante delen.
+    Bestand:
+      title: Bestand
+      type: object
+      properties:
+        data:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      description: Het bestand.
+    BestandRef:
+      title: BestandRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+      description: Reference naar het bestand.
+    Boetes:
+      title: Boetes
+      type: object
+      properties:
+        globaleEnergetischePrestatie:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        globaleThermischeIsolatie:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        installatie:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        maximumBoete:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        nettoEnergiebehoefteVoorVerwarming:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        risicoOpOververhitting:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        thermischeIsolatieVanConstructieElementen:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        totaleIndicatieveBoete:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        ventilatie:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Detail over de boetes.
+    Certificaat:
+      title: Certificaat
+      type: object
+      properties:
+        aardVanWerken:
+          type: string
+        adressen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adres'
+        attestnummer:
+          type: string
+        bestemming:
+          type: string
+        datumGeldigheid:
+          type: string
+          format: date-time
+        datumIngediend:
+          type: string
+          format: date-time
+        datumVerlenenVergunning:
+          type: string
+          format: date-time
+        detailAardVanWerken:
+          type: string
+        epcDocumentRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/EpcDocumentRef'
+        epcEenheidType:
+          type: string
+        gebouwId:
+          type: integer
+          format: int64
+        gebouwTypes:
+          type: array
+          items:
+            type: string
+        gebouweenheidId:
+          type: integer
+          format: int64
+        id:
+          type: integer
+          format: int64
+        isNieuwbouwNaSloop:
+          type: boolean
+        registratieRolRef:
+          $ref: '#/components/schemas/RegistratieRolRefDTO'
+        score:
+          $ref: '#/components/schemas/ScoreDto'
+        status:
+          type: string
+        tijdigIngediend:
+          type: boolean
+        totaalIndicatieveBoete:
+          type: string
+        url:
+          type: string
+        voldaanAanEisen:
+          type: boolean
+      description: Het certificaat (EPB of EPC)
+    CertificaatDetail:
+      title: CertificaatDetail
+      type: object
+      properties:
+        aanbevelingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aanbeveling'
+        aardVanWerken:
+          type: string
+        adres:
+          $ref: '#/components/schemas/AdresDetailRestDto'
+        attestnummer:
+          type: string
+        bestemming:
+          type: string
+        bouwjaar:
+          type: integer
+          format: int32
+        datumGeldigheid:
+          type: string
+          format: date-time
+        datumIngediend:
+          type: string
+          format: date-time
+        detailAardVanWerken:
+          type: string
+        gebouwId:
+          type: integer
+          format: int64
+        gebouwType:
+          type: string
+        gebouweenheidId:
+          type: integer
+          format: int64
+        isNieuwbouwNaSloop:
+          type: boolean
+        score:
+          $ref: '#/components/schemas/ScoreDto'
+      description: Het certificaat detail (EPB of EPC)
+    Constructiedelen:
+      title: Constructiedelen
+      type: object
+      properties:
+        begrenzing:
+          type: string
+        boete:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        gerealiseerdeRWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        gerealiseerdeUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        gerealiseerdeUWaardeGlas:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        isBestaandeConstructie:
+          type: boolean
+        isGemeenschappelijkDeel:
+          type: boolean
+        isNageisoleerdeConstructie:
+          type: boolean
+        isTweePercentageRegelToegepast:
+          type: boolean
+        isVoldaan:
+          type: boolean
+        maximaleUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        maximaleUWaardeGlas:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        minimaleRWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        naam:
+          type: string
+        naamGemeenschappelijkDeel:
+          type: string
+        nietVrijgesteldeOppervlakte:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        soort:
+          type: string
+        type:
+          type: string
+        vrijgesteldeOppervlakte:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Lichte Gevels.
+    Contact info:
+      title: Contact info
+      type: object
+      properties:
+        email:
+          type: string
+        telefoon:
+          type: string
+      description: Detail van de contact info
+    Crabcode:
+      title: Crabcode
+      type: object
+      properties:
+        gemeenteId:
+          type: integer
+          format: int32
+        huisnummerId:
+          type: integer
+          format: int32
+        straatId:
+          type: integer
+          format: int32
+        subadresId:
+          type: integer
+          format: int32
+      description: Detail over de crabcode.
+    Document:
+      title: Document
+      type: object
+      properties:
+        inhoud:
+          type: string
+          format: byte
+        mediaType:
+          type: string
+        referte:
+          type: string
+          format: uuid
+        template:
+          type: string
+        versie:
+          type: string
+      description: Het document
+    Dossier:
+      title: Dossier
+      type: object
+      properties:
+        aangiftes:
+          type: array
+          items:
+            $ref: '#/components/schemas/AangifteRef'
+        aantalIngediendeAangiftes:
+          type: integer
+          format: int32
+        aantalVerwachteAangiftes:
+          type: integer
+          format: int32
+        aardVanDeWerken:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        adresDossier:
+          $ref: '#/components/schemas/Adres'
+        bestemming:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        deeldossiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DossierRefDTO'
+        dossierFase:
+          $ref: '#/components/schemas/DossierFase'
+        epbDossierNummer:
+          type: string
+        epbPlichtig:
+          type: boolean
+        hoofddossier:
+          $ref: '#/components/schemas/DossierRefDTO'
+        id:
+          type: integer
+          format: int64
+        isVolledigVolgensVEKA:
+          type: boolean
+        redenIsVolledigVolgensVEKA:
+          type: string
+        startverklaringen:
+          type: array
+          items:
+            $ref: '#/components/schemas/StartverklaringRef'
+        vergunning:
+          $ref: '#/components/schemas/VergunningRef'
+        vergunningAanvraagDatum:
+          type: string
+          format: date-time
+        vergunningVerlenenDatum:
+          type: string
+          format: date-time
+        volledigStatus:
+          type: string
+      description: Detail over het dossier.
+    DossierFase:
+      title: DossierFase
+      type: object
+      properties:
+        datum:
+          type: string
+          format: date-time
+        reden:
+          type: string
+        status:
+          type: string
+      description: Detail over de dossierfase.
+    DossierRefDTO:
+      title: DossierRefDTO
+      type: object
+      properties:
+        epbDossierNummer:
+          type: string
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+      description: Reference info over het dossier
+    DossierbeheerInfo:
+      title: DossierbeheerInfo
+      type: object
+      properties:
+        aantalIngediendeAangiftes:
+          type: integer
+          format: int32
+        aantalVerwachteAangiftes:
+          type: integer
+          format: int32
+        aanvragers:
+          type: string
+        aardVanDeWerken:
+          type: string
+        adres:
+          type: string
+        bestemming:
+          type: string
+        dossierId:
+          type: integer
+          format: int64
+        epbDossierNummer:
+          type: string
+        isVolledigVolgensVEKA:
+          type: boolean
+        redenIsVolledigVolgensVEKA:
+          type: string
+        vergunningVerlenenDatum:
+          type: string
+          format: date-time
+        volledigStatus:
+          type: string
+      description: Detail over de dossierbeheer info.
+    DoubleMetMeeteenheid:
+      title: DoubleMetMeeteenheid
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: number
+          format: double
+      description: Een waarde met een meeteenheid.
+    EPBEenheid:
+      title: EPBEenheid
+      type: object
+      properties:
+        adressen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adres'
+        bestemmingen:
+          type: array
+          items:
+            type: string
+        boetes:
+          $ref: '#/components/schemas/Boetes'
+        epbEenheidNaam:
+          type: string
+        epbEenheidNummer:
+          type: string
+        nieuwGecreeerdBeschermdVolume:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        resultaten:
+          $ref: '#/components/schemas/Resultaten'
+        verbouwdBeschermdVolume:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Detail over de epb eenheid
+    Eenheid:
+      title: Eenheid
+      type: object
+      properties:
+        functies:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        handelingen:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        volumes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Volumes'
+        voorwerp:
+          type: string
+      description: Detail over de eenheid.
+    Eigenaar:
+      title: Eigenaar
+      type: object
+      properties:
+        adres:
+          $ref: '#/components/schemas/Adres'
+        contactAdres:
+          $ref: '#/components/schemas/Adres'
+        naam:
+          type: string
+        onderneming:
+          $ref: '#/components/schemas/Onderneming'
+        prioriteit:
+          type: integer
+          format: int32
+        rijksregisternummer:
+          type: string
+        voornaam:
+          type: string
+      description: Detail over de eigenaar.
+    EpcDocument:
+      title: EpcDocument
+      type: object
+      properties:
+        data:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        type:
+          type: string
+      description: Het EPC document.
+    EpcDocumentRef:
+      title: EpcDocumentRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          type: string
+        url:
+          type: string
+      description: De reference naar het EPC document.
+    EpeilDto:
+      title: EpeilDto
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: integer
+          format: int32
+    Erkenning:
+      title: Erkenning
+      type: object
+      properties:
+        erkenningsnummer:
+          type: string
+        id:
+          type: integer
+          format: int64
+        onderneming:
+          $ref: '#/components/schemas/Onderneming'
+        persoon:
+          $ref: '#/components/schemas/Persoon'
+        rechtspersoon:
+          type: boolean
+      description: Detail erkenning
+    Gebouw:
+      title: Gebouw
+      type: object
+      properties:
+        aantalGebouweenheden:
+          type: integer
+          format: int32
+        id:
+          type: string
+        status:
+          type: string
+        vbrGebouwId:
+          type: string
+        xCoordinaat:
+          type: string
+        yCoordinaat:
+          type: string
+      description: Het gebouw.
+    GebouwIndeling:
+      title: GebouwIndeling
+      type: object
+      properties:
+        adressen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adres'
+        boetes:
+          $ref: '#/components/schemas/Boetes'
+        epbEenheden:
+          type: array
+          items:
+            $ref: '#/components/schemas/EPBEenheid'
+        gebouwCode:
+          type: string
+        gebouwNaam:
+          type: string
+        nieuwGecreeerdBeschermdVolume:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        resultaten:
+          $ref: '#/components/schemas/Resultaten'
+        verbouwdBeschermdVolume:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Detail over de indeling van het gebouw.
+    Gebouweenheid:
+      title: Gebouweenheid
+      type: object
+      properties:
+        functie:
+          type: string
+        id:
+          type: string
+        status:
+          type: string
+        vbrGebouweenheidId:
+          type: string
+        xCoordinaat:
+          type: string
+        yCoordinaat:
+          type: string
+      description: De gebouweenheid.
+    GemiddeldeUwaardes:
+      title: GemiddeldeUwaardes
+      type: object
+      properties:
+        andereTransparanteDelen:
+          $ref: '#/components/schemas/AndereTransparanteDelen'
+        lichteGevels:
+          $ref: '#/components/schemas/LichteGevels'
+        naam:
+          type: string
+        vensters:
+          $ref: '#/components/schemas/Vensters'
+      description: Gemiddelde Uwaardes.
+    KengetalDto:
+      title: KengetalDto
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: number
+          format: double
+    LabelDto:
+      title: LabelDto
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: string
+    LichteGevels:
+      title: LichteGevels
+      type: object
+      properties:
+        gerealiseerdeUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        isVoldaan:
+          type: boolean
+        maximaleUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        oppervlakte:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Lichte Gevels.
+    Number:
+      title: Number
+      type: object
+    Onderneming:
+      title: Onderneming
+      type: object
+      properties:
+        adres:
+          $ref: '#/components/schemas/Adres'
+        kboNummer:
+          type: string
+        naam:
+          type: string
+      description: Detail over de onderneming.
+    Persoon:
+      title: Persoon
+      type: object
+      properties:
+        adres:
+          $ref: '#/components/schemas/Adres'
+        bron:
+          type: string
+        contactAdres:
+          $ref: '#/components/schemas/Adres'
+        contactInfo:
+          $ref: '#/components/schemas/Contact info'
+        naam:
+          type: string
+        rijksregisternummer:
+          type: string
+        roepnaam:
+          type: string
+        voornaam:
+          type: string
+      description: Detail over de persoon.
+    PersoonVergunning:
+      title: PersoonVergunning
+      type: object
+      properties:
+        adres:
+          $ref: '#/components/schemas/Adres'
+        contactAdres:
+          $ref: '#/components/schemas/Adres'
+        naam:
+          type: string
+        onderneming:
+          $ref: '#/components/schemas/Onderneming'
+        prioriteit:
+          type: integer
+          format: int32
+        rijksregisternummer:
+          type: string
+        voornaam:
+          type: string
+      description: Detail over de persoon met specifieke velden voor vergunning.
+    Registratie:
+      title: Registratie
+      type: object
+      properties:
+        contactAdres:
+          $ref: '#/components/schemas/Adres'
+        contactInfo:
+          $ref: '#/components/schemas/Contact info'
+        erkenningsnummer:
+          type: string
+        functie:
+          type: string
+        id:
+          type: integer
+          format: int64
+        isRechtspersoon:
+          type: boolean
+        onderneming:
+          $ref: '#/components/schemas/Onderneming'
+        persoon:
+          $ref: '#/components/schemas/Persoon'
+        registratieStatus:
+          type: string
+        rollen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Registratie rol'
+      description: Detail registratie
+    Registratie rol:
+      title: Registratie rol
+      type: object
+      properties:
+        rol:
+          type: string
+        rolStatus:
+          type: string
+      description: Detail over de registratie rol en rol status
+    RegistratieRolRefDTO:
+      title: RegistratieRolRefDTO
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+      description: De reference naar de Registratie rol.
+    RegistratieSearchRequest:
+      title: RegistratieSearchRequest
+      required:
+        - rijksregisternummer
+      type: object
+      properties:
+        kboNummer:
+          type: string
+        rijksregisternummer:
+          type: string
+        rolStatussen:
+          type: array
+          items:
+            type: string
+            enum:
+              - DESKA_ERKEND
+              - DESKA_ERKENNING_INGETROKKEN
+              - DESKA_GESCHORST
+              - DESKD_ERKEND
+              - DESKD_ERKENNING_INGETROKKEN
+              - DESKD_GESCHORST
+              - ED_ERKEND
+              - ED_ERKENNING_INGETROKKEN
+              - ED_GESCHORST
+              - ID_ERKEND
+              - ID_ERKENNING_INGETROKKEN
+              - MROV_ERKEND
+              - MROV_ERKENNING_INGETROKKEN
+              - MWG_ERKEND
+              - MWG_ERKENNING_INGETROKKEN
+              - MWWVG_ERKEND
+              - MWWVG_ERKENNING_INGETROKKEN
+              - MW_EPB_OI_ERKEND
+              - MW_EPB_OI_ERKENNING_INGETROKKEN
+              - MW_EPB_OI_NIET_ERKEND
+              - MW_EPB_VI_ERKEND
+              - MW_EPB_VI_ERKENNING_INGETROKKEN
+              - MW_EPB_VI_NIET_ERKEND
+              - STD_ERKEND
+              - STD_ERKENNING_INGETROKKEN
+              - STD_GESLAAGD
+              - STD_NIET_GESLAAGD
+              - STD_TYPE_C_ERKEND
+              - STD_TYPE_C_ERKENNING_INGETROKKEN
+              - STD_TYPE_C_GESLAAGD
+              - STD_TYPE_C_NIET_GESLAAGD
+              - STD_TYPE_D_ERKEND
+              - STD_TYPE_D_ERKENNING_INGETROKKEN
+              - STD_TYPE_D_GESLAAGD
+              - STD_TYPE_D_NIET_GESLAAGD
+              - VG_ERKEND
+              - VG_ERKENNING_INGETROKKEN
+              - VG_GESCHORST
+              - VG_NIET_ERKEND
+              - VG_UITNODIGING_TOT_INTREKKING
+              - VG_UITNODIGING_TOT_SCHORSEN
+        rollen:
+          type: array
+          items:
+            type: string
+            enum:
+              - AUTHENTICATED
+              - DESK_A
+              - DESK_D
+              - DEVELOPER
+              - EPB_CONTROLEUR
+              - EPB_VVO
+              - EPB_VVO_ONDERSTEUNING
+              - EXT_DESK
+              - MDW_EPB_OI
+              - MDW_EPB_VI
+              - MDW_GEM
+              - MDW_WV_GEM
+              - PUBL_OVR
+              - RO_VL
+              - STUDENT
+              - STUDENT_TYPEC
+              - STUDENT_TYPED
+              - VERSLAGGEVER
+      description: Info over de te gebruiken zoek criteria.
+    Registraties:
+      title: Registraties
+      type: object
+      properties:
+        persoon:
+          $ref: '#/components/schemas/Persoon'
+        registraties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Registratie'
+      description: Detail alle registraties.
+    Resultaat:
+      title: Resultaat
+      type: object
+      properties:
+        eis:
+          $ref: '#/components/schemas/Number'
+        meeteenheid:
+          type: string
+        voldaan:
+          type: boolean
+        waarde:
+          $ref: '#/components/schemas/Number'
+      description: Detail over het resultaat.
+    Resultaat0:
+      title: Resultaat0
+      type: object
+      properties:
+        eis:
+          $ref: '#/components/schemas/Number'
+        meeteenheid:
+          type: string
+        voldaan:
+          type: boolean
+        waarde:
+          $ref: '#/components/schemas/Number'
+      description: Detail over het resultaat.
+    Resultaten:
+      title: Resultaten
+      type: object
+      properties:
+        aandeelHernieuwbareEnergie:
+          $ref: '#/components/schemas/Resultaat'
+        epeil:
+          $ref: '#/components/schemas/Resultaat'
+        installatieEisenBijRenovatie:
+          $ref: '#/components/schemas/Resultaat'
+        kpeil:
+          $ref: '#/components/schemas/Resultaat'
+        nettoEnergiebehoefte:
+          $ref: '#/components/schemas/Resultaat'
+        risicoOpOververhitting:
+          $ref: '#/components/schemas/Resultaat'
+        speil:
+          $ref: '#/components/schemas/Resultaat'
+        uEnOfRWaarde:
+          $ref: '#/components/schemas/Resultaat'
+        ventilatie:
+          $ref: '#/components/schemas/Resultaat'
+      description: Detail over het resultaten.
+    ScoreDto:
+      title: ScoreDto
+      type: object
+      properties:
+        epeil:
+          $ref: '#/components/schemas/EpeilDto'
+        kengetal:
+          $ref: '#/components/schemas/KengetalDto'
+        label:
+          $ref: '#/components/schemas/LabelDto'
+    StartverkaringDocument:
+      title: StartverkaringDocument
+      type: object
+      properties:
+        data:
+          type: string
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+      description: Het startverkaring document.
+    Startverklaring:
+      title: Startverklaring
+      type: object
+      properties:
+        aangifteplichtigen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aangifteplichtige'
+        bestandRef:
+          $ref: '#/components/schemas/BestandRef'
+        brutoVloeroppervlakte:
+          type: number
+          format: double
+        dossierCode:
+          type: string
+        eigenaren:
+          type: array
+          items:
+            $ref: '#/components/schemas/Eigenaar'
+        gebouwen:
+          type: array
+          items:
+            $ref: '#/components/schemas/GebouwIndeling'
+        id:
+          type: integer
+          format: int64
+        ingediendDatum:
+          type: string
+          format: date-time
+        nummer:
+          type: string
+        ontvangstDatum:
+          type: string
+          format: date-time
+        softwareVersie:
+          type: string
+        startdatumWerken:
+          type: string
+          format: date-time
+        startverklaringDocumentRefs:
+          type: array
+          items:
+            $ref: '#/components/schemas/StartverklaringDocumentRef'
+        status:
+          type: string
+        verslaggever:
+          $ref: '#/components/schemas/Verslaggever'
+      description: De startverklaring.
+    StartverklaringDocumentRef:
+      title: StartverklaringDocumentRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+      description: Reference naar de startverklaring document.
+    StartverklaringRef:
+      title: StartverklaringRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        ingediendDatum:
+          type: string
+          format: date-time
+        nummer:
+          type: string
+        status:
+          type: string
+        url:
+          type: string
+      description: Detail over de startverklaring.
+    TotaalPerEenheidDoubleMetMeeteenheid:
+      title: TotaalPerEenheidDoubleMetMeeteenheid
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waardePerEenheid:
+          type: number
+          format: double
+        waardeTotaal:
+          type: number
+          format: double
+      description: De totale en per eenheid waardes met een meeteenheid.
+    TotaleTransmissieBoeteGemeenschappelijkeDelen:
+      title: TotaleTransmissieBoeteGemeenschappelijkeDelen
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waardePerEenheid:
+          type: number
+          format: double
+        waardeTotaal:
+          type: number
+          format: double
+      description: Totale transmissie boete gemeenschappelijke delen.
+    TotaleTransmissieBoetes:
+      title: TotaleTransmissieBoetes
+      type: object
+      properties:
+        totaleTransmissieBoete:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        totaleTransmissieBoeteGemeenschappelijkeDelen:
+          $ref: '#/components/schemas/TotaleTransmissieBoeteGemeenschappelijkeDelen'
+        totaleTransmissieBoeteNietGemeenschappelijkeDelen:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: De totale transmissie boetes.
+    TotaleVentilatieBoetes:
+      title: TotaleVentilatieBoetes
+      type: object
+      properties:
+        totaleVentilatieBoete:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        totaleVentilatieBoeteGemeenschappelijkeDelen:
+          $ref: '#/components/schemas/TotaalPerEenheidDoubleMetMeeteenheid'
+        totaleVentilatieBoeteNietGemeenschappelijkeDelen:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Detail over de totale ventilatie boetes.
+    Uitvoeringsmethode:
+      title: Uitvoeringsmethode
+      type: object
+      properties:
+        geschattePrijsvorkTot:
+          type: integer
+          format: int32
+        geschattePrijsvorkVan:
+          type: integer
+          format: int32
+        omschrijving:
+          type: string
+      description: De uitvoeringsmethode van een aanbeveling voor een EPC.
+    Vensters:
+      title: Vensters
+      type: object
+      properties:
+        boete:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        gerealiseerdeUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        isTweePercentRegelToegepast:
+          type: boolean
+        isVoldaan:
+          type: boolean
+        maximaleUWaarde:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        nietVrijgesteldeOppervlakte:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        vrijgesteldeOppervlakte:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Vensters.
+    Ventilatieruimte:
+      title: Ventilatieruimte
+      type: object
+      properties:
+        boeteAfvoer:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        boeteToevoer:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        code:
+          type: string
+        gebruiksoppervlakte:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        gerealiseerdeGecombineerdeAfvoerDebiet:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        gerealiseerdeToevoerDebiet:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        isBestaandeRuimte:
+          type: boolean
+        isGemeenschappelijkDeel:
+          type: boolean
+        isVoldaan:
+          type: boolean
+        minimaleAfvoerDebiet:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        minimaleToevoerDebiet:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        naam:
+          type: string
+        naamGemeenschappelijkDeel:
+          type: string
+        soort:
+          type: string
+      description: De detail over een ventilatieruimte.
+    Ventilatieruimtes:
+      title: Ventilatieruimtes
+      type: object
+      properties:
+        aangifteId:
+          type: integer
+          format: int64
+        ingediendDatum:
+          type: string
+          format: date-time
+        isTweePercentRegelToegepast:
+          type: boolean
+        isVentilatieResidentieelVoldaan:
+          type: boolean
+        isVentilatieVoldaan:
+          type: boolean
+        nummer:
+          type: string
+        status:
+          type: string
+        totaleVentilatieBoetes:
+          $ref: '#/components/schemas/TotaleVentilatieBoetes'
+        tweePercentDebiet:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        ventilatieruimtes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ventilatieruimte'
+      description: Detail over de ventilatieruimtes.
+    VentilatieruimtesRef:
+      title: VentilatieruimtesRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        url:
+          type: string
+      description: Reference naar de ventilatieruimtes.
+    Vergunning:
+      title: Vergunning
+      type: object
+      properties:
+        aanvragers:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersoonVergunning'
+        adressen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adres'
+        eenheden:
+          type: array
+          items:
+            $ref: '#/components/schemas/Eenheid'
+        einddatumsWerken:
+          type: array
+          items:
+            type: string
+            format: date-time
+        epbPlichtigStatus:
+          type: string
+        epbPlichtigVlag:
+          type: boolean
+        id:
+          type: integer
+          format: int64
+        omschrijving:
+          type: string
+        startdatumsWerken:
+          type: array
+          items:
+            type: string
+            format: date-time
+        status:
+          type: string
+        vergunningAanvraagDatum:
+          type: string
+          format: date-time
+        vergunningVerlenenDatum:
+          type: string
+          format: date-time
+      description: Detail over de vergunning/melding.
+    VergunningRef:
+      title: VergunningRef
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+        url:
+          type: string
+      description: Reference naar de vergunning.
+    Verslaggever:
+      title: Verslaggever
+      type: object
+      properties:
+        adres:
+          $ref: '#/components/schemas/Adres'
+        contactAdres:
+          $ref: '#/components/schemas/Adres'
+        epCode:
+          type: string
+        naam:
+          type: string
+        onderneming:
+          $ref: '#/components/schemas/Onderneming'
+        rijksregisternummer:
+          type: string
+        voornaam:
+          type: string
+      description: Detail over de verslaggever.
+    Volumes:
+      title: Volumes
+      type: object
+      properties:
+        volumeBovengronds:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+        volumeOndergronds:
+          $ref: '#/components/schemas/DoubleMetMeeteenheid'
+      description: Volumes
+    ZoekDossierResponse:
+      title: ZoekDossierResponse
+      type: object
+      properties:
+        dossiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DossierbeheerInfo'
+        requestTeruggegevenResultaten:
+          type: integer
+          format: int32
+        requestTotaalAantalResultaten:
+          type: integer
+          format: int64
+      description: Detail over de reponse van zoeken dossiers by criteria.
