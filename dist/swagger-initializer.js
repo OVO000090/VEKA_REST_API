@@ -34,15 +34,15 @@ window.onload = function () {
             },
             {
                 name: "V1 - Examens API - TEST",
-                url: "energie/examens-api-test-v1.yaml"
+                url: "examens/examens-api-test-v1.yaml"
             },
             {
                 name: "V1 - Examens API - UAT",
-                url: "energie/examens-api-uat-v1.yaml"
+                url: "examens/examens-api-uat-v1.yaml"
             },
             {
                 name: "V1 - Examens API - PROD",
-                url: "energie/examens-api-prod-v1.yaml"
+                url: "examens/examens-api-prod-v1.yaml"
             }
         ],
         dom_id: '#swagger-ui',
