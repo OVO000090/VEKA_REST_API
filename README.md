@@ -13,7 +13,6 @@ Overzicht van de publieke VEKA API's.
 ## API Documentatie UAT
 
 * [API voor het ontsluiten van VEKA data aan externe afnemers](/docs/datadiensten-uat-v1.md)
-
 * [Energie attesten API](/docs/energie-attesten-uat-v1.md)
 * [Energie API](/docs/energie-uat-v1.md)
 * [Energiepremies API](/docs/energiepremies-uat-v1.md)
