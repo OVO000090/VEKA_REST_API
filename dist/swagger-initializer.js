@@ -33,7 +33,19 @@ window.onload = function () {
                 url: "energie/energie-api-prod-v1.yaml"
             },
             {
-                name: "V1 - Examens API - TEST",
+                name: "V1 - Energie API - TEST",
+                url: "energiepremies/energiepremies-api-test-v1.yaml"
+            },
+            {
+                name: "V1 - Energiepremies API - UAT",
+                url: "energiepremies/energiepremies-api-uat-v1.yaml"
+            },
+            {
+                name: "V1 - Energiepremies API - PROD",
+                url: "energiepremies/energiepremies-api-prod-v1.yaml"
+            },
+            {
+                name: "V1 - Energiepremies API - TEST",
                 url: "examens/examens-api-test-v1.yaml"
             },
             {

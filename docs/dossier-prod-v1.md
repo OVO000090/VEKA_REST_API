@@ -1,6 +1,12 @@
 # Dossier API
 
-API voor EPB dossiers en EPB/EPC energie prestatie certificaten.
+API voor EPB dossiers en EPB/EPC energie prestatie certificaten, intern en extern.
+Externe endpoints bevatten **/extern/** in de uri
+
+* EPB dossiers data ophalen (vergunning, aangiftes, startverklaringen, ...)
+* EPC certificaten data ophalen
+* Registraties data ophalen
+* Documenten aanmaken
 
 ## API Definitie
 

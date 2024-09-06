@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: VEKA energiepremies API
+  description: Rest API services energiepremies van het Vlaams Energie- en Klimaatagentschap
+  license:
+    name: European Union Public Licence (EUPL)
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
+  version: '1.0'
+servers:
+  - url: https://energie-secure.api.vlaanderen.be
+tags:
+  - name: Energiepremies
+    description: Certificaat Controller
+paths:
+  /energiepremies-api/v1/certificaat:
+    get:
+      tags:
+        - Energiepremies
+      summary: >-
+        Geef de gegevens terug van het certificaat op basis van attestnummer en
+        uiterste datum ingediend.
+      operationId: getCertificaatByAttestnummerUsingGET
+      parameters:
+        - name: attestnummer
+          in: query
+          description: attestnummer
+          required: true
+          style: form
+          schema:
+            type: string
+        - name: uitersteDatumIngediend
+          in: query
+          description: uitersteDatumIngediend
+          required: false
+          style: form
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/CertificaatOutputRestDto'
+        '201':
+          description: Het object is aangemaakt.
+        '204':
+          description: Geen data om terug te geven.
+        '400':
+          description: Ongeldige request
+        '403':
+          description: Forbidden
+        '404':
+          description: Er zijn geen gegevens gevonden.
+        '500':
+          description: Er is een fout opgetreden.
+components:
+  schemas:
+    Adres:
+      title: Adres
+      type: object
+      properties:
+        busnummer:
+          type: string
+        gemeente:
+          type: string
+        huisnummer:
+          type: string
+        land:
+          type: string
+        postcode:
+          type: string
+        straat:
+          type: string
+      description: Detail over het adres.
+    CertificaatOutputRestDto:
+      title: CertificaatOutputRestDto
+      type: object
+      properties:
+        adres:
+          $ref: '#/components/schemas/Adres'
+        attestnummer:
+          type: string
+        attestnummerLaatstGeldend:
+          type: string
+        datumGeldigheid:
+          type: string
+          format: date-time
+        datumIngediend:
+          type: string
+          format: date-time
+        gebouwId:
+          type: integer
+          format: int64
+        gebouweenheidId:
+          type: integer
+          format: int64
+        label:
+          type: string
+        typePand:
+          type: string
