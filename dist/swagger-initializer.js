@@ -67,6 +67,18 @@ window.onload = function () {
             {
                 name: "V1 - Dossier API - PROD",
                 url: "dossier/dossier-api-prod-v1.yaml"
+            },
+            {
+                name: "V1 - MCS API - TEST",
+                url: "mcs/mcs-api-test-v1.yaml"
+            },
+            {
+                name: "V1 - MCS API - UAT",
+                url: "mcs/mcs-api-uat-v1.yaml"
+            },
+            {
+                name: "V1 - MCS API - PROD",
+                url: "mcs/mcs-api-prod-v1.yaml"
             }
         ],
         dom_id: '#swagger-ui',

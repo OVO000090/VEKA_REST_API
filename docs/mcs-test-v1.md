@@ -1,0 +1,9 @@
+# MCS API
+
+API voor melden centrale stooktoestellen.
+
+## API Definitie
+
+[Swagger](https://ovo000090.github.io/VEKA_REST_API/?urls.primaryName=V1+-+MCS+API+-+TEST)
+
+[OpenAPI Definitie](../mcs/mcs-api-test-v1.yaml)

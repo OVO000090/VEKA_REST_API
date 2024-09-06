@@ -1,0 +1,331 @@
+openapi: 3.0.3
+info:
+  title: VEKA Meldingen API
+  description: >-
+    Rest API services voor meldingen van het Vlaams Energie- en
+    Klimaatagentschap
+  license:
+    name: European Union Public Licence (EUPL)
+    url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
+  version: '1.0'
+servers:
+  - url: https://energie-dev.api.vlaanderen.be
+tags:
+  - name: Melding centrale stooktoestellen opladen
+    description: Melding Controller
+paths:
+  /attesten-api/v1/extern/historischeMeldingCentraleStooktoestellen:
+    post:
+      tags:
+        - Melding centrale stooktoestellen opladen
+      summary: Historische melding voor een centraal stooktoestel opladen.
+      operationId: postMeldingenInBulkUsingPOST_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/MeldingCentraleStooktoestellenInput«GegevensActiviteitMetAdresInput,KenmerkenToestelInput»
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MeldingCentraleStooktoestellenOutput'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+  /attesten-api/v1/extern/meldingCentraleStooktoestellen:
+    post:
+      tags:
+        - Melding centrale stooktoestellen opladen
+      summary: Een nieuwe melding voor een centraal stooktoestel opladen.
+      operationId: postMeldingUsingPOST_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: >-
+                #/components/schemas/MeldingCentraleStooktoestellenInput«GegevensActiviteitInput,KenmerkenToestelInput»
+      responses:
+        '201':
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MeldingCentraleStooktoestellenOutput'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    EindbeoordelingInput:
+      title: EindbeoordelingInput
+      required:
+        - toestelWerkingGoed
+        - toestelWerkingVeilig
+      type: object
+      properties:
+        rookgasafvoerkanaalConform:
+          type: string
+        stookplaatsConform:
+          type: string
+        stooktoestelConform:
+          type: string
+        toestelWerkingGoed:
+          type: string
+        toestelWerkingVeilig:
+          type: string
+        verbrandingscontrole:
+          type: string
+    GegevensActiviteitInput:
+      title: GegevensActiviteitInput
+      required:
+        - activiteitType
+        - adresId
+        - datumActiviteit
+        - gebouwIdNietGekend
+        - gebouweenheidIdNietGekend
+        - verwarmingType
+      type: object
+      properties:
+        activiteitType:
+          type: string
+        adresId:
+          type: string
+        datumActiviteit:
+          type: string
+          format: date
+        erkenningsnummer:
+          maxLength: 128
+          minLength: 0
+          type: string
+          description: >-
+            Erkenningsnummer van de technicus dat de activiteit heeft
+            uitgevoerd.
+        gebouwId:
+          type: string
+        gebouwIdNietGekend:
+          type: boolean
+        gebouweenheidId:
+          type: string
+        gebouweenheidIdNietGekend:
+          type: boolean
+        verwarmingType:
+          type: string
+      description: Gegevens van de activiteit
+    GegevensActiviteitMetAdresInput:
+      title: GegevensActiviteitMetAdresInput
+      required:
+        - activiteitType
+        - datumActiviteit
+        - gebouwIdNietGekend
+        - gebouweenheidIdNietGekend
+        - verwarmingType
+      type: object
+      properties:
+        activiteitType:
+          type: string
+        adresId:
+          type: string
+        busnummer:
+          maxLength: 256
+          minLength: 0
+          type: string
+        datumActiviteit:
+          type: string
+          format: date
+        erkenningsnummer:
+          maxLength: 128
+          minLength: 0
+          type: string
+          description: >-
+            Erkenningsnummer van de technicus dat de activiteit heeft
+            uitgevoerd.
+        gebouwId:
+          type: string
+        gebouwIdNietGekend:
+          type: boolean
+        gebouweenheidId:
+          type: string
+        gebouweenheidIdNietGekend:
+          type: boolean
+        gemeente:
+          maxLength: 256
+          minLength: 0
+          type: string
+        huisnummer:
+          maxLength: 256
+          minLength: 0
+          type: string
+        postcode:
+          maxLength: 4
+          minLength: 4
+          type: string
+        straatnaam:
+          maxLength: 256
+          minLength: 0
+          type: string
+        verwarmingType:
+          type: string
+      description: Gegevens van de activiteit voor historische data.
+    KenmerkenToestelInput:
+      title: KenmerkenToestelInput
+      required:
+        - bouwjaarNietGekend
+        - brandstof
+        - fabricatienummerNietGekend
+        - merkNietGekend
+        - nominaalVermogen
+        - typeNietGekend
+        - werking
+      type: object
+      properties:
+        bouwjaar:
+          type: integer
+          format: int32
+        bouwjaarNietGekend:
+          type: boolean
+        branderTechnologie:
+          type: string
+        brandstof:
+          type: string
+        fabricatienummer:
+          maxLength: 128
+          minLength: 0
+          type: string
+        fabricatienummerNietGekend:
+          type: boolean
+        merk:
+          maxLength: 128
+          minLength: 0
+          type: string
+        merkNietGekend:
+          type: boolean
+        nominaalVermogen:
+          maximum: 9999
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: true
+          type: number
+          format: double
+        type:
+          maxLength: 128
+          minLength: 0
+          type: string
+        typeNietGekend:
+          type: boolean
+        werking:
+          type: string
+    KenmerkenToestelInput0:
+      title: KenmerkenToestelInput0
+      required:
+        - bouwjaarNietGekend
+        - brandstof
+        - fabricatienummerNietGekend
+        - merkNietGekend
+        - typeNietGekend
+        - werking
+      type: object
+      properties:
+        bouwjaar:
+          type: integer
+          format: int32
+        bouwjaarNietGekend:
+          type: boolean
+        branderTechnologie:
+          type: string
+        brandstof:
+          type: string
+        fabricatienummer:
+          maxLength: 128
+          minLength: 0
+          type: string
+        fabricatienummerNietGekend:
+          type: boolean
+        merk:
+          maxLength: 128
+          minLength: 0
+          type: string
+        merkNietGekend:
+          type: boolean
+        nominaalVermogen:
+          type: number
+          format: double
+        type:
+          maxLength: 128
+          minLength: 0
+          type: string
+        typeNietGekend:
+          type: boolean
+        werking:
+          type: string
+    MeldingCentraleStooktoestellenInput«GegevensActiviteitInput,KenmerkenToestelInput»:
+      title: >-
+        MeldingCentraleStooktoestellenInput«GegevensActiviteitInput,KenmerkenToestelInput»
+      required:
+        - eindbeoordeling
+        - gegevensActiviteit
+        - kenmerkenToestel
+        - ondernemingsnummer
+      type: object
+      properties:
+        eindbeoordeling:
+          $ref: '#/components/schemas/EindbeoordelingInput'
+        externeReferte:
+          maxLength: 128
+          minLength: 0
+          type: string
+        gegevensActiviteit:
+          $ref: '#/components/schemas/GegevensActiviteitInput'
+        kenmerkenToestel:
+          $ref: '#/components/schemas/KenmerkenToestelInput'
+        ondernemingsnummer:
+          maxLength: 20
+          minLength: 0
+          type: string
+    MeldingCentraleStooktoestellenInput«GegevensActiviteitMetAdresInput,KenmerkenToestelInput»:
+      title: >-
+        MeldingCentraleStooktoestellenInput«GegevensActiviteitMetAdresInput,KenmerkenToestelInput»
+      required:
+        - eindbeoordeling
+        - gegevensActiviteit
+        - kenmerkenToestel
+        - ondernemingsnummer
+      type: object
+      properties:
+        eindbeoordeling:
+          $ref: '#/components/schemas/EindbeoordelingInput'
+        externeReferte:
+          maxLength: 128
+          minLength: 0
+          type: string
+        gegevensActiviteit:
+          $ref: '#/components/schemas/GegevensActiviteitMetAdresInput'
+        kenmerkenToestel:
+          $ref: '#/components/schemas/KenmerkenToestelInput0'
+        ondernemingsnummer:
+          maxLength: 20
+          minLength: 0
+          type: string
+    MeldingCentraleStooktoestellenOutput:
+      title: MeldingCentraleStooktoestellenOutput
+      type: object
+      properties:
+        externeReferte:
+          type: string
+        meldingsnummer:
+          type: string
+        message:
+          type: string
+        opmerkingen:
+          type: array
+          items:
+            type: string
