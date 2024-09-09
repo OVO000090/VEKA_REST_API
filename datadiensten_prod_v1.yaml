@@ -1,0 +1,499 @@
+openapi: 3.0.1
+info:
+  title: Veka.DataDiensten.Api
+  description: Platform voor het consulteren van data gekend door VEKA
+  version: v1
+paths:
+  /api/datadiensten/v1/health:
+    get:
+      tags:
+        - Health
+      summary: Geeft de health check terug voor de module (API en eventuele EF DbContext)
+      description: Geeft een indicatie over de health van de module
+      responses:
+        '200':
+          description: De module heeft een Healthy of Degraded status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
+        '503':
+          description: De module heeft een unhealthy status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
+  /api/datadiensten/v1/mcs/meldingen:
+    get:
+      tags:
+        - Mcs
+      summary: Geeft keuringen en onderhouden terug voor een specifiek gebouweenheidId
+      parameters:
+        - name: gebouweenheidId
+          in: query
+          description: de id van het gebouw
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mcs.MeldingenLijst'
+              example: {"meldingen":[{"meldingId":"0ba8ab6e-d135-4470-a544-7a6550727c03","geldigTot":"2025-01-01","toestelEindbeoordeling":"Goedgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":true,"isStookplaatsConform":null,"isStooktoestelConform":true,"isToestelWerkingGoed":true,"isToestelWerkingVeilig":true,"isVerbrandingscontroleConform":null},"activiteit":{"type":"ONDERHOUD_STOOKTOESTEL","uitvoeringsDatum":"2024-01-01","wettelijkVerplicht":true,"adresId":"4996611","gebouweenheidId":"7299482","erkenningsnummer":"GV49852"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"AARDGAS","merk":"Junkers","type":"CONDENSERENDE_KETEL","bouwjaar":2012,"vermogen":25}},{"meldingId":"e5247220-3be7-44bf-9ef6-b8389989eb87","geldigTot":null,"toestelEindbeoordeling":"Afgekeurd","eindbeoordeling":{"isRookgasafvoerkanaalConform":false,"isStookplaatsConform":null,"isStooktoestelConform":false,"isToestelWerkingGoed":false,"isToestelWerkingVeilig":false,"isVerbrandingscontroleConform":null},"activiteit":{"type":"KEURING_STOOKTOESTEL","uitvoeringsDatum":"2024-07-08","wettelijkVerplicht":true,"adresId":"2999623","gebouweenheidId":"15995133","erkenningsnummer":"GV56111"},"toestel":{"fabricatienummer":"8290-569-028711-7126010889","brandstof":"HOUTPELLETS","merk":"VAILLANT","type":"ONBEKEND","bouwjaar":2024,"vermogen":25.5}}]}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = f714a636-bc64-4d72-acf5-3dd8d345a3df"}
+  /api/datadiensten/v1/mvp/werken:
+    get:
+      tags:
+        - Mvp
+      summary: Geeft werken terug voor een specifiek gebouweenheidId
+      parameters:
+        - name: gebouweenheidId
+          in: query
+          description: de id van de gebouweenheid
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mvp.WerkenLijst'
+              example: {"werken":[{"werkId":"87a2c980c7ab1576c310d42765b79c12d02beb00d93970b239692487681d85e3","type":"navullenSpouwmuur","dossierNummer":"23-MVP-000001","facturatieDatum":null,"gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":"2023-01-03","uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":{"type":null,"teVerwijderenAsbest":false,"oppervlakteAsbest":null,"oppervlakte":null,"dikteSpouw":45.10,"lambdaWaarde":0.035,"rdWaarde":null,"stsNummer":"4568745236"},"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":null,"hernieuwbareEnergieproductie":null,"gascondensatieketel":null},{"werkId":"821f307234185a4be1e9fd6f5d7e53445c768d3bd25eeeef1ba0981a6b38e747","type":"elektriciteit","dossierNummer":"23-MVP-000006","facturatieDatum":"2022-05-02","gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":null,"uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":null,"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":{"netbeheerder":"Eandis"},"hernieuwbareEnergieproductie":null,"gascondensatieketel":null}]}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 5e2fc87e-480c-45ea-8fbb-fba29a28fccc"}
+components:
+  schemas:
+    HealthChecks.VekaHealthReport:
+      type: object
+      properties:
+        status:
+          enum:
+            - Unhealthy
+            - Degraded
+            - Healthy
+          type: string
+        totalDuration:
+          type: string
+          format: date-span
+        components:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/HealthChecks.VekaHealthReportEntry'
+          nullable: true
+        data:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+      additionalProperties: false
+    HealthChecks.VekaHealthReportEntry:
+      type: object
+      properties:
+        status:
+          enum:
+            - Unhealthy
+            - Degraded
+            - Healthy
+          type: string
+        description:
+          type: string
+          nullable: true
+        duration:
+          type: string
+          format: date-span
+          nullable: true
+        exception:
+          type: string
+          nullable: true
+        data:
+          type: object
+          additionalProperties: { }
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    Mcs.Eindbeoordeling:
+      type: object
+      properties:
+        isRookgasafvoerkanaalConform:
+          type: boolean
+          nullable: true
+        isStookplaatsConform:
+          type: boolean
+          nullable: true
+        isStooktoestelConform:
+          type: boolean
+          nullable: true
+        isToestelWerkingGoed:
+          type: boolean
+        isToestelWerkingVeilig:
+          type: boolean
+        isVerbrandingscontroleConform:
+          type: boolean
+          nullable: true
+      additionalProperties: false
+    Mcs.Gegevensactiviteit:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        uitvoeringsDatum:
+          type: string
+          format: date
+        wettelijkVerplicht:
+          type: boolean
+        adresId:
+          type: string
+          nullable: true
+        gebouweenheidId:
+          type: string
+          nullable: true
+        erkenningsnummer:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Mcs.KenmerkenToestel:
+      type: object
+      properties:
+        fabricatienummer:
+          type: string
+          nullable: true
+        brandstof:
+          type: string
+          nullable: true
+        merk:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        bouwjaar:
+          type: integer
+          format: int32
+          nullable: true
+        vermogen:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    Mcs.Melding:
+      type: object
+      properties:
+        meldingId:
+          type: string
+          format: uuid
+        geldigTot:
+          type: string
+          format: date
+          nullable: true
+        eindbeoordeling:
+          $ref: '#/components/schemas/Mcs.Eindbeoordeling'
+        activiteit:
+          $ref: '#/components/schemas/Mcs.Gegevensactiviteit'
+        toestel:
+          $ref: '#/components/schemas/Mcs.KenmerkenToestel'
+        toestelEindbeoordeling:
+          enum:
+            - Goedgekeurd
+            - Afgekeurd
+          type: string
+      additionalProperties: false
+    Mcs.MeldingenLijst:
+      type: object
+      properties:
+        meldingen:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mcs.Melding'
+          nullable: true
+      additionalProperties: false
+    Mvp.Buitenmuur:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        teVerwijderenAsbest:
+          type: boolean
+          nullable: true
+        oppervlakteAsbest:
+          type: number
+          format: double
+          nullable: true
+        oppervlakte:
+          type: number
+          format: double
+          nullable: true
+        dikteSpouw:
+          type: number
+          format: double
+          nullable: true
+        lambdaWaarde:
+          type: number
+          format: double
+          nullable: true
+        rdWaarde:
+          type: number
+          format: double
+          nullable: true
+        stsNummer:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Mvp.Dak:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        teVerwijderenAsbest:
+          type: boolean
+          nullable: true
+        oppervlakteAsbest:
+          type: number
+          format: double
+          nullable: true
+        oppervlakte:
+          type: number
+          format: double
+          nullable: true
+        rdWaarde:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    Mvp.ElektriciteitEnSanitair:
+      type: object
+      properties:
+        netbeheerder:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Mvp.Gascondensatieketel:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        teVervangenInstallatie:
+          $ref: '#/components/schemas/Mvp.TeVervangenInstallatie'
+        vervangingHoogrendementsketel:
+          type: boolean
+          nullable: true
+        aardgasnetAanwezig:
+          type: boolean
+          nullable: true
+        productLabel:
+          type: string
+          nullable: true
+        vermogens:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mvp.Vermogen'
+          nullable: true
+        typeHoofdverwarming:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Mvp.HernieuwbareEnergieproductie:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        oppervlakte:
+          type: number
+          format: double
+          nullable: true
+        productLabel:
+          type: string
+          nullable: true
+        vermogens:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mvp.Vermogen'
+          nullable: true
+        typeHoofdverwarming:
+          type: string
+          nullable: true
+        energieEfficientie:
+          type: string
+          nullable: true
+        typeAandrijving:
+          type: string
+          nullable: true
+        vervangingElektrischeVerwarming:
+          type: boolean
+          nullable: true
+        aardgasnetAanwezig:
+          type: boolean
+          nullable: true
+        gebruik:
+          type: string
+          nullable: true
+        inhoud:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Mvp.RamenEnDeuren:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        soortBeglazingTerVervanging:
+          type: string
+          nullable: true
+        uWaarde:
+          type: number
+          format: double
+          nullable: true
+        oppervlakte:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    Mvp.TeVervangenInstallatie:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        leeftijd:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    Mvp.Vermogen:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        waarde:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    Mvp.Vloer:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        teVerwijderenAsbest:
+          type: boolean
+          nullable: true
+        oppervlakteAsbest:
+          type: number
+          format: double
+          nullable: true
+        oppervlakte:
+          type: number
+          format: double
+          nullable: true
+        rdWaarde:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    Mvp.Werk:
+      type: object
+      properties:
+        werkId:
+          type: string
+          nullable: true
+        type:
+          type: string
+          nullable: true
+        dossierNummer:
+          type: string
+          nullable: true
+        facturatieDatum:
+          type: string
+          format: date
+          nullable: true
+        gebouweenheidId:
+          type: integer
+          format: int64
+        adresId:
+          type: integer
+          format: int64
+          nullable: true
+        uitvoeringsdatum:
+          type: string
+          format: date
+          nullable: true
+        uitvoerder:
+          type: string
+          nullable: true
+        netbeheerder:
+          type: string
+          nullable: true
+        dak:
+          $ref: '#/components/schemas/Mvp.Dak'
+        buitenmuur:
+          $ref: '#/components/schemas/Mvp.Buitenmuur'
+        vloer:
+          $ref: '#/components/schemas/Mvp.Vloer'
+        ramenEnDeuren:
+          $ref: '#/components/schemas/Mvp.RamenEnDeuren'
+        elektriciteitEnSanitair:
+          $ref: '#/components/schemas/Mvp.ElektriciteitEnSanitair'
+        hernieuwbareEnergieproductie:
+          $ref: '#/components/schemas/Mvp.HernieuwbareEnergieproductie'
+        gascondensatieketel:
+          $ref: '#/components/schemas/Mvp.Gascondensatieketel'
+      additionalProperties: false
+    Mvp.WerkenLijst:
+      type: object
+      properties:
+        werken:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mvp.Werk'
+          nullable: true
+      additionalProperties: false
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+        detail:
+          type: string
+          nullable: true
+      additionalProperties: false
+tags:
+  - name: Mcs
+    description: Service voor informatie over stooktoestellen
+  - name: Mvp
+    description: Service voor informatie over mijn verbouw premie
