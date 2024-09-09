@@ -4,6 +4,25 @@ info:
   description: Platform voor het consulteren van data gekend door VEKA
   version: v1
 paths:
+  /api/datadiensten/v1/health:
+    get:
+      tags:
+        - Health
+      summary: Geeft de health check terug voor de module (API en eventuele EF DbContext)
+      description: Geeft een indicatie over de health van de module
+      responses:
+        '200':
+          description: De module heeft een Healthy of Degraded status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
+        '503':
+          description: De module heeft een unhealthy status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
   /api/datadiensten/v1/mcs/meldingen:
     get:
       tags:
@@ -31,7 +50,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = d469dded-8382-47a9-ada4-e5cb7f0ea99d"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = db5a62b3-567d-478a-b8a7-7e938e73a069"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -52,16 +71,68 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Mvp.WerkenLijst'
-              example: {"werken":[{"werkId":"87a2c980c7ab1576c310d42765b79c12d02beb00d93970b239692487681d85e3","type":"navullenSpouwmuur","dossierNummer":"23-MVP-000001","facturatieDatum":null,"gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":"2023-01-03","uitvoerder":"aannemer","dak":null,"buitenmuur":{"type":null,"teVerwijderenAsbest":false,"oppervlakteAsbest":null,"oppervlakte":null,"dikteSpouw":45.10,"lambdaWaarde":0.035,"rdWaarde":null,"stsNummer":"4568745236"},"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":null,"hernieuwbareEnergieproductie":null,"gascondensatieketel":null},{"werkId":"821f307234185a4be1e9fd6f5d7e53445c768d3bd25eeeef1ba0981a6b38e747","type":"elektriciteit","dossierNummer":"23-MVP-000006","facturatieDatum":"2022-05-02","gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":null,"uitvoerder":"aannemer","dak":null,"buitenmuur":null,"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":{"netbeheerder":"Eandis"},"hernieuwbareEnergieproductie":null,"gascondensatieketel":null}]}
+              example: {"werken":[{"werkId":"87a2c980c7ab1576c310d42765b79c12d02beb00d93970b239692487681d85e3","type":"navullenSpouwmuur","dossierNummer":"23-MVP-000001","facturatieDatum":null,"gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":"2023-01-03","uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":{"type":null,"teVerwijderenAsbest":false,"oppervlakteAsbest":null,"oppervlakte":null,"dikteSpouw":45.10,"lambdaWaarde":0.035,"rdWaarde":null,"stsNummer":"4568745236"},"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":null,"hernieuwbareEnergieproductie":null,"gascondensatieketel":null},{"werkId":"821f307234185a4be1e9fd6f5d7e53445c768d3bd25eeeef1ba0981a6b38e747","type":"elektriciteit","dossierNummer":"23-MVP-000006","facturatieDatum":"2022-05-02","gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":null,"uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":null,"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":{"netbeheerder":"Eandis"},"hernieuwbareEnergieproductie":null,"gascondensatieketel":null}]}
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = a942aeea-c65e-434a-9c68-a5e14b3411a9"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 3b92ee78-f450-4ab3-a2e2-d222120fca7e"}
 components:
   schemas:
+    HealthChecks.VekaHealthReport:
+      type: object
+      properties:
+        status:
+          enum:
+            - Unhealthy
+            - Degraded
+            - Healthy
+          type: string
+        totalDuration:
+          type: string
+          format: date-span
+        components:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/HealthChecks.VekaHealthReportEntry'
+          nullable: true
+        data:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+      additionalProperties: false
+    HealthChecks.VekaHealthReportEntry:
+      type: object
+      properties:
+        status:
+          enum:
+            - Unhealthy
+            - Degraded
+            - Healthy
+          type: string
+        description:
+          type: string
+          nullable: true
+        duration:
+          type: string
+          format: date-span
+          nullable: true
+        exception:
+          type: string
+          nullable: true
+        data:
+          type: object
+          additionalProperties: { }
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
     Mcs.Eindbeoordeling:
       type: object
       properties:
@@ -376,6 +447,9 @@ components:
           format: date
           nullable: true
         uitvoerder:
+          type: string
+          nullable: true
+        netbeheerder:
           type: string
           nullable: true
         dak:
