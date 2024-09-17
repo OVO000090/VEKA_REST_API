@@ -25,6 +25,7 @@ Overzicht van de publieke VEKA API's.
 
 ## API Documentatie PRODUCTIE
 
+* [API voor het ontsluiten van VEKA data aan externe afnemers](/docs/datadiensten-prod-v1.md)
 * [Energie attesten API](/docs/energie-attesten-prod-v1.md)
 * [Energie API](/docs/energie-prod-v1.md)
 * [Energiepremies API](/docs/energiepremies-prod-v1.md)

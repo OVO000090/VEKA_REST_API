@@ -9,6 +9,10 @@ window.onload = function () {
                 url: "datadiensten_uat_v1.yaml"
             },
             {
+                name: "V1 - API voor het ontsluiten van VEKA data aan externe afnemers - PROD",
+                url: "datadiensten_prod_v1.yaml"
+            },
+            {
                 name: "V1 - Energie attesten API - TEST",
                 url: "energie-attesten/energie-attesten-api-test-v1.yaml"
             },
