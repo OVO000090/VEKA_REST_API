@@ -10,4 +10,4 @@ API voor het ontsluiten van VEKA data aan externe afnemers - UAT
 [OpenAPI Specificatie](../datadiensten_uat_v1.yaml)
 
 ## Authenticatie
-OAuth via CM/IDM
+OAuth via ACM/IDM

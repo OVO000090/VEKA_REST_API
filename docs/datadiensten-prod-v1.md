@@ -12,4 +12,4 @@ API voor het ontsluiten van VEKA data aan externe afnemers - PROD
 
 
 ## Authenticatie
-OAuth via CM/IDM
+OAuth via ACM/IDM
