@@ -4,6 +4,52 @@ info:
   description: Platform voor het consulteren van data gekend door VEKA
   version: v1
 paths:
+  /api/datadiensten/v1/gebouweenheden/epc-labels:
+    get:
+      tags:
+        - Gebouweenheden
+      summary: 'Geeft de epc labels terug voor de Gebouweenheden van de gegeven locatie, typelocatie, typegebouw en referentiedatum'
+      parameters:
+        - name: locatie
+          in: query
+          description: de locatie van het gebouw
+          schema:
+            type: string
+        - name: typeLocatie
+          in: query
+          description: 'het type locatie (VLAANDEREN, PROVINCIE, GEMEENTE)'
+          schema:
+            enum:
+              - VLAANDEREN
+              - GEMEENTE
+              - PROVINCIE
+            type: string
+        - name: typeGebouw
+          in: query
+          description: 'het type van het gebouw (ALLE TYPES, ALLE WONINGEN, GESLOTEN, HALFOPEN, OPEN, APPARTEMENT)'
+          schema:
+            type: string
+        - name: referentieJaar
+          in: query
+          description: Het kadasterjaar van het label
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gebouweenheden.EpcLabelsLijst'
+              example: {"labels":[{"locatie":"ANTWERPEN","typeLocatie":"GEMEENTE","typeGebouw":"ALLE WONINGEN","referentiejaar":2024,"totaalAangiftesGeoLocatie":23,"totaalEpcGeoLocatie":68,"geldig":true,"bouwjaren":{"alle":25,"tot2006":12,"na2006":13},"labels":{"APlus":0.5,"A":0.5}},{"locatie":"VLAANDEREN","typeLocatie":"VLAANDEREN","typeGebouw":"APPARTEMENT","referentiejaar":2023,"totaalAangiftesGeoLocatie":27,"totaalEpcGeoLocatie":67,"geldig":false,"bouwjaren":{"alle":25,"tot2006":12,"na2006":13},"labels":null}]}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 59d7adbb-4374-407f-b051-953e52e2f0cf"}
   /api/datadiensten/v1/health:
     get:
       tags:
@@ -50,7 +96,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 4214f618-3b3c-4d96-a87c-8d39931f5842"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 58741051-7b81-4b33-a849-22aa268f7a64"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -78,9 +124,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 63e0cd1e-8312-474c-8f8f-eb7dc927b2af"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 37eebe57-4675-4d7a-ad71-9894018bf49e"}
 components:
   schemas:
+    Gebouweenheden.Bouwjaren:
+      type: object
+      properties:
+        alle:
+          type: integer
+          format: int32
+          nullable: true
+        tot2006:
+          type: integer
+          format: int32
+          nullable: true
+        na2006:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    Gebouweenheden.EpcLabel:
+      type: object
+      properties:
+        locatie:
+          type: string
+          nullable: true
+        typeLocatie:
+          enum:
+            - VLAANDEREN
+            - GEMEENTE
+            - PROVINCIE
+          type: string
+          nullable: true
+        typeGebouw:
+          type: string
+          nullable: true
+        referentiejaar:
+          type: integer
+          format: int32
+          nullable: true
+        totaalAangiftesGeoLocatie:
+          type: integer
+          format: int32
+          nullable: true
+        totaalEpcGeoLocatie:
+          type: integer
+          format: int32
+          nullable: true
+        geldig:
+          type: boolean
+          nullable: true
+        bouwjaren:
+          $ref: '#/components/schemas/Gebouweenheden.Bouwjaren'
+        labels:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+            nullable: true
+          nullable: true
+      additionalProperties: false
+    Gebouweenheden.EpcLabelsLijst:
+      type: object
+      properties:
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/Gebouweenheden.EpcLabel'
+          nullable: true
+      additionalProperties: false
     HealthChecks.VekaHealthReport:
       type: object
       properties:
@@ -493,6 +605,8 @@ components:
           nullable: true
       additionalProperties: false
 tags:
+  - name: Gebouweenheden
+    description: Service voor informatie over gebouweenheden
   - name: Mcs
     description: Service voor informatie over stooktoestellen
   - name: Mvp
