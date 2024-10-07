@@ -12,26 +12,23 @@ paths:
       parameters:
         - name: locatie
           in: query
-          description: de locatie van het gebouw
+          description: 'De locatie van het gebouw. Default: VLAANDEREN indien locatie ontbreekt'
           schema:
             type: string
         - name: typeLocatie
           in: query
-          description: 'het type locatie (VLAANDEREN, PROVINCIE, GEMEENTE)'
+          description: 'Het type locatie (VLAANDEREN, PROVINCIE, GEMEENTE). Default: VLAANDEREN indien typeLocatie ontbreekt.'
           schema:
-            enum:
-              - VLAANDEREN
-              - GEMEENTE
-              - PROVINCIE
             type: string
         - name: typeGebouw
           in: query
-          description: 'het type van het gebouw (ALLE TYPES, ALLE WONINGEN, GESLOTEN, HALFOPEN, OPEN, APPARTEMENT)'
+          description: 'het type van het gebouw (ALLE TYPES, ALLE WONINGEN, GESLOTEN, HALFOPEN, OPEN, APPARTEMENT).'
+          required: true
           schema:
             type: string
         - name: referentieJaar
           in: query
-          description: Het kadasterjaar van het label
+          description: 'Het kadasterjaar van het label. Default: het laatste jaar waarover epc-labels beschikbaar zijn indien referentieJaar ontbreekt.'
           schema:
             type: integer
             format: int32
@@ -49,7 +46,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 42725533-98e1-40a7-89c9-33fa6987dac2"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 3f2ca5c8-7255-4097-9dad-aefd8605443b"}
   /api/datadiensten/v1/health:
     get:
       tags:
@@ -96,7 +93,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 1de261d1-d601-48ea-8493-2ca1c54c05d1"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = a3befc61-2ee4-47ab-9160-853a47d2ccaf"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -124,7 +121,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 9d7d810f-73ae-41b4-a102-f11610b9f378"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 5d04c711-873e-4583-991a-530281113fce"}
 components:
   schemas:
     Gebouweenheden.Bouwjaren:
@@ -150,10 +147,6 @@ components:
           type: string
           nullable: true
         typeLocatie:
-          enum:
-            - VLAANDEREN
-            - GEMEENTE
-            - PROVINCIE
           type: string
           nullable: true
         typeGebouw:
