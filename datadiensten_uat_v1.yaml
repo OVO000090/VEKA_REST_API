@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Veka.DataDiensten.Api
+  title: Veka.Datadiensten.Api
   description: Platform voor het consulteren van data gekend door VEKA
   version: v1
 paths:
@@ -23,7 +23,6 @@ paths:
         - name: typeGebouw
           in: query
           description: 'het type van het gebouw (ALLE TYPES, ALLE WONINGEN, GESLOTEN, HALFOPEN, OPEN, APPARTEMENT).'
-          required: true
           schema:
             type: string
         - name: referentieJaar
@@ -46,7 +45,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 3f2ca5c8-7255-4097-9dad-aefd8605443b"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 6107dc9c-2446-4fd1-ab0f-60518b757ce5"}
   /api/datadiensten/v1/health:
     get:
       tags:
@@ -61,7 +60,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
         '503':
-          description: De module heeft een unhealthy status
+          description: De module heeft een Unhealthy status
           content:
             application/json:
               schema:
@@ -93,7 +92,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = a3befc61-2ee4-47ab-9160-853a47d2ccaf"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = ede9804e-f952-431a-afa8-c302e328c4a6"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -121,7 +120,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 5d04c711-873e-4583-991a-530281113fce"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = feedd318-0dfc-4cb9-bdde-64d9c6f6dc34"}
 components:
   schemas:
     Gebouweenheden.Bouwjaren:
