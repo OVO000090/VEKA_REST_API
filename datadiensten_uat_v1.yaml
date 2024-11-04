@@ -45,26 +45,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 6107dc9c-2446-4fd1-ab0f-60518b757ce5"}
-  /api/datadiensten/v1/health:
-    get:
-      tags:
-        - Health
-      summary: Geeft de health check terug voor de module (API en eventuele EF DbContext)
-      description: Geeft een indicatie over de health van de module
-      responses:
-        '200':
-          description: De module heeft een Healthy of Degraded status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
-        '503':
-          description: De module heeft een Unhealthy status
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 3d3072a8-c31b-462a-b1fb-751cac7de886"}
   /api/datadiensten/v1/mcs/meldingen:
     get:
       tags:
@@ -92,7 +73,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = ede9804e-f952-431a-afa8-c302e328c4a6"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 05bf0663-def2-4852-999c-7c7feec3d40d"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -120,7 +101,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = feedd318-0dfc-4cb9-bdde-64d9c6f6dc34"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 96dac85f-0ac4-42f9-87aa-95ad8334a2cd"}
 components:
   schemas:
     Gebouweenheden.Bouwjaren:
@@ -183,58 +164,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Gebouweenheden.EpcLabel'
-          nullable: true
-      additionalProperties: false
-    HealthChecks.VekaHealthReport:
-      type: object
-      properties:
-        status:
-          enum:
-            - Unhealthy
-            - Degraded
-            - Healthy
-          type: string
-        totalDuration:
-          type: string
-          format: date-span
-        components:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/HealthChecks.VekaHealthReportEntry'
-          nullable: true
-        data:
-          type: object
-          additionalProperties:
-            type: string
-          nullable: true
-      additionalProperties: false
-    HealthChecks.VekaHealthReportEntry:
-      type: object
-      properties:
-        status:
-          enum:
-            - Unhealthy
-            - Degraded
-            - Healthy
-          type: string
-        description:
-          type: string
-          nullable: true
-        duration:
-          type: string
-          format: date-span
-          nullable: true
-        exception:
-          type: string
-          nullable: true
-        data:
-          type: object
-          additionalProperties: { }
-          nullable: true
-        tags:
-          type: array
-          items:
-            type: string
           nullable: true
       additionalProperties: false
     Mcs.Eindbeoordeling:
