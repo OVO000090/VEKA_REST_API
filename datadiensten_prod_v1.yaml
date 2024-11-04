@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Veka.DataDiensten.Api
+  title: Veka.Datadiensten.Api
   description: Platform voor het consulteren van data gekend door VEKA
   version: v1
 paths:
@@ -12,26 +12,22 @@ paths:
       parameters:
         - name: locatie
           in: query
-          description: de locatie van het gebouw
+          description: 'De locatie van het gebouw. Default: VLAANDEREN indien locatie ontbreekt'
           schema:
             type: string
         - name: typeLocatie
           in: query
-          description: 'het type locatie (VLAANDEREN, PROVINCIE, GEMEENTE)'
+          description: 'Het type locatie (VLAANDEREN, PROVINCIE, GEMEENTE). Default: VLAANDEREN indien typeLocatie ontbreekt.'
           schema:
-            enum:
-              - VLAANDEREN
-              - GEMEENTE
-              - PROVINCIE
             type: string
         - name: typeGebouw
           in: query
-          description: 'het type van het gebouw (ALLE TYPES, ALLE WONINGEN, GESLOTEN, HALFOPEN, OPEN, APPARTEMENT)'
+          description: 'het type van het gebouw (ALLE TYPES, ALLE WONINGEN, GESLOTEN, HALFOPEN, OPEN, APPARTEMENT).'
           schema:
             type: string
         - name: referentieJaar
           in: query
-          description: Het kadasterjaar van het label
+          description: 'Het kadasterjaar van het label. Default: het laatste jaar waarover epc-labels beschikbaar zijn indien referentieJaar ontbreekt.'
           schema:
             type: integer
             format: int32
@@ -49,7 +45,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 42725533-98e1-40a7-89c9-33fa6987dac2"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 6107dc9c-2446-4fd1-ab0f-60518b757ce5"}
   /api/datadiensten/v1/health:
     get:
       tags:
@@ -64,7 +60,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/HealthChecks.VekaHealthReport'
         '503':
-          description: De module heeft een unhealthy status
+          description: De module heeft een Unhealthy status
           content:
             application/json:
               schema:
@@ -96,7 +92,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 1de261d1-d601-48ea-8493-2ca1c54c05d1"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = ede9804e-f952-431a-afa8-c302e328c4a6"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -124,7 +120,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 9d7d810f-73ae-41b4-a102-f11610b9f378"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = feedd318-0dfc-4cb9-bdde-64d9c6f6dc34"}
 components:
   schemas:
     Gebouweenheden.Bouwjaren:
@@ -150,10 +146,6 @@ components:
           type: string
           nullable: true
         typeLocatie:
-          enum:
-            - VLAANDEREN
-            - GEMEENTE
-            - PROVINCIE
           type: string
           nullable: true
         typeGebouw:
