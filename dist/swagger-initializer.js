@@ -53,6 +53,10 @@ window.onload = function () {
                 url: "examens/examens-api-test-v1.yaml"
             },
             {
+                name: "V1 - Examens API - TEST",
+                url: "examens/examens-api-test-v1.yaml"
+            },
+            {
                 name: "V1 - Examens API - UAT",
                 url: "examens/examens-api-uat-v1.yaml"
             },
