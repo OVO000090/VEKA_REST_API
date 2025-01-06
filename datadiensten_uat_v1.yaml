@@ -45,7 +45,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 125673b0-eb48-455f-9a1b-d5b057ac1312"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 6cad86c3-0c9a-451a-baea-faca8a3dcf28"}
   /api/datadiensten/v1/mcs/meldingen:
     get:
       tags:
@@ -73,7 +73,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 7d260a79-efd5-4fc5-aefe-45b9387e991a"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 7389a9f9-db7c-4ee1-8876-ac27d22b7994"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -94,14 +94,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Mvp.WerkenLijst'
-              example: {"werken":[{"werkId":"87a2c980c7ab1576c310d42765b79c12d02beb00d93970b239692487681d85e3","type":"navullenSpouwmuur","dossierNummer":"23-MVP-000001","facturatieDatum":null,"gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":"2023-01-03","uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":{"type":null,"teVerwijderenAsbest":false,"oppervlakteAsbest":null,"oppervlakte":null,"dikteSpouw":45.10,"lambdaWaarde":0.035,"rdWaarde":null,"stsNummer":"4568745236"},"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":null,"hernieuwbareEnergieproductie":null,"gascondensatieketel":null},{"werkId":"821f307234185a4be1e9fd6f5d7e53445c768d3bd25eeeef1ba0981a6b38e747","type":"elektriciteit","dossierNummer":"23-MVP-000006","facturatieDatum":"2022-05-02","gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":null,"uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":null,"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":{"netbeheerder":"Eandis"},"hernieuwbareEnergieproductie":null,"gascondensatieketel":null}]}
+              example: {"werken":[{"werkId":"87a2c980c7ab1576c310d42765b79c12d02beb00d93970b239692487681d85e3","type":"navullenSpouwmuur","dossierNummer":"23-MVP-000001","facturatieDatum":null,"gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":"2023-01-03","uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":{"type":null,"teVerwijderenAsbest":false,"oppervlakteAsbest":null,"oppervlakte":null,"dikteSpouw":45.10,"lambdaWaarde":0.035,"rdWaarde":null,"stsNummer":"4568745236"},"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":null,"hernieuwbareEnergieproductie":null,"gascondensatieketel":null,"ventilatie":null},{"werkId":"821f307234185a4be1e9fd6f5d7e53445c768d3bd25eeeef1ba0981a6b38e747","type":"elektriciteit","dossierNummer":"23-MVP-000006","facturatieDatum":"2022-05-02","gebouweenheidId":10057485,"adresId":1384090,"uitvoeringsdatum":null,"uitvoerder":"aannemer","netbeheerder":null,"dak":null,"buitenmuur":null,"vloer":null,"ramenEnDeuren":null,"elektriciteitEnSanitair":{"netbeheerder":"Eandis"},"hernieuwbareEnergieproductie":null,"gascondensatieketel":null,"ventilatie":null}]}
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 4566f598-916c-4162-a9c7-c3d5ce52cc2d"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 30babe2a-7e34-4a69-b67f-46e629bcf614"}
 components:
   schemas:
     Gebouweenheden.Bouwjaren:
@@ -419,6 +419,16 @@ components:
           format: int32
           nullable: true
       additionalProperties: false
+    Mvp.Ventilatie:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        productLabel:
+          type: string
+          nullable: true
+      additionalProperties: false
     Mvp.Vermogen:
       type: object
       properties:
@@ -499,6 +509,8 @@ components:
           $ref: '#/components/schemas/Mvp.HernieuwbareEnergieproductie'
         gascondensatieketel:
           $ref: '#/components/schemas/Mvp.Gascondensatieketel'
+        ventilatie:
+          $ref: '#/components/schemas/Mvp.Ventilatie'
       additionalProperties: false
     Mvp.WerkenLijst:
       type: object
