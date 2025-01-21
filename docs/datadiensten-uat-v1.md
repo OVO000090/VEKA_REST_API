@@ -9,7 +9,7 @@ API voor het ontsluiten van VEKA data aan externe afnemers - UAT
 
 [OpenAPI Specificatie](../datadiensten_uat_v1.yaml)
 
-BASE URL: `https://api-uat.veka.vlaanderen.be/datadiensten/v1/` (vervang /api/datadiensten/v1/ in de OpenAPI specificatie door deze url)
+BASE URL: `https://api-uat.veka.vlaanderen.be/datadiensten/v1/` (vervang `/api/datadiensten/v1/` in de OpenAPI specificatie door deze url)
 
 ## Authenticatie
 OAuth via ACM/IDM
