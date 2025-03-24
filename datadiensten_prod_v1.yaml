@@ -39,13 +39,46 @@ paths:
               schema:
                 $ref: '#/components/schemas/Gebouweenheden.EpcLabelsLijst'
               example: {"labels":[{"locatie":"ANTWERPEN","typeLocatie":"GEMEENTE","typeGebouw":"ALLE WONINGEN","referentiejaar":2024,"totaalAangiftesGeoLocatie":23,"totaalEpcGeoLocatie":68,"geldig":true,"bouwjaren":{"alle":25,"tot2006":12,"na2006":13},"labels":{"APlus":0.5,"A":0.5}},{"locatie":"VLAANDEREN","typeLocatie":"VLAANDEREN","typeGebouw":"APPARTEMENT","referentiejaar":2023,"totaalAangiftesGeoLocatie":27,"totaalEpcGeoLocatie":67,"geldig":false,"bouwjaren":{"alle":25,"tot2006":12,"na2006":13},"labels":null}]}
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: string
+              example: "Ongeldige typeLocatie: 'VLANDREN'. Geldige waarden zijn VLAANDEREN, PROVINCIE, GEMEENTE"
         '500':
           description: Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = a65ad8fd-b920-4757-8b04-25df433f882a"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 09ed94a5-42b6-4fac-9b84-627f1df5951a"}
+  /api/datadiensten/v1/gebouweenheden/epc-labels/locaties:
+    get:
+      tags:
+        - Gebouweenheden
+      summary: Geeft een lijst van locaties terug volgens het laatste jaar waar epc-labels voor beschikbaar zijn die starten met de gegeven 'startMet' parameter.
+      parameters:
+        - name: startMet
+          in: query
+          description: 'Op basis van deze karakters worden locaties gezocht. Wanneer dit leeg is, worden alle beschikbare locaties teruggegeven'
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Gebouweenheden.LocatieLijst'
+              example: {"locaties":[{"locatie":"ANTWERPEN","locatieType":"GEMEENTE"},{"locatie":"ANTWERPEN","locatieType":"PROVINCIE"}]}
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 9df3b9ed-90cf-4906-bcda-919bbadb225c"}
   /api/datadiensten/v1/mcs/meldingen:
     get:
       tags:
@@ -73,7 +106,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 15707144-bc05-494e-a00d-46f11212ba89"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = df4e2cf4-1488-4133-9e04-49a3d951ba1c"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -101,7 +134,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 3e61b26b-ecde-4101-b210-d7c271829dfd"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 55c6f72d-0185-40a4-a789-d02a87191c79"}
 components:
   schemas:
     Gebouweenheden.Bouwjaren:
@@ -157,6 +190,16 @@ components:
             nullable: true
           nullable: true
       additionalProperties: false
+    Gebouweenheden.EpcLabelLocatie:
+      type: object
+      properties:
+        locatie:
+          type: string
+          nullable: true
+        locatieType:
+          type: string
+          nullable: true
+      additionalProperties: false
     Gebouweenheden.EpcLabelsLijst:
       type: object
       properties:
@@ -164,6 +207,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Gebouweenheden.EpcLabel'
+          nullable: true
+      additionalProperties: false
+    Gebouweenheden.LocatieLijst:
+      type: object
+      properties:
+        locaties:
+          type: array
+          items:
+            $ref: '#/components/schemas/Gebouweenheden.EpcLabelLocatie'
           nullable: true
       additionalProperties: false
     Mcs.Eindbeoordeling:
