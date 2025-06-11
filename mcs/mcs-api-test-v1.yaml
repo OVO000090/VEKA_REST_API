@@ -1,92 +1,161 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: VEKA Meldingen API
-  description: >-
-    Rest API services voor meldingen van het Vlaams Energie- en
-    Klimaatagentschap
+  title: VEKA Melding Centrale Stooktoestellen API
+  description: Rest API services energie van het Vlaams Energie- en Klimaatagentschap
+  contact:
+    name: VEKA
+    url: https://www.energiesparen.be
+    email: veka@vlaanderen.be
   license:
     name: European Union Public Licence (EUPL)
     url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
-  version: '1.0'
+  version: "v1"
 servers:
   - url: https://energie-dev.api.vlaanderen.be
 tags:
   - name: Melding centrale stooktoestellen opladen
-    description: Melding Controller
+    description: Melding Centrale Stooktoestellen voor externe afnemers
 paths:
-  /attesten-api/v1/extern/historischeMeldingCentraleStooktoestellen:
-    post:
-      tags:
-        - Melding centrale stooktoestellen opladen
-      summary: Historische melding voor een centraal stooktoestel opladen.
-      operationId: postMeldingenInBulkUsingPOST_1
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: >-
-                #/components/schemas/MeldingCentraleStooktoestellenInput«GegevensActiviteitMetAdresInput,KenmerkenToestelInput»
-      responses:
-        '201':
-          description: Created
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/MeldingCentraleStooktoestellenOutput'
-        '400':
-          description: Bad Request
-        '403':
-          description: Forbidden
-        '500':
-          description: Internal Server Error
   /attesten-api/v1/extern/meldingCentraleStooktoestellen:
     post:
       tags:
         - Melding centrale stooktoestellen opladen
       summary: Een nieuwe melding voor een centraal stooktoestel opladen.
-      operationId: postMeldingUsingPOST_1
+      operationId: postMelding
       requestBody:
         content:
           application/json:
             schema:
-              $ref: >-
-                #/components/schemas/MeldingCentraleStooktoestellenInput«GegevensActiviteitInput,KenmerkenToestelInput»
+              $ref: "#/components/schemas/MeldingCentraleStooktoestellenInputRestDtoGegevensActiviteitInputKenmerkenToestelInput"
+        required: true
       responses:
-        '201':
-          description: Created
+        "201":
+          description: Het object is aangemaakt.
+        "400":
+          description: Ongeldige request
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/MeldingCentraleStooktoestellenOutput'
-        '400':
-          description: Bad Request
-        '403':
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  status: 400
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+        "403":
           description: Forbidden
-        '500':
-          description: Internal Server Error
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  title: Internal Server Error
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+  /attesten-api/v1/extern/historischeMeldingCentraleStooktoestellen:
+    post:
+      tags:
+        - Melding centrale stooktoestellen opladen
+      summary: Historische melding voor een centraal stooktoestel opladen.
+      operationId: postMeldingenInBulk
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MeldingCentraleStooktoestellenInputRestDtoGegevensActiviteitMetAdresInputKenmerkenToestelInput"
+        required: true
+      responses:
+        "201":
+          description: Het object is aangemaakt.
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  status: 400
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  title: Internal Server Error
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
 components:
   schemas:
     EindbeoordelingInput:
-      title: EindbeoordelingInput
-      required:
-        - toestelWerkingGoed
-        - toestelWerkingVeilig
       type: object
       properties:
+        stooktoestelConform:
+          type: string
         rookgasafvoerkanaalConform:
           type: string
         stookplaatsConform:
           type: string
-        stooktoestelConform:
+        verbrandingscontrole:
           type: string
         toestelWerkingGoed:
           type: string
         toestelWerkingVeilig:
           type: string
-        verbrandingscontrole:
-          type: string
+      required:
+        - toestelWerkingGoed
+        - toestelWerkingVeilig
     GegevensActiviteitInput:
-      title: GegevensActiviteitInput
+      type: object
+      description: Gegevens van de activiteit
+      properties:
+        activiteitType:
+          type: string
+        erkenningsnummer:
+          type: string
+          description: Erkenningsnummer van de technicus dat de activiteit heeft uitgevoerd.
+          maxLength: 128
+          minLength: 0
+        verwarmingType:
+          type: string
+        gebouwId:
+          type: string
+        gebouwIdNietGekend:
+          type: boolean
+        gebouweenheidId:
+          type: string
+        gebouweenheidIdNietGekend:
+          type: boolean
+        adresId:
+          type: string
+        datumActiviteit:
+          type: string
+          format: date
       required:
         - activiteitType
         - adresId
@@ -94,90 +163,45 @@ components:
         - gebouwIdNietGekend
         - gebouweenheidIdNietGekend
         - verwarmingType
-      type: object
-      properties:
-        activiteitType:
-          type: string
-        adresId:
-          type: string
-        datumActiviteit:
-          type: string
-          format: date
-        erkenningsnummer:
-          maxLength: 128
-          minLength: 0
-          type: string
-          description: >-
-            Erkenningsnummer van de technicus dat de activiteit heeft
-            uitgevoerd.
-        gebouwId:
-          type: string
-        gebouwIdNietGekend:
-          type: boolean
-        gebouweenheidId:
-          type: string
-        gebouweenheidIdNietGekend:
-          type: boolean
-        verwarmingType:
-          type: string
-      description: Gegevens van de activiteit
-    GegevensActiviteitMetAdresInput:
-      title: GegevensActiviteitMetAdresInput
-      required:
-        - activiteitType
-        - datumActiviteit
-        - gebouwIdNietGekend
-        - gebouweenheidIdNietGekend
-        - verwarmingType
-      type: object
-      properties:
-        activiteitType:
-          type: string
-        adresId:
-          type: string
-        busnummer:
-          maxLength: 256
-          minLength: 0
-          type: string
-        datumActiviteit:
-          type: string
-          format: date
-        erkenningsnummer:
-          maxLength: 128
-          minLength: 0
-          type: string
-          description: >-
-            Erkenningsnummer van de technicus dat de activiteit heeft
-            uitgevoerd.
-        gebouwId:
-          type: string
-        gebouwIdNietGekend:
-          type: boolean
-        gebouweenheidId:
-          type: string
-        gebouweenheidIdNietGekend:
-          type: boolean
-        gemeente:
-          maxLength: 256
-          minLength: 0
-          type: string
-        huisnummer:
-          maxLength: 256
-          minLength: 0
-          type: string
-        postcode:
-          maxLength: 4
-          minLength: 4
-          type: string
-        straatnaam:
-          maxLength: 256
-          minLength: 0
-          type: string
-        verwarmingType:
-          type: string
-      description: Gegevens van de activiteit voor historische data.
     KenmerkenToestelInput:
-      title: KenmerkenToestelInput
+      type: object
+      properties:
+        fabricatienummer:
+          type: string
+          maxLength: 128
+          minLength: 0
+        fabricatienummerNietGekend:
+          type: boolean
+        brandstof:
+          type: string
+        branderTechnologie:
+          type: string
+        merk:
+          type: string
+          maxLength: 128
+          minLength: 0
+        merkNietGekend:
+          type: boolean
+        type:
+          type: string
+          maxLength: 128
+          minLength: 0
+        typeNietGekend:
+          type: boolean
+        werking:
+          type: string
+        nominaalVermogen:
+          type: number
+          format: double
+          maximum: 999999.0
+          minimum: 0.00
+        bouwjaar:
+          type: integer
+          format: int32
+          maximum: 2099
+          minimum: 1900
+        bouwjaarNietGekend:
+          type: boolean
       required:
         - bouwjaarNietGekend
         - brandstof
@@ -186,146 +210,101 @@ components:
         - nominaalVermogen
         - typeNietGekend
         - werking
+    MeldingCentraleStooktoestellenInputRestDtoGegevensActiviteitInputKenmerkenToestelInput:
       type: object
+      description: MeldingCentraleStooktoestellenInput
       properties:
-        bouwjaar:
-          type: integer
-          format: int32
-        bouwjaarNietGekend:
-          type: boolean
-        branderTechnologie:
+        externeReferte:
           type: string
-        brandstof:
-          type: string
-        fabricatienummer:
           maxLength: 128
           minLength: 0
+        ondernemingsnummer:
           type: string
-        fabricatienummerNietGekend:
-          type: boolean
-        merk:
-          maxLength: 128
+          maxLength: 20
           minLength: 0
-          type: string
-        merkNietGekend:
-          type: boolean
-        nominaalVermogen:
-          maximum: 9999
-          exclusiveMaximum: false
-          minimum: 0
-          exclusiveMinimum: true
-          type: number
-          format: double
-        type:
-          maxLength: 128
-          minLength: 0
-          type: string
-        typeNietGekend:
-          type: boolean
-        werking:
-          type: string
-    KenmerkenToestelInput0:
-      title: KenmerkenToestelInput0
-      required:
-        - bouwjaarNietGekend
-        - brandstof
-        - fabricatienummerNietGekend
-        - merkNietGekend
-        - typeNietGekend
-        - werking
-      type: object
-      properties:
-        bouwjaar:
-          type: integer
-          format: int32
-        bouwjaarNietGekend:
-          type: boolean
-        branderTechnologie:
-          type: string
-        brandstof:
-          type: string
-        fabricatienummer:
-          maxLength: 128
-          minLength: 0
-          type: string
-        fabricatienummerNietGekend:
-          type: boolean
-        merk:
-          maxLength: 128
-          minLength: 0
-          type: string
-        merkNietGekend:
-          type: boolean
-        nominaalVermogen:
-          type: number
-          format: double
-        type:
-          maxLength: 128
-          minLength: 0
-          type: string
-        typeNietGekend:
-          type: boolean
-        werking:
-          type: string
-    MeldingCentraleStooktoestellenInput«GegevensActiviteitInput,KenmerkenToestelInput»:
-      title: >-
-        MeldingCentraleStooktoestellenInput«GegevensActiviteitInput,KenmerkenToestelInput»
+        gegevensActiviteit:
+          $ref: "#/components/schemas/GegevensActiviteitInput"
+        kenmerkenToestel:
+          $ref: "#/components/schemas/KenmerkenToestelInput"
+        eindbeoordeling:
+          $ref: "#/components/schemas/EindbeoordelingInput"
       required:
         - eindbeoordeling
         - gegevensActiviteit
         - kenmerkenToestel
         - ondernemingsnummer
+    GegevensActiviteitMetAdresInput:
       type: object
+      description: Gegevens van de activiteit voor historische data.
       properties:
-        eindbeoordeling:
-          $ref: '#/components/schemas/EindbeoordelingInput'
-        externeReferte:
+        activiteitType:
+          type: string
+        erkenningsnummer:
+          type: string
+          description: Erkenningsnummer van de technicus dat de activiteit heeft uitgevoerd.
           maxLength: 128
           minLength: 0
+        verwarmingType:
           type: string
-        gegevensActiviteit:
-          $ref: '#/components/schemas/GegevensActiviteitInput'
-        kenmerkenToestel:
-          $ref: '#/components/schemas/KenmerkenToestelInput'
+        gebouwId:
+          type: string
+        gebouwIdNietGekend:
+          type: boolean
+        gebouweenheidId:
+          type: string
+        gebouweenheidIdNietGekend:
+          type: boolean
+        datumActiviteit:
+          type: string
+          format: date
+        adresId:
+          type: string
+        straatnaam:
+          type: string
+          maxLength: 256
+          minLength: 0
+        huisnummer:
+          type: string
+          maxLength: 256
+          minLength: 0
+        busnummer:
+          type: string
+          maxLength: 256
+          minLength: 0
+        postcode:
+          type: string
+          maxLength: 4
+          minLength: 4
+        gemeente:
+          type: string
+          maxLength: 256
+          minLength: 0
+      required:
+        - activiteitType
+        - datumActiviteit
+        - gebouwIdNietGekend
+        - gebouweenheidIdNietGekend
+        - verwarmingType
+    MeldingCentraleStooktoestellenInputRestDtoGegevensActiviteitMetAdresInputKenmerkenToestelInput:
+      type: object
+      description: MeldingCentraleStooktoestellenInput
+      properties:
+        externeReferte:
+          type: string
+          maxLength: 128
+          minLength: 0
         ondernemingsnummer:
+          type: string
           maxLength: 20
           minLength: 0
-          type: string
-    MeldingCentraleStooktoestellenInput«GegevensActiviteitMetAdresInput,KenmerkenToestelInput»:
-      title: >-
-        MeldingCentraleStooktoestellenInput«GegevensActiviteitMetAdresInput,KenmerkenToestelInput»
+        gegevensActiviteit:
+          $ref: "#/components/schemas/GegevensActiviteitMetAdresInput"
+        kenmerkenToestel:
+          $ref: "#/components/schemas/KenmerkenToestelInput"
+        eindbeoordeling:
+          $ref: "#/components/schemas/EindbeoordelingInput"
       required:
         - eindbeoordeling
         - gegevensActiviteit
         - kenmerkenToestel
         - ondernemingsnummer
-      type: object
-      properties:
-        eindbeoordeling:
-          $ref: '#/components/schemas/EindbeoordelingInput'
-        externeReferte:
-          maxLength: 128
-          minLength: 0
-          type: string
-        gegevensActiviteit:
-          $ref: '#/components/schemas/GegevensActiviteitMetAdresInput'
-        kenmerkenToestel:
-          $ref: '#/components/schemas/KenmerkenToestelInput0'
-        ondernemingsnummer:
-          maxLength: 20
-          minLength: 0
-          type: string
-    MeldingCentraleStooktoestellenOutput:
-      title: MeldingCentraleStooktoestellenOutput
-      type: object
-      properties:
-        externeReferte:
-          type: string
-        meldingsnummer:
-          type: string
-        message:
-          type: string
-        opmerkingen:
-          type: array
-          items:
-            type: string

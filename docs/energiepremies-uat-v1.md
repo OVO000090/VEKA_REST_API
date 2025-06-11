@@ -1,4 +1,4 @@
-# Energie API
+# Energiepremies API
 
 API voor epb/epc data om energiepremies te kunnen bepalen.
 

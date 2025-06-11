@@ -1,12 +1,16 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: VEKA energie attesten API
-  description: >-
-    Rest API services voor energie attesten van het Vlaams Energie- en Klimaatagentschap
+  title: VEKA EPC Niet Residentieel API
+  description: Rest API services voor epc niet residentieel van het Vlaams Energie-
+    en Klimaatagentschap
+  contact:
+    name: VEKA
+    url: https://www.energiesparen.be
+    email: veka@vlaanderen.be
   license:
     name: European Union Public Licence (EUPL)
     url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
-  version: '1.0'
+  version: "v1"
 servers:
   - url: https://energie-dev-secure.api.vlaanderen.be
 tags:
@@ -17,32 +21,26 @@ paths:
     get:
       tags:
         - Energie attesten
-      summary: >-
-        Geef de gegevens terug van alle energie attesten die voldoen aan de criteria.
-      operationId: getEnergieAttestenUsingGET_1
+      summary: Geef de gegevens terug van alle energie attesten die voldoen aan de
+        criteria.
+      operationId: getEnergieAttesten
       parameters:
         - name: energieAttestNummer
           in: query
-          description: energieAttestNummer
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 256
             minLength: 0
-            type: string
         - name: datumIngediendVanaf
           in: query
-          description: datumIngediendVanaf
           required: false
-          style: form
           schema:
             type: string
             format: date
         - name: energieAttestType
           in: query
-          description: energieAttestType
           required: false
-          style: form
           schema:
             type: string
             enum:
@@ -50,1606 +48,4838 @@ paths:
               - EPC
         - name: gebouwId
           in: query
-          description: gebouwId
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 32
             minLength: 0
-            type: string
         - name: gebouweenheidId
           in: query
-          description: gebouweenheidId
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 32
             minLength: 0
-            type: string
         - name: gemeente
           in: query
-          description: gemeente
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 64
             minLength: 0
-            type: string
         - name: postcode
           in: query
-          description: postcode
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 4
             minLength: 0
-            type: string
         - name: straat
           in: query
-          description: straat
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 128
             minLength: 0
-            type: string
         - name: huisnummer
           in: query
-          description: huisnummer
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 32
             minLength: 0
-            type: string
         - name: busnummer
           in: query
-          description: busnummer
           required: false
-          style: form
           schema:
+            type: string
             maxLength: 32
             minLength: 0
-            type: string
         - name: geldig
           in: query
-          description: geldig
           required: false
-          style: form
           schema:
             type: boolean
         - name: gemeenschappelijkDeel
           in: query
-          description: gemeenschappelijkDeel
           required: false
-          style: form
           schema:
             type: boolean
         - name: nietResidentieel
           in: query
-          description: nietResidentieel
           required: false
-          style: form
           schema:
             type: boolean
         - name: residentieel
           in: query
-          description: residentieel
           required: false
-          style: form
           schema:
             type: boolean
       responses:
-        '200':
+        "200":
           description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/EnergieAttesten'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
+        "204":
           description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
+        "404":
           description: Er zijn geen gegevens gevonden.
-        '500':
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
           description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
   /energie-attesten-api/v1/energie-attesten/{id}:
     get:
       tags:
         - Energie attesten
       summary: Geef de gegevens terug van een energie attest op basis van id.
-      operationId: getEnergieAttestUsingGET_1
+      operationId: getEnergieAttest
       parameters:
         - name: id
           in: path
-          description: id
           required: true
-          style: simple
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/EnergieAttestDetail'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
+        "204":
           description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
+        "404":
           description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/adviezen:
-    get:
-      tags:
-        - Energie attesten
-      summary: Geef de gegevens terug van de adviezen op basis van id.
-      operationId: getAdviezenUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/Adviezen'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
           description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/attesten/{documentId}:
-    get:
-      tags:
-        - Energie attesten
-      summary: >-
-        Geef de inhoud terug van een attest op basis van certificaat id en
-        document id.
-      operationId: getEnergieAttestInhoudUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: documentId
-          in: path
-          description: documentId
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/DocumentInhoud'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
           description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
+        "500":
           description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/documenten:
-    get:
-      tags:
-        - Energie attesten
-      summary: Geef het overzicht van de documenten van het energie attest.
-      operationId: getDocumentenUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/AttestDocumenten'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/energie-meters/{meterId}/documenten:
-    get:
-      tags:
-        - Energie attesten
-      summary: Geef het overzicht van de documenten van de meter.
-      operationId: getMeterDocumentenUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: meterId
-          in: path
-          description: meterId
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/AttestDocumenten'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/energie-metingen:
-    get:
-      tags:
-        - Energie attesten
-      summary: Geef de gegevens terug van de energie metingen op basis van id.
-      operationId: getEnergieMetingenUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/EnergieMeting'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/erkenning:
-    get:
-      tags:
-        - Energie attesten
-      summary: Geef de gegevens terug van de erkenning van de energiedeskundige.
-      operationId: getErkenningUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Erkenning'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/fotos/{fotoId}:
-    get:
-      tags:
-        - Energie attesten
-      summary: >-
-        Geef de inhoud terug van een foto op basis van certificaat id en foto
-        id.
-      operationId: getFotoUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: fotoId
-          in: path
-          description: fotoId
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/DocumentInhoud'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/indicatoren:
-    get:
-      tags:
-        - Energie attesten
-      summary: Geef de gegevens terug van alle energie indicatoren op basis van id.
-      operationId: getIndicatorenUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/EnergieIndicatoren'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-koeling:
-    get:
-      tags:
-        - Energie attesten
-      summary: Geef de gegevens terug van installaties voor koeling op basis van id.
-      operationId: getInstallatiesVoorKoelingUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/InstallatiesVoorKoeling'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ruimteverwarming:
-    get:
-      tags:
-        - Energie attesten
-      summary: >-
-        Geef de gegevens terug van de installaties en ruimteclusters van
-        ruimteverwarming op basis van id.
-      operationId: getInstallatiesVoorRuimteverwarmingUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/InstallatiesVoorRuimteverwarming'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-sanitair-warm-water:
-    get:
-      tags:
-        - Energie attesten
-      summary: >-
-        Geef de gegevens terug van de installaties sanitair warm water op basis
-        van id.
-      operationId: getInstallatiesVoorSanitairWarmWaterUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/InstallatiesVoorSanitairWarmWater'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ventilatie-en-bevochtiging:
-    get:
-      tags:
-        - Energie attesten
-      summary: >-
-        Geef de gegevens terug van de installaties ventilatie en bevochtiging op
-        basis van id.
-      operationId: getInstallatiesVoorVentilatieEnBevochtigingUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/InstallatiesVoorVentilatieEnBevochtiging'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-verlichting:
-    get:
-      tags:
-        - Energie attesten
-      summary: >-
-        Geef de gegevens terug van de installaties voor verlichting op basis van
-        id.
-      operationId: getInstallatiesVoorVerlichtingUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/InstallatiesVoorVerlichting'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
-  /energie-attesten-api/v1/energie-attesten/{id}/opwekker/{opwekkerId}:
-    get:
-      tags:
-        - Energie attesten
-      summary: >-
-        Geef de gegevens terug van de opwekker voor een gegeven energieattest op
-        basis van id.
-      operationId: getOpwekkerUsingGET_1
-      parameters:
-        - name: id
-          in: path
-          description: id
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: opwekkerId
-          in: path
-          description: opwekkerId
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Opwekker'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
-          description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
-          description: Er zijn geen gegevens gevonden.
-        '500':
-          description: Er is een fout opgetreden.
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
   /energie-attesten-api/v1/energie-attesten/{id}/schildelen:
     get:
       tags:
         - Energie attesten
       summary: Geef de gegevens terug van de schildelen op basis van id.
-      operationId: getSchildelenUsingGET_2
+      operationId: getSchildelen_1
       parameters:
         - name: id
           in: path
-          description: id
           required: true
-          style: simple
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/AttestSchildelen'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
+        "204":
           description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
+        "404":
           description: Er zijn geen gegevens gevonden.
-        '500':
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
           description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/opwekker/{opwekkerId}:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de opwekker voor een gegeven energieattest
+        op basis van id.
+      operationId: getOpwekker
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: opwekkerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-verlichting:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de installaties voor verlichting op basis
+        van id.
+      operationId: getInstallatiesVoorVerlichting
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ventilatie-en-bevochtiging:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de installaties ventilatie en bevochtiging
+        op basis van id.
+      operationId: getInstallatiesVoorVentilatieEnBevochtiging
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-sanitair-warm-water:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de installaties sanitair warm water op basis
+        van id.
+      operationId: getInstallatiesVoorSanitairWarmWater
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ruimteverwarming:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de installaties en ruimteclusters van ruimteverwarming
+        op basis van id.
+      operationId: getInstallatiesVoorRuimteverwarming
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-koeling:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van installaties voor koeling op basis van id.
+      operationId: getInstallatiesVoorKoeling
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/indicatoren:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van alle energie indicatoren op basis van id.
+      operationId: getIndicatoren
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/fotos/{fotoId}:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de inhoud terug van een foto op basis van certificaat id en foto
+        id.
+      operationId: getFoto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: fotoId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/erkenning:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de erkenning van de energiedeskundige.
+      operationId: getErkenning
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten-api/v1/energie-attesten/{id}/energie-metingen:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de energie metingen op basis van id.
+      operationId: getEnergieMetingen
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten/{id}/energie-meters/{meterId}/documenten:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef het overzicht van de documenten van de meter.
+      operationId: getMeterDocumenten
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: meterId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten/{id}/documenten:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef het overzicht van de documenten van het energie attest.
+      operationId: getDocumenten
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten/{id}/attesten/{documentId}:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de inhoud terug van een attest op basis van certificaat id en
+        document id.
+      operationId: getEnergieAttestInhoud
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: documentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
+  /energie-attesten/{id}/adviezen:
+    get:
+      tags:
+        - Energie attesten
+      summary: Geef de gegevens terug van de adviezen op basis van id.
+      operationId: getAdviezen
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+        "204":
+          description: Geen data om terug te geven.
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Resource not found
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  title: Bad Request
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  status: 400
+        "403":
+          description: Forbidden
+        "500":
+          description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  title: Internal Server Error
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  status: 500
 components:
   schemas:
-    Aanbeveling:
-      title: Aanbeveling
+    PutVerlichtingInputRestDto:
       type: object
       properties:
-        aanbevelingen:
-          type: array
-          items:
-            $ref: '#/components/schemas/AanbevelingDetail'
-        categorie:
-          type: string
-        huidigeSituatie:
-          type: string
-        informatie:
-          type: string
-        opmerkingEnergiedeskundige:
-          type: string
-        titel:
-          type: string
-        volgnummer:
-          type: integer
-          format: int32
-    AanbevelingDetail:
-      title: AanbevelingDetail
-      type: object
-      properties:
-        omschrijving:
-          type: string
-        volgnummer:
-          type: integer
-          format: int32
-    Adres:
-      title: Adres
-      type: object
-      properties:
-        adresId:
-          type: string
-        busnummer:
-          type: string
-        gemeente:
-          type: string
-        huisnummer:
-          type: string
-        postcode:
-          type: string
-        straat:
-          type: string
-    Adviezen:
-      title: Adviezen
-      type: object
-      properties:
-        aanbevelingen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Aanbeveling'
-        opmerkingEnergiedeskundige:
-          type: string
-    AttestDocumenten:
-      title: AttestDocumenten
-      type: object
-      properties:
-        documenten:
-          type: array
-          items:
-            $ref: '#/components/schemas/DocumentDetail'
-    AttestSchildelen:
-      title: AttestSchildelen
-      type: object
-      properties:
-        schildelen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Schildeel'
-    Beglazing:
-      title: Beglazing
-      type: object
-      properties:
-        beglazingType:
-          type: string
-        gwaardeGlas:
-          $ref: '#/components/schemas/WaardeMetEis«double»'
-        uwaardeGlas:
-          $ref: '#/components/schemas/WaardeMetEis«double»'
-    Constructiedeel:
-      title: Constructiedeel
-      type: object
-      properties:
-        beglazing:
-          $ref: '#/components/schemas/Beglazing'
-        begrenzing:
-          type: string
-        categorie:
-          type: string
-        conformiteit:
-          type: string
-        energiedoelstelling:
-          type: string
-        energiedoelstellingPrioriteit:
-          type: string
-        isolatieDeurOfPoort:
-          type: string
-        isolatielagen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Isolatielaag'
-        luchtlaag:
-          type: string
-        materiaalDeurOfPoort:
-          type: string
         naam:
           type: string
-        nettoOppervlakte:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        opengaandeDelenInLichteGevels:
+        verlichtingstechnologieType:
           type: string
-        oppervlaktefractie:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-        orientatie:
-          type: string
-        paneel:
-          $ref: '#/components/schemas/Paneel'
-        profiel:
-          $ref: '#/components/schemas/Profiel'
-        raamstijl:
-          $ref: '#/components/schemas/Raamstijl'
-        rwaarde:
-          $ref: '#/components/schemas/WaardeMetEis«double»'
-        soort:
-          type: string
-        subtype:
-          type: string
-        type:
-          type: string
-        uwaarde:
-          $ref: '#/components/schemas/WaardeMetEis«double»'
-        ventilatieroosterAanwezig:
-          type: boolean
-        zonwering:
-          $ref: '#/components/schemas/Zonwering'
-    DocumentDetail:
-      title: DocumentDetail
-      type: object
-      properties:
-        extensie:
-          type: string
-        id:
-          type: string
-        inhoud:
-          $ref: '#/components/schemas/Reference'
-        naam:
-          type: string
-        type:
-          type: string
-    DocumentInhoud:
-      title: DocumentInhoud
-      type: object
-      properties:
-        id:
-          type: string
-        inhoud:
-          type: string
-          format: byte
-    DuurMeetPeriode:
-      title: DuurMeetPeriode
-      type: object
-      properties:
-        meeteenheid:
-          type: string
-        waarde:
-          type: integer
-          format: int32
-    EnergieAttest:
-      title: EnergieAttest
-      type: object
-      properties:
-        adressen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Adres'
-        bestemming:
-          type: string
-        datumGeldigheid:
-          type: string
-          format: date
-        datumIngediend:
-          type: string
-          format: date
-        detail:
-          $ref: '#/components/schemas/Reference'
-        energieAttestNummer:
-          type: string
-        energieAttestStatus:
-          type: string
-        energieAttestType:
-          type: string
-        gebouwId:
-          type: string
-        gebouweenheidId:
-          type: string
-        hoofdBestemming:
-          type: string
-        id:
-          type: string
-        overheidsgebouw:
-          type: boolean
-        publiekGebouw:
-          type: boolean
-    EnergieAttestDetail:
-      title: EnergieAttestDetail
-      type: object
-      properties:
-        adressen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Adres'
-        adviezen:
-          $ref: '#/components/schemas/Reference'
-        alleEnergieIndicatoren:
-          $ref: '#/components/schemas/Reference'
-        bestemming:
-          type: string
-        bouwvorm:
-          type: string
-        brutoVloerOpperVlakte:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        datumGeldigheid:
-          type: string
-          format: date
-        datumIngediend:
-          type: string
-          format: date
-        detail:
-          $ref: '#/components/schemas/Reference'
-        documenten:
-          $ref: '#/components/schemas/Reference'
-        energieAttestNummer:
-          type: string
-        energieAttestStatus:
-          type: string
-        energieAttestType:
-          type: string
-        energieIndicatoren:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnergieIndicator«Serializable»'
-        energieMetingen:
-          $ref: '#/components/schemas/Reference'
-        erkenning:
-          $ref: '#/components/schemas/Reference'
-        gebouwId:
-          type: string
-        gebouweenheidId:
-          type: string
-        hoofdBestemming:
-          type: string
-        id:
-          type: string
-        infiltratiedebiet:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        installatiesVoorKoeling:
-          $ref: '#/components/schemas/Reference'
-        installatiesVoorRuimteverwarming:
-          $ref: '#/components/schemas/Reference'
-        installatiesVoorSanitairWarmWater:
-          $ref: '#/components/schemas/Reference'
-        installatiesVoorVentilatieEnBevochtiging:
-          $ref: '#/components/schemas/Reference'
-        installatiesVoorVerlichting:
-          $ref: '#/components/schemas/Reference'
-        overheidsgebouw:
-          type: boolean
-        publiekGebouw:
-          type: boolean
-        schildelen:
-          $ref: '#/components/schemas/Reference'
-        thermischeMassa:
-          type: string
-    EnergieAttesten:
-      title: EnergieAttesten
-      type: object
-      properties:
-        energieAttesten:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnergieAttest'
-    EnergieIndicatoren:
-      title: EnergieIndicatoren
-      type: object
-      properties:
-        energieIndicatoren:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnergieIndicator«Serializable»'
-    EnergieIndicator«Serializable»:
-      title: EnergieIndicator«Serializable»
-      type: object
-      properties:
-        conformiteit:
-          type: string
-        doelstelling:
-          $ref: '#/components/schemas/Serializable'
-        eis:
-          $ref: '#/components/schemas/Serializable'
-        meeteenheid:
-          type: string
-        soort:
-          type: string
-        waarde:
-          $ref: '#/components/schemas/Serializable'
-    EnergieMeter:
-      title: EnergieMeter
-      type: object
-      properties:
-        beschrijvingEnergieMeter:
-          type: string
-        documenten:
-          $ref: '#/components/schemas/Reference'
-        eancode:
-          type: string
-        energiestroom:
-          $ref: '#/components/schemas/Energiestroom'
-        locatieEnergieMeter:
-          type: string
-        meterstanden:
-          type: array
-          items:
-            $ref: '#/components/schemas/Meterstand'
-        nummerEnergieMeter:
-          type: string
-        nutsbedrijf:
-          type: string
-        soortEnergieMeter:
-          type: string
-        typeEnergieMeter:
-          type: string
-    EnergieMeting:
-      title: EnergieMeting
-      type: object
-      properties:
-        energieMeters:
-          type: array
-          items:
-            $ref: '#/components/schemas/EnergieMeter'
-        meetPeriode:
-          $ref: '#/components/schemas/MeetPeriode'
-    Energiestroom:
-      title: Energiestroom
-      type: object
-      properties:
-        gekoppeldeLokaleOpwekkers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Opwekker'
-        id:
-          type: string
-        naamEnergiestroom:
-          type: string
-        opwekker:
-          $ref: '#/components/schemas/Opwekker'
-        soortEnergiestroom:
-          type: string
-        typeEnergie:
-          type: string
-        typeEnergiestroom:
-          type: string
-    Erkenning:
-      title: Erkenning
-      type: object
-      properties:
-        erkenningsnummer:
-          type: string
-        id:
-          type: string
-        namensRechtspersoon:
-          type: boolean
-        persoon:
-          $ref: '#/components/schemas/Persoon'
-        rechtspersoon:
-          $ref: '#/components/schemas/Rechtspersoon'
-        rol:
-          type: string
-    InstallatieBevochtiging:
-      title: InstallatieBevochtiging
-      type: object
-      properties:
-        gekoppeldeOpwekkers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Opwekker'
-        gekoppeldeRuimteclusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuimteclusterVentilatieEnBevochtiging'
-        id:
-          type: string
-        naam:
-          type: string
-    InstallatieKoeling:
-      title: InstallatieKoeling
-      type: object
-      properties:
-        afgiftesysteem:
-          type: string
-        gekoppeldeOpwekkers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Opwekker'
-        gekoppeldeRuimteclusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuimteclusterKoeling'
-        id:
-          type: string
-        koudetransportmedium:
-          type: string
-        naam:
-          type: string
-        regelingKoelingPerRuimte:
-          type: string
-        type:
-          type: string
-    InstallatieRuimteverwarming:
-      title: InstallatieRuimteverwarming
-      type: object
-      properties:
-        afgiftesysteem:
-          type: string
-        gekoppeldeOpwekkers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Opwekker'
-        gekoppeldeRuimteclusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuimteclusterRuimteverwarming'
-        id:
-          type: string
-        naam:
-          type: string
-        type:
-          type: string
-        typeElektrischeWeerstandsVerwarming:
-          type: string
-        warmteregeling:
-          type: string
-        warmtetransportmedium:
-          type: string
-    InstallatieSanitairWarmWater:
-      title: InstallatieSanitairWarmWater
-      type: object
-      properties:
-        aantalDouchesOfBaden:
-          type: string
-        distributieType:
-          type: string
-        gekoppeldeOpwekkers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Opwekker'
-        id:
-          type: string
-        isOpslagvatAanwezig:
-          type: string
-        isolatieLeiding:
-          type: string
-        lengteLeiding:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-        liggingLeiding:
-          type: string
-        naam:
-          type: string
-        soortTappunten:
-          type: array
-          items:
-            type: string
-    InstallatieVentilatie:
-      title: InstallatieVentilatie
-      type: object
-      properties:
-        gekoppeldeOpwekkers:
-          type: array
-          items:
-            $ref: '#/components/schemas/Opwekker'
-        gekoppeldeRuimteclusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuimteclusterVentilatieEnBevochtiging'
-        id:
-          type: string
-        naam:
-          type: string
-        regelingType:
-          type: string
-    InstallatieVerlichting:
-      title: InstallatieVerlichting
-      type: object
-      properties:
         bezettingsregelingType:
           type: string
         daglichtregelingType:
           type: string
+        percentageOppervlakteVerlichtingszone:
+          type: string
+      required:
+        - naam
+        - percentageOppervlakteVerlichtingszone
+    AfhankelijkheidOutputRestDto:
+      type: object
+      properties:
+        veld:
+          type: string
+        waarden:
+          type: array
+          items:
+            $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    CodeOmschrijvingOutputRestDto:
+      type: object
+      properties:
+        code:
+          type: string
+        omschrijving:
+          type: string
+        afhankelijkheden:
+          type: array
+          items:
+            $ref: "#/components/schemas/AfhankelijkheidOutputRestDto"
+    LinkRestDto:
+      type: object
+      properties:
+        detail:
+          type: string
+        detailMetFoto:
+          type: string
+        aanmaken:
+          type: string
+        wijzigen:
+          type: string
+        indienen:
+          type: string
+        verwijderen:
+          type: string
+        dupliceren:
+          type: string
+        kopieren:
+          type: string
+        plakken:
+          type: string
+        importeren:
+          type: string
+        metingAanmaken:
+          type: string
+        geometrieAlgemeenAanmaken:
+          type: string
+        geometrieDakenAanmaken:
+          type: string
+        geometrieVloerenAanmaken:
+          type: string
+        geometrieGevelsAanmaken:
+          type: string
+        schildeelOpbouwAanmaken:
+          type: string
+        berekenAandeelHernieuwbareEnergie:
+          type: string
+        berekenGebouweenheid:
+          type: string
+        valideerAandeelHernieuwbareEnergie:
+          type: string
+        valideerEnergiescore:
+          type: string
+        feedbackEnergiedeskundige:
+          type: string
+        aandeelHernieuwbareEnergie:
+          type: string
+        energiescore:
+          type: string
+        aanbevelingen:
+          type: string
+        aanbeveling:
+          type: string
+        aanbevelingFeedback:
+          type: string
+        gebouw:
+          type: string
+        geometrieAlgemeen:
+          type: string
+        geometrieDaken:
+          type: string
+        geometrieVloeren:
+          type: string
+        geometrieGevels:
+          type: string
+        schildelen:
+          type: string
+        schildeel:
+          type: string
+        schildeelOpbouwen:
+          type: string
+        gebouweenheden:
+          type: string
+        gebouweenheidImage:
+          type: string
+        updateGebouweenheidImage:
+          type: string
+        gebouwen:
+          type: string
+        opwekkers:
+          type: string
+        meters:
+          type: string
+        tellers:
+          type: string
+        metingen:
+          type: string
+        meetpunten:
+          type: string
+        energiestromen:
+          type: string
+        energiestroom:
+          type: string
+        ruimteverwarmingen:
+          type: string
+        koelingen:
+          type: string
+        verlichtingen:
+          type: string
+        sanitairWarmWater:
+          type: string
+        ventilaties:
+          type: string
+        opwekker:
+          type: string
+        bevochtigingen:
+          type: string
+        ruimteclustersRuimteverwarming:
+          type: string
+        ruimteclustersKoeling:
+          type: string
+        ruimteclustersVentilatie:
+          type: string
+        downloadCertificaat:
+          type: string
+        downloadZipCertificaten:
+          type: string
+        berekenUWaardeSchildeel:
+          type: string
+    VerlichtingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
         id:
           type: string
+          format: uuid
         naam:
           type: string
-        oppervlakte:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
         verlichtingstechnologieType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        bezettingsregelingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        daglichtregelingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        percentageOppervlakteVerlichtingszone:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    PutVentilatieInputRestDto:
+      type: object
+      properties:
+        naam:
           type: string
-    InstallatiesVoorKoeling:
-      title: InstallatiesVoorKoeling
+        teKoppelenOpwekkerId:
+          type: string
+          format: uuid
+        regelingType:
+          type: string
+      required:
+        - naam
+        - teKoppelenOpwekkerId
+    RuimteclusterVentilatieOutputRestDto:
       type: object
       properties:
-        installaties:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieKoeling'
-        ruimteclusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuimteclusterKoeling'
-    InstallatiesVoorRuimteverwarming:
-      title: InstallatiesVoorRuimteverwarming
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    VentilatieDetailOutputRestDto:
       type: object
       properties:
-        installaties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        gekoppeldeOpwekkerId:
+          type: string
+          format: uuid
+        regelingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        bevochtiging:
+          type: boolean
+        gekoppeldeRuimteclustersIds:
           type: array
           items:
-            $ref: '#/components/schemas/InstallatieRuimteverwarming'
-        ruimteclusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuimteclusterRuimteverwarming'
-    InstallatiesVoorSanitairWarmWater:
-      title: InstallatiesVoorSanitairWarmWater
+            $ref: "#/components/schemas/RuimteclusterVentilatieOutputRestDto"
+    ImporteerSchildeelLinkRequest:
       type: object
       properties:
-        installaties:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieSanitairWarmWater'
-    InstallatiesVoorVentilatieEnBevochtiging:
-      title: InstallatiesVoorVentilatieEnBevochtiging
+        importFromId:
+          type: string
+          format: uuid
+        begrenzing:
+          type: string
+        type:
+          type: string
+      required:
+        - begrenzing
+        - importFromId
+        - type
+    SchildeelDetailOutputRestDto:
       type: object
       properties:
-        installatiesVoorBevochting:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieBevochtiging'
-        installatiesVoorVentilatie:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieVentilatie'
-        ruimteclusters:
-          type: array
-          items:
-            $ref: '#/components/schemas/RuimteclusterVentilatieEnBevochtiging'
-    InstallatiesVoorVerlichting:
-      title: InstallatiesVoorVerlichting
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        schildeelType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        begrenzing:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        volledigBeglaasd:
+          type: boolean
+        volledigLichteGevel:
+          type: boolean
+    PutIsolatieInputRestDto:
       type: object
       properties:
-        installaties:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieVerlichting'
-    Isolatielaag:
-      title: Isolatielaag
-      type: object
-      properties:
+        id:
+          type: string
+          format: uuid
+        lambda:
+          type: number
+          format: double
+        lambdaOnbekend:
+          type: boolean
         dikte:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+          type: number
+          format: double
+        dikteOnbekend:
+          type: boolean
         isolatiemateriaal:
           type: string
-        isolatiemateriaalType:
+        dunneReflecterendeLaagType:
           type: string
-        lambda:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+        isolatieType:
+          type: string
+        luchtlaagIsolatiemateriaal:
+          type: string
         onderbrekingIsolatie:
           type: string
-        onderbrekingMateriaal:
+        onderbrekingIsolatiemateriaal:
           type: string
-        rwaarde:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-    MeetPeriode:
-      title: MeetPeriode
-      type: object
-      properties:
-        duurMeetPeriode:
-          $ref: '#/components/schemas/DuurMeetPeriode'
-        eindeMeetPeriode:
-          type: string
-          format: date
-        startMeetPeriode:
-          type: string
-          format: date
-    Meterstand:
-      title: Meterstand
-      type: object
-      properties:
-        eindMeterstand:
-          $ref: '#/components/schemas/MeterstandWaarde'
-        isDag:
-          type: boolean
-        isGebruik:
-          type: boolean
-        isInjectie:
-          type: boolean
-        isNacht:
-          type: boolean
-        saldoMeterstand:
-          $ref: '#/components/schemas/MeterstandWaarde'
-        startMeterstand:
-          $ref: '#/components/schemas/MeterstandWaarde'
-    MeterstandWaarde:
-      title: MeterstandWaarde
-      type: object
-      properties:
-        meeteenheid:
-          type: string
-        meetwaarde:
-          type: integer
-          format: int32
-    Opwekker:
-      title: Opwekker
-      type: object
-      properties:
-        COPtest:
+        rWaardeBerekend:
           type: number
           format: double
-        EERnom:
+    PutSchildeelOpbouwInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageTotaleOppervlakte:
+          type: string
+        schildeelOpbouwType:
+          type: string
+        massiefMateriaalType:
+          type: string
+        afwerkingType:
+          type: string
+        luchtlaag:
+          type: string
+        beglazingType:
+          type: string
+        profielType:
+          type: string
+        isolatieLagen:
+          type: array
+          items:
+            $ref: "#/components/schemas/PutIsolatieInputRestDto"
+          maxItems: 2
+          minItems: 0
+        poortMateriaal:
+          type: string
+        poortIsolatie:
+          type: string
+        raamstijlType:
+          type: string
+        uWaarde:
           type: number
           format: double
-        GWPwaarde:
-          type: integer
-          format: int32
-        afgiftemedium:
+          minimum: 0.0
+        uWaardeBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeBekend:
+          type: boolean
+        uWaardeGlasOnbekend:
+          type: boolean
+        uWaardeGlas:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeGlasBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        gWaardeGlasOnbekend:
+          type: boolean
+        gWaardeGlas:
+          type: number
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+        gWaardeGlasBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeProfielBekend:
+          type: boolean
+        uWaardeProfiel:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeProfielBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeRaamstijlBekend:
+          type: boolean
+        uWaardeRaamstijl:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeRaamstijlBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+      required:
+        - naam
+    IsolatieOutputDetailRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
           type: string
-        afgiftemediumCondensor:
+        id:
           type: string
-        afgiftemediumCondensorDetail:
+          format: uuid
+        lambda:
+          type: number
+          format: double
+        lambdaOnbekend:
+          type: boolean
+        dikte:
+          type: number
+          format: double
+        dikteOnbekend:
+          type: boolean
+        isolatiemateriaal:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        isolatieType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        luchtlaagIsolatiemateriaal:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        onderbrekingIsolatie:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        onderbrekingIsolatiemateriaal:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        dunneReflecterendeLaagType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        rWaardeBerekend:
+          type: number
+          format: double
+    SchildeelOpbouwDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
           type: string
-        afgiftemediumDetail:
+        id:
           type: string
-        apertuuroppervlakte:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        bypass:
+          format: uuid
+        naam:
           type: string
-        capaciteitsprofiel:
+        percentageTotaleOppervlakte:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        schildeelOpbouwType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        massiefMateriaalType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        afwerkingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        luchtlaag:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        buitenafwerkingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        beglazingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        profielType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        paneelType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        paneelIsolatieAanwezigheid:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        poortMateriaal:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        poortIsolatie:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        raamstijlType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        isolatieLagen:
+          type: array
+          items:
+            $ref: "#/components/schemas/IsolatieOutputDetailRestDto"
+        uWaarde:
+          type: number
+          format: double
+        uWaardeBerekend:
+          type: number
+          format: double
+        uWaardeBekend:
+          type: boolean
+        uWaardeGlasOnbekend:
+          type: boolean
+        uWaardeGlas:
+          type: number
+          format: double
+        uWaardeGlasBerekend:
+          type: number
+          format: double
+        gWaardeGlasOnbekend:
+          type: boolean
+        gWaardeGlas:
+          type: number
+          format: double
+        gWaardeGlasBerekend:
+          type: number
+          format: double
+        uWaardeProfielBekend:
+          type: boolean
+        uWaardeProfiel:
+          type: number
+          format: double
+        uWaardeProfielBerekend:
+          type: number
+          format: double
+        uWaardePaneelBekend:
+          type: boolean
+        uWaardePaneel:
+          type: number
+          format: double
+        uWaardeRaamstijlBekend:
+          type: boolean
+        uWaardeRaamstijl:
+          type: number
+          format: double
+        uWaardeRaamstijlBerekend:
+          type: number
+          format: double
+    PutSanitairWarmWaterInputRestDto:
+      type: object
+      properties:
+        naam:
           type: string
-        collectiviteit:
+        tappunten:
+          type: array
+          items:
+            $ref: "#/components/schemas/SanitairWarmWaterTappuntenInputRestDto"
+        soortTappuntenOnbekend:
+          type: boolean
+        aantalDouchesOfBaden:
           type: string
-        configuratieOpslagvatWarmtewisselaar:
-          type: string
-        detail:
-          $ref: '#/components/schemas/Reference'
-        elektrischVermogen:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        elektrischVermogenRange:
-          type: string
-        energieEfficientieSWW:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        energieEfficientieklasseRV:
-          type: string
-        energieEfficientieklasseSWW:
-          type: string
-        energieLabels:
+        teKoppelenOpwekkerIds:
           type: array
           items:
             type: string
-        energiedrager:
+            format: uuid
+          uniqueItems: true
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        circulatieLeidingAanwezig:
           type: string
-        energiedragerDetail:
+        combilusAanwezig:
+          type: string
+        lengteLeiding:
+          type: number
+          format: double
+        isolatieLeiding:
+          type: string
+        liggingLeiding:
+          type: string
+        warmteopslag:
+          type: string
+      required:
+        - naam
+    SanitairWarmWaterTappuntenInputRestDto:
+      type: object
+      properties:
+        tappunt:
+          type: string
+      required:
+        - tappunt
+    OpwekkerOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    SanitairWarmWaterDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        soortTappuntenOnbekend:
+          type: boolean
+        aantalDouchesOfBaden:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        gekoppeldeOpwekkerIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerOutputRestDto"
+        circulatieleidingAanwezig:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        combilusAanwezig:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        lengteLeiding:
+          type: number
+          format: double
+        isolatieLeiding:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        liggingLeiding:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        warmteopslag:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        tappunten:
+          type: array
+          items:
+            $ref: "#/components/schemas/SanitairWarmWaterTappuntenOutputRestDto"
+    SanitairWarmWaterTappuntenOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        tappunten:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    PutRuimteverwarmingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        ruimteverwarmingType:
+          type: string
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        teKoppelenOpwekkerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+        systeemType:
+          type: string
+        afgifteSysteemType:
+          type: string
+        warmtetransportMedium:
+          type: string
+        installatieRegeling:
+          type: string
+        combilus:
+          type: string
+        opwekkingAanwezig:
+          type: boolean
+        afgiftesysteemAanwezig:
+          type: boolean
+        regelingVerwarmingAanwezig:
+          type: boolean
+      required:
+        - naam
+        - ruimteverwarmingType
+    RuimteclusterRuimteverwarmingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    RuimteverwarmingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        ruimteverwarmingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        gekoppeldeOpwekkerIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerOutputRestDto"
+        systeemType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        afgifteSysteemType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        warmtetransportMedium:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        installatieRegeling:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        combilus:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        opwekkingAanwezig:
+          type: boolean
+        afgiftesysteemAanwezig:
+          type: boolean
+        regelingVerwarmingAanwezig:
+          type: boolean
+        gekoppeldeRuimteclustersIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterRuimteverwarmingOutputRestDto"
+    PutRuimteclusterVentilatieInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageVolume:
+          type: string
+        ventilatieAanwezig:
+          type: boolean
+        bevochtigingAanwezig:
+          type: boolean
+        toLinkBevochtigingen:
+          type: array
+          items:
+            type: string
+            format: uuid
+        teKoppelenVentilatieId:
+          type: string
+          format: uuid
+      required:
+        - bevochtigingAanwezig
+        - naam
+        - percentageVolume
+        - ventilatieAanwezig
+    BevochtigingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    RuimteclusterVentilatieDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        percentageVolume:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        ventilatieAanwezig:
+          type: boolean
+        bevochtigingAanwezig:
+          type: boolean
+        ventilatieId:
+          type: string
+          format: uuid
+        bevochtigingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/BevochtigingOutputRestDto"
+    PutRuimteclusterRuimteverwarmingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageVolume:
+          type: string
+        ruimteverwarmingAanwezig:
+          type: boolean
+        toLinkRuimteverwarmingen:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - naam
+        - percentageVolume
+        - ruimteverwarmingAanwezig
+    RuimteclusterRuimteverwarmingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        percentageVolume:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        ruimteverwarmingAanwezig:
+          type: boolean
+        ruimteverwarmingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteverwarmingOutputRestDto"
+    RuimteverwarmingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    PutRuimteclusterKoelingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageVolume:
+          type: string
+        koelingAanwezig:
+          type: boolean
+        toLinkKoelingen:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - koelingAanwezig
+        - naam
+        - percentageVolume
+    KoelingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    RuimteclusterKoelingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        percentageVolume:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        koelingAanwezig:
+          type: boolean
+        koelingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/KoelingOutputRestDto"
+    OpwekkerLabelInputRestDto:
+      type: object
+      properties:
+        label:
+          type: string
+      required:
+        - label
+    OpwekkerToepassingInputRestDto:
+      type: object
+      properties:
+        toepassing:
+          type: string
+      required:
+        - toepassing
+    PutOpwekkerInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        opwekkerSoort:
+          type: string
+        opwekkerType:
           type: string
         fabricagejaar:
           type: integer
           format: int32
-        hellingsgraad:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        hernieuwbaarPercentage:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        id:
+        fabricagejaarOnbekend:
+          type: boolean
+        collectorType:
           type: string
-        isAutomatischeDebietsregeling:
+        oppervlakte:
+          type: number
+          format: double
+        oppervlakteOnbekend:
           type: boolean
-        isEcolabelAanwezig:
+        vermogenOmvormer:
+          type: number
+          format: double
+        vermogenOmvormerOnbekend:
           type: boolean
-        isFreeChillingAanwezig:
+        piekvermogen:
+          type: number
+          format: double
+        piekvermogenOnbekend:
           type: boolean
-        isInstelwaardeInUitDebietGelijkNominaal:
+        lokaleProducent:
           type: boolean
-        isKoelmiddelGekend:
-          type: boolean
-        isKoeltorenAanwezig:
-          type: boolean
-        isOpslagvatAanwezig:
-          type: boolean
-        isOzonlaagafbreekbarestoffen:
-          type: boolean
-        isVochtrecuperatie:
-          type: boolean
-        isWTW:
-          type: boolean
-        isWarmtewisselaarAanwezig:
-          type: boolean
-        koelmiddel:
-          type: string
-        locatie:
-          type: string
-        naamOpwekker:
+        energiedrager:
           type: string
         orientatie:
           type: string
-        piekvermogen:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        regelingVentilatoren:
+        orientatieOnbekend:
+          type: boolean
+        wkkType:
           type: string
-        soortOpwekker:
+        restwarmterecuperatieType:
           type: string
-        testrendementDeellastBw:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        testrendementDeellastOw:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        testrendementWTW:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
         thermischVermogen:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
+          type: number
+          format: double
+        thermischVermogenOnbekend:
+          type: boolean
+        elektrischVermogen:
+          type: number
+          format: double
+        elektrischVermogenOnbekend:
+          type: boolean
+        warmteopslagSww:
+          type: string
+        locatieOpwekker:
+          type: string
+        testrendement:
+          type: number
+          format: double
+        testrendementOnbekend:
+          type: boolean
+        verbrandingswaarde:
+          type: string
+        percentageHernieuwbaar:
+          type: number
+          format: double
+          maximum: 100
+          minimum: 0
+        percentageHernieuwbaarOnbekend:
+          type: boolean
+        equivalentePrimaireEnergiefactor:
+          type: number
+          format: double
+        equivalentePrimaireEnergiefactorOnbekend:
+          type: boolean
+        thermischRendement:
+          type: number
+          format: double
+          maximum: 100
+          minimum: 0
+        thermischRendementOnbekend:
+          type: boolean
+        energylabelRvGekend:
+          type: boolean
+        energieEfficientieklasseRv:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerLabelInputRestDto"
+          uniqueItems: true
+        configuratieOpslagvatWarmtewisselaar:
+          type: string
+        volumeVoorraadvat:
+          type: integer
+          format: int32
+        volumeVoorraadvatOnbekend:
+          type: boolean
+        voorraadvatGeisoleerd:
+          type: string
+        energylabelSwwGekend:
+          type: boolean
+        energieEfficientieSww:
+          type: number
+          format: double
+        energieEfficientieSwwOnbekend:
+          type: boolean
+        energieEfficientieklasseSww:
+          type: string
+        capaciteitsprofielSww:
+          type: string
+        warmhoudverliesS:
+          type: integer
+          format: int32
+        warmhoudverliesSOnbekend:
+          type: boolean
+        nietCondenserendeKetelType:
+          type: string
         toepassingen:
           type: array
           items:
-            type: string
-        typeCollector:
+            $ref: "#/components/schemas/OpwekkerToepassingInputRestDto"
+        reversibeleOpwekkerSoortWarmte:
           type: string
-        typeCompressiekoelmachine:
+        reversibeleOpwekkerSoortKoeling:
           type: string
-        typeKetel:
+        compressiekoelmachineType:
           type: string
-        typeOpwekker:
+        warmtepompType:
           type: string
-        typeVentilatie:
-          type: string
-        typeWKK:
-          type: string
-        typeWarmtepomp:
-          type: string
-        typeWarmteterugwinning:
-          type: string
-        typeZonneboiler:
-          type: string
-        vermogenOmvormer:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        volumeOpslagvat:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-        warmhoudverliesS:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
         warmtebron:
           type: string
-        warmtebronDetail:
+        afgiftemedium:
           type: string
         warmtebronVerdamper:
           type: string
-        warmtebronVerdamperDetail:
+        afgiftemediumCondensor:
           type: string
-    Paneel:
-      title: Paneel
-      type: object
-      properties:
-        isolatiePaneel:
-          type: string
-        paneelType:
-          type: string
-        uwaarde:
-          $ref: '#/components/schemas/WaardeMetEis«double»'
-    Persoon:
-      title: Persoon
-      type: object
-      properties:
-        naam:
-          type: string
-        roepnaam:
-          type: string
-        voornaam:
-          type: string
-    Profiel:
-      title: Profiel
-      type: object
-      properties:
-        profielType:
-          type: string
-        uwaarde:
-          $ref: '#/components/schemas/WaardeMetEis«double»'
-    Raamstijl:
-      title: Raamstijl
-      type: object
-      properties:
-        raamstijlType:
-          type: string
-        uwaarde:
-          $ref: '#/components/schemas/WaardeMetEis«double»'
-    Rechtspersoon:
-      title: Rechtspersoon
-      type: object
-      properties:
-        kboNummer:
-          type: string
-        naam:
-          type: string
-        rechtsvorm:
-          type: string
-    Reference:
-      title: Reference
-      type: object
-      properties:
-        id:
-          type: string
-        url:
-          type: string
-    RuimteclusterKoeling:
-      title: RuimteclusterKoeling
-      type: object
-      properties:
-        gekoppeldeInstallaties:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieKoeling'
-        id:
-          type: string
-        naam:
-          type: string
-        oppervlaktefractie:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-    RuimteclusterRuimteverwarming:
-      title: RuimteclusterRuimteverwarming
-      type: object
-      properties:
-        gekoppeldeInstallaties:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieRuimteverwarming'
-        id:
-          type: string
-        naam:
-          type: string
-        oppervlaktefractie:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-    RuimteclusterVentilatieEnBevochtiging:
-      title: RuimteclusterVentilatieEnBevochtiging
-      type: object
-      properties:
-        gekoppeldeInstallatiesVoorBevochtiging:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieBevochtiging'
-        gekoppeldeInstallatiesVoorVentilatie:
-          type: array
-          items:
-            $ref: '#/components/schemas/InstallatieVentilatie'
-        id:
-          type: string
-        naam:
-          type: string
-        oppervlaktefractie:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-    Schildeel:
-      title: Schildeel
-      type: object
-      properties:
-        constructiedelen:
-          type: array
-          items:
-            $ref: '#/components/schemas/Constructiedeel'
-        nettoOppervlakte:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«double»'
-        oppervlaktefractie:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-        schildeelType:
-          type: string
-    Serializable:
-      title: Serializable
-      type: object
-    WaardeMetEis«double»:
-      title: WaardeMetEis«double»
-      type: object
-      properties:
-        bepaling:
-          type: string
-        doelstelling:
+        copTestOnbekend:
+          type: boolean
+        copTest:
           type: number
           format: double
-        eis:
+          maximum: 9
+          minimum: 0
+        scopOnbekend:
+          type: boolean
+        scop:
           type: number
           format: double
-        meeteenheid:
-          type: string
-        waarde:
+          maximum: 10
+          minimum: 0.0
+        seerOnbekend:
+          type: boolean
+        seer:
           type: number
           format: double
-    WaardeMetMeeteenheid«double»:
-      title: WaardeMetMeeteenheid«double»
-      type: object
-      properties:
-        meeteenheid:
+          maximum: 10
+          minimum: 0.0
+        ventilatieType:
           type: string
-        waarde:
+        soortRegelingVentilatoren:
+          type: string
+        testrendementWtwOnbekend:
+          type: boolean
+        wtwAanwezig:
+          type: boolean
+        testrendementWtw:
           type: number
           format: double
-    WaardeMetMeeteenheid«int»:
-      title: WaardeMetMeeteenheid«int»
-      type: object
-      properties:
-        meeteenheid:
+        warmteterugwinningType:
           type: string
-        waarde:
+        vochtrecuperatie:
+          type: boolean
+        automatischeDebietsregeling:
+          type: boolean
+        instelwaardeInUitgaandDebiet:
+          type: boolean
+        bypassAanwezig:
+          type: boolean
+        bypassType:
+          type: string
+        koeltorenAanwezig:
+          type: boolean
+        freeChilling:
+          type: boolean
+        koelmiddelEigenschappenGekend:
+          type: boolean
+        koelmiddelNaam:
+          type: string
+        koelmiddelNaamAndere:
+          type: string
+        ozonlaagafbrekendeStoffen:
+          type: boolean
+        eerNom:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0.0
+        eerNomOnbekend:
+          type: boolean
+        ecolabel:
+          type: boolean
+        ingevoerdeGwpWaarde:
           type: integer
           format: int32
-    Zonwering:
-      title: Zonwering
+          maximum: 20000
+          minimum: 0
+        aparteMeting:
+          type: boolean
+        vrf:
+          type: boolean
+      required:
+        - naam
+        - opwekkerSoort
+    OpwekkerDetailOutputRestDto:
       type: object
       properties:
-        oppervlaktefractie:
-          $ref: '#/components/schemas/WaardeMetMeeteenheid«int»'
-        zonweringBediening:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        opwekkerSoort:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        opwekkerType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        energiedrager:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        fabricagejaar:
+          type: integer
+          format: int32
+        fabricagejaarOnbekend:
+          type: boolean
+        collectorType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        oppervlakte:
+          type: number
+          format: double
+        oppervlakteOnbekend:
+          type: boolean
+        vermogenOmvormer:
+          type: number
+          format: double
+        vermogenOmvormerOnbekend:
+          type: boolean
+        piekvermogen:
+          type: number
+          format: double
+        piekvermogenOnbekend:
+          type: boolean
+        orientatieOnbekend:
+          type: boolean
+        orientatie:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        restwarmterecuperatieType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        wkkType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        thermischVermogen:
+          type: number
+          format: double
+        thermischVermogenOnbekend:
+          type: boolean
+        elektrischVermogen:
+          type: number
+          format: double
+        elektrischVermogenOnbekend:
+          type: boolean
+        warmteopslagSww:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        locatieOpwekker:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        testrendement:
+          type: number
+          format: double
+        testrendementOnbekend:
+          type: boolean
+        verbrandingswaarde:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        percentageHernieuwbaar:
+          type: number
+          format: double
+        percentageHernieuwbaarOnbekend:
+          type: boolean
+        equivalentePrimaireEnergiefactor:
+          type: number
+          format: double
+        equivalentePrimaireEnergiefactorOnbekend:
+          type: boolean
+        thermischRendement:
+          type: number
+          format: double
+        thermischRendementOnbekend:
+          type: boolean
+        labels:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerLabelOutputRestDto"
+          uniqueItems: true
+        configuratieOpslagvatWarmtewisselaar:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        volumeVoorraadvat:
+          type: integer
+          format: int32
+        volumeVoorraadvatOnbekend:
+          type: boolean
+        voorraadvatGeisoleerd:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        energylabelRvGekend:
+          type: boolean
+        energieEfficientieklasseRv:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        energylabelSwwGekend:
+          type: boolean
+        energieEfficientieSww:
+          type: number
+          format: double
+        energieEfficientieSwwOnbekend:
+          type: boolean
+        energieEfficientieklasseSww:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        capaciteitsprofielSww:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        warmhoudverliesS:
+          type: integer
+          format: int32
+        warmhoudverliesSOnbekend:
+          type: boolean
+        nietCondenserendeKetelType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        reversibeleOpwekkerSoortWarmte:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        reversibeleOpwekkerSoortKoeling:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        compressiekoelmachineType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        warmtepompType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        warmtebron:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        afgiftemedium:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        warmtebronVerdamper:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        afgiftemediumCondensor:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        copTestOnbekend:
+          type: boolean
+        copTest:
+          type: number
+          format: double
+        scopOnbekend:
+          type: boolean
+        scop:
+          type: number
+          format: double
+        seerOnbekend:
+          type: boolean
+        seer:
+          type: number
+          format: double
+        ventilatieType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        soortRegelingVentilatoren:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        testrendementWtwOnbekend:
+          type: boolean
+        wtwAanwezig:
+          type: boolean
+        testrendementWtw:
+          type: number
+          format: double
+        warmteterugwinningType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        vochtrecuperatie:
+          type: boolean
+        automatischeDebietsregeling:
+          type: boolean
+        instelwaardeInUitgaandDebiet:
+          type: boolean
+        bypassAanwezig:
+          type: boolean
+        bypassType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        koeltorenAanwezig:
+          type: boolean
+        freeChilling:
+          type: boolean
+        koelmiddelEigenschappenGekend:
+          type: boolean
+        koelmiddelNaam:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        koelmiddelNaamAndere:
+          type: string
+        ozonlaagafbrekendeStoffen:
+          type: boolean
+        eerNom:
+          type: number
+          format: double
+        eerNomOnbekend:
+          type: boolean
+        ecolabel:
+          type: boolean
+        ingevoerdeGwpWaarde:
+          type: integer
+          format: int32
+        aparteMeting:
+          type: boolean
+        hasMeters:
+          type: boolean
+        vrf:
+          type: boolean
+        toepassingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerToepassingOutputRestDto"
+    OpwekkerLabelOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        label:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    OpwekkerToepassingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        toepassing:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    PutOpdrachtInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+          maxLength: 100
+          minLength: 0
+        datumPlaatsbezoek:
+          type: string
+          format: date
+        startMeetperiode:
+          type: string
+          format: date
+        eindeMeetperiode:
+          type: string
+          format: date
+        periodeJaarInterval:
+          type: integer
+          format: int32
+        prijsEpc:
+          type: integer
+          format: int32
+          maximum: 2147483647
+        verplichteMeetgegevensAfwezig:
+          type: boolean
+        opmerkingMeetgegevens:
+          type: string
+          maxLength: 512
+          minLength: 0
+      required:
+        - datumPlaatsbezoek
+        - eindeMeetperiode
+        - naam
+        - prijsEpc
+        - startMeetperiode
+        - verplichteMeetgegevensAfwezig
+    AanbevelingResponse:
+      type: object
+      description: Detail over de aanbeveling
+      properties:
+        code:
+          type: string
+        titel:
+          type: string
+        huidigeSituatie:
+          type: string
+        aanbeveling:
+          type: string
+        extraInfo:
+          type: string
+      title: Aanbeveling response
+    AandeelHernieuwbareEnergieOutputRestDto:
+      type: object
+      properties:
+        indicatorVoorLangetermijndoelstelling:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingElektriciteitsbehoefte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingWarmtebehoefte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingHernieuwbareWarmte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingRestwarmte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        eigengebruikHernieuwbareElektriciteitsproductie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        aandeelElektriciteitInTotaleEnergiegebruik:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        aandeelWarmteInTotaleEnergiegebruik:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeexporteerdeHernieuwbareEnergie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeexporteerdeNietHernieuwbareEnergie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeleverdeHernieuwbareEnergieAanEenheid:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeleverdeNietHernieuwbareEnergieAanEenheid:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoHernieuwbareEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoRestwarmteGebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoNietRestwarmteNietHernieuwbareEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        totaleNettoEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        koolstofEfficientie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        energieLabel:
+          type: string
+        aanbevelingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/AanbevelingResponse"
+        startPeriode:
+          type: string
+          format: date
+        eindPeriode:
+          type: string
+          format: date
+        creatieDatum:
+          type: string
+          format: date-time
+        label:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        jsonRequest:
+          type: string
+        jsonDummyGebouweenheidRequest:
+          type: string
+        validatieErrors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidatieErrorRestDto"
+    OpdrachtOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+        naam:
+          type: string
+        gebruikerNaam:
+          type: string
+        gebruikerVoornaam:
+          type: string
+        gebruikerRoepnaam:
+          type: string
+        gebruikerErkenningsnummer:
+          type: string
+        datumPlaatsbezoek:
+          type: string
+          format: date-time
+        status:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        statusDatum:
+          type: string
+          format: date-time
+        startMeetperiode:
+          type: string
+          format: date-time
+        eindeMeetperiode:
+          type: string
+          format: date-time
+        prijsEpc:
+          type: integer
+          format: int32
+        periodeJaarInterval:
+          type: integer
+          format: int32
+        verplichteMeetgegevensAfwezig:
+          type: boolean
+        readonly:
+          type: boolean
+        opmerkingMeetgegevens:
+          type: string
+        aandeelHernieuwbareEnergie:
+          $ref: "#/components/schemas/AandeelHernieuwbareEnergieOutputRestDto"
+        aantalCertificaten:
+          type: integer
+          format: int64
+        onroerendErfgoedStatuutChanged:
+          type: boolean
+    ResultaatRestDto:
+      type: object
+      properties:
+        waarde:
+          type: number
+          format: double
+        meeteenheid:
+          type: string
+    ValidatieErrorRestDto:
+      type: object
+      properties:
+        errorErnst:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        errorType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    PutMetingInputRestDto:
+      type: object
+      properties:
+        startMeterstand:
+          type: number
+          format: double
+        eindMeterstand:
+          type: number
+          format: double
+    MetingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        tellerId:
+          type: string
+          format: uuid
+        startMeterstand:
+          type: number
+          format: double
+        eindMeterstand:
+          type: number
+          format: double
+        saldoMeterstand:
+          type: number
+          format: double
+    PutMeterInputRestDto:
+      type: object
+      properties:
+        beschrijving:
+          type: string
+        eanCode:
+          type: string
+        meternummer:
+          type: string
+        locatieBeschrijving:
+          type: string
+        opmerking:
+          type: string
+          maxLength: 512
+          minLength: 0
+        inhoud:
+          type: string
+          format: binary
+      required:
+        - beschrijving
+        - meternummer
+    MeterDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        beschrijving:
+          type: string
+        locatieMeetpunt:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        locatieBeschrijving:
+          type: string
+        nutsmeter:
+          type: boolean
+        nutsbedrijf:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        nutsbedrijfVrijIngevuld:
+          type: string
+        meterType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        eanCode:
+          type: string
+        meternummer:
+          type: string
+        meeteenheid:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        tellerType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        image:
+          type: string
+          format: byte
+        opmerking:
+          type: string
+    PutKoelingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        koelingType:
+          type: string
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        teKoppelenOpwekkerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+        afgifteSysteemTypeKoeling:
+          type: string
+        koudetransportMedium:
+          type: string
+        installatieRegeling:
+          type: string
+      required:
+        - koelingType
+        - naam
+    KoelingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        koelingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        gekoppeldeOpwekkerIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerOutputRestDto"
+        afgifteSysteemTypeKoeling:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        koudetransportMedium:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        installatieRegeling:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        gekoppeldeRuimteclustersIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterKoelingOutputRestDto"
+    RuimteclusterKoelingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    PutGeometrieVloerenInputRestDto:
+      type: object
+      properties:
+        metBegrenzingVolleGrond:
+          type: boolean
+        percentageMetBegrenzingVolleGrond:
+          type: string
+        metBegrenzingKelder:
+          type: boolean
+        percentageMetBegrenzingKelder:
+          type: string
+        metBegrenzingAor:
+          type: boolean
+        percentageMetBegrenzingAor:
+          type: string
+        metBegrenzingBuiten:
+          type: boolean
+        percentageMetBegrenzingBuiten:
+          type: string
+        metBegrenzingAvr:
+          type: boolean
+        percentageMetBegrenzingAvr:
+          type: string
+    GeometrieVloerenDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        metBegrenzingVolleGrond:
+          type: boolean
+        percentageMetBegrenzingVolleGrond:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        metBegrenzingKelder:
+          type: boolean
+        percentageMetBegrenzingKelder:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        metBegrenzingAor:
+          type: boolean
+        percentageMetBegrenzingAor:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        metBegrenzingBuiten:
+          type: boolean
+        percentageMetBegrenzingBuiten:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        metBegrenzingAvr:
+          type: boolean
+        percentageMetBegrenzingAvr:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    PutGeometrieGevelsInputRestDto:
+      type: object
+      properties:
+        metBegrenzingBuiten:
+          type: boolean
+        percentageMetBegrenzingBuiten:
+          type: string
+        metBegrenzingVolleGrond:
+          type: boolean
+        percentageMetBegrenzingVolleGrond:
+          type: string
+        metBegrenzingAorOfKelder:
+          type: boolean
+        percentageMetBegrenzingAorOfKelder:
+          type: string
+        metBegrenzingAvr:
+          type: boolean
+        percentageMetBegrenzingAvr:
+          type: string
+        poortenDeurenAanwezig:
+          type: boolean
+        lichteGevelsAanwezig:
+          type: boolean
+        percentageLichteGevels:
+          type: string
+        opengaandeDelenAanwezig:
+          type: boolean
+        opengaandeDelen:
+          type: string
+        venstersAanwezig:
+          type: boolean
+        percentageVensters:
+          type: string
+        raamroostersAanwezig:
+          type: boolean
+        panelenAanwezig:
+          type: boolean
+        paneelType:
+          type: string
+        paneelIsolatieAanwezigheid:
+          type: string
+        zonweringAanwezig:
+          type: boolean
+        percentageZonwering:
           type: string
         zonweringType:
           type: string
+        bedieningType:
+          type: string
+        uWaardePaneelBekend:
+          type: boolean
+        uWaardePaneel:
+          type: number
+          format: double
+          minimum: 0.0
+    GeometrieGevelsDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        metBegrenzingBuiten:
+          type: boolean
+        percentageMetBegrenzingBuiten:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        metBegrenzingVolleGrond:
+          type: boolean
+        percentageMetBegrenzingVolleGrond:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        metBegrenzingAorOfKelder:
+          type: boolean
+        percentageMetBegrenzingAorOfKelder:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        metBegrenzingAvr:
+          type: boolean
+        percentageMetBegrenzingAvr:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        poortenDeurenAanwezig:
+          type: boolean
+        lichteGevelsAanwezig:
+          type: boolean
+        percentageLichteGevels:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        opengaandeDelenAanwezig:
+          type: boolean
+        opengaandeDelen:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        venstersAanwezig:
+          type: boolean
+        percentageVensters:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        raamroostersAanwezig:
+          type: boolean
+        panelenAanwezig:
+          type: boolean
+        paneelType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        paneelIsolatieAanwezigheid:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        zonweringAanwezig:
+          type: boolean
+        percentageZonwering:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        zonweringType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        bedieningType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        uWaardePaneelBekend:
+          type: boolean
+        uWaardePaneel:
+          type: number
+          format: double
+    PutGeometrieDakenInputRestDto:
+      type: object
+      properties:
+        platDak:
+          type: boolean
+        percentagePlatDak:
+          type: string
+        hellendDak:
+          type: boolean
+        percentageHellendDak:
+          type: string
+        plafondAor:
+          type: boolean
+        percentagePlafondAor:
+          type: string
+        plafondAvr:
+          type: boolean
+        percentagePlafondAvr:
+          type: string
+        venstersPlatDak:
+          type: boolean
+        percentageVenstersPlatDak:
+          type: string
+        venstersHellendDak:
+          type: boolean
+        percentageVenstersHellendDak:
+          type: string
+        raamroostersAanwezig:
+          type: boolean
+        zonweringAanwezig:
+          type: boolean
+        percentageZonwering:
+          type: string
+        zonweringType:
+          type: string
+        bedieningType:
+          type: string
+    GeometrieDakenDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        platDak:
+          type: boolean
+        percentagePlatDak:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        hellendDak:
+          type: boolean
+        percentageHellendDak:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        plafondAor:
+          type: boolean
+        percentagePlafondAor:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        plafondAvr:
+          type: boolean
+        percentagePlafondAvr:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        venstersPlatDak:
+          type: boolean
+        percentageVenstersPlatDak:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        venstersHellendDak:
+          type: boolean
+        percentageVenstersHellendDak:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        raamroostersAanwezig:
+          type: boolean
+        zonweringAanwezig:
+          type: boolean
+        percentageZonwering:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        zonweringType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        bedieningType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    GeometrieFunctieInputRestDto:
+      type: object
+      properties:
+        functieType:
+          type: string
+        beschrijving:
+          type: string
+      required:
+        - functieType
+    OnroerendErfgoedRestDto:
+      type: object
+      properties:
+        statuut:
+          type: string
+        url:
+          type: string
+        qrCode:
+          type: string
+        disclaimer:
+          type: string
+        disclaimerLinkAanwezig:
+          type: boolean
+    PutGeometrieAlgemeenInputRestDto:
+      type: object
+      properties:
+        bestemming:
+          type: string
+        bestemmingBeschrijving:
+          type: string
+        bruikbareVloeroppervlakte:
+          type: integer
+          format: int32
+          minimum: 1
+        bruikbareVloeroppervlakteOnbekend:
+          type: boolean
+        aantalBouwlagen:
+          type: integer
+          format: int32
+          minimum: 1
+        bebouwingType:
+          type: string
+        orientatieVoorgevel:
+          type: string
+        thermischeMassa:
+          type: string
+        luchtdichtheid:
+          type: number
+          format: double
+        luchtdichtheidOnbekend:
+          type: boolean
+        publiekGebouw:
+          type: boolean
+        overheidsgebouw:
+          type: boolean
+        aantalMaaltijdenPerDienst:
+          type: integer
+          format: int32
+          maximum: 2147483647
+          minimum: 0
+        aantalMaaltijdenPerDienstOnbekend:
+          type: boolean
+        functies:
+          type: array
+          items:
+            $ref: "#/components/schemas/GeometrieFunctieInputRestDto"
+        hcoNummer:
+          type: string
+        hcoNummerOnbestaand:
+          type: boolean
+        bouwjaar:
+          type: integer
+          format: int32
+        bouwjaarOnbekend:
+          type: boolean
+        deelUitgeslotenUitBv:
+          type: boolean
+        oppervlakteUitgeslotenDeel:
+          type: integer
+          format: int32
+          minimum: 1
+        energiegebruikDeelBuitenBvInMetingen:
+          type: boolean
+        onroerendErfgoed:
+          $ref: "#/components/schemas/OnroerendErfgoedRestDto"
+    GeometrieAlgemeenDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        bestemming:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        bestemmingBeschrijving:
+          type: string
+        bruikbareVloeroppervlakte:
+          type: integer
+          format: int32
+        bruikbareVloeroppervlakteOnbekend:
+          type: boolean
+        aantalBouwlagen:
+          type: integer
+          format: int32
+        bebouwingType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        orientatieVoorgevel:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        thermischeMassa:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        luchtdichtheid:
+          type: number
+          format: double
+        luchtdichtheidOnbekend:
+          type: boolean
+        publiekGebouw:
+          type: boolean
+        overheidsgebouw:
+          type: boolean
+        aantalMaaltijdenPerDienst:
+          type: integer
+          format: int32
+        aantalMaaltijdenPerDienstOnbekend:
+          type: boolean
+        hcoNummer:
+          type: string
+        hcoNummerOnbestaand:
+          type: boolean
+        bouwjaar:
+          type: integer
+          format: int32
+        bouwjaarOnbekend:
+          type: boolean
+        deelUitgeslotenUitBv:
+          type: boolean
+        oppervlakteUitgeslotenDeel:
+          type: integer
+          format: int32
+        energiegebruikDeelBuitenBvInMetingen:
+          type: boolean
+        onroerendErfgoed:
+          $ref: "#/components/schemas/OnroerendErfgoedRestDto"
+        functies:
+          type: array
+          items:
+            $ref: "#/components/schemas/GeometrieFunctieOutputRestDto"
+    GeometrieFunctieOutputRestDto:
+      type: object
+      properties:
+        functieType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        beschrijving:
+          type: string
+    GebouweenheidIdNaamInputRestDto:
+      type: object
+      properties:
+        vbrGebouweenheidId:
+          type: string
+        naam:
+          type: string
+        bestemmingAndereDanNietResidentieel:
+          type: boolean
+      required:
+        - bestemmingAndereDanNietResidentieel
+        - naam
+    PutGebouwInputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        naam:
+          type: string
+        adresBeschrijving:
+          type: string
+        automatiseringControleSysteemVerplicht:
+          type: boolean
+        vbrGebouweenheden:
+          type: array
+          items:
+            $ref: "#/components/schemas/GebouweenheidIdNaamInputRestDto"
+      required:
+        - automatiseringControleSysteemVerplicht
+    GebouwDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        adresBeschrijving:
+          type: string
+        vbrGebouwId:
+          type: string
+        naam:
+          type: string
+        aantalVbrGebouweenheden:
+          type: integer
+          format: int32
+        automatiseringControleSysteemVerplicht:
+          type: boolean
+    GebouweenheidInputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        naam:
+          type: string
+        adresBeschrijving:
+          type: string
+    AdresRestDto:
+      type: object
+      description: Detail over het adres.
+      properties:
+        straat:
+          type: string
+        huisnummer:
+          type: string
+        busnummer:
+          type: string
+        postcode:
+          type: string
+        gemeente:
+          type: string
+        land:
+          type: string
+      title: Adres
+    GebouweenheidDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        adresBeschrijving:
+          type: string
+        feedbackEnergiedeskundige:
+          type: string
+        vbrGebouweenheidId:
+          type: string
+        adres:
+          $ref: "#/components/schemas/AdresRestDto"
+        bestemmingAndereDanNietResidentieel:
+          type: boolean
+        image:
+          type: string
+          format: byte
+    CopyPasteLinkRequest:
+      type: object
+      properties:
+        copyFromId:
+          type: string
+          format: uuid
+    ImporteerLinkRequest:
+      type: object
+      properties:
+        importFromId:
+          type: string
+          format: uuid
+      required:
+        - importFromId
+    FeedbackEnergiedeskundigeRestDto:
+      type: object
+      properties:
+        feedback:
+          type: string
+          maxLength: 512
+          minLength: 0
+      required:
+        - feedback
+    PutEnergiestroomInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        energiestroomType:
+          type: string
+        producent:
+          type: string
+        producentSubtype:
+          type: string
+        energiedrager:
+          type: string
+        uitgaandeEnergieType:
+          type: string
+        hernieuwbaarBekend:
+          type: boolean
+        meetpuntOokVoorGeexporteerdeStroom:
+          type: boolean
+        hernieuwbaarRestwarmte:
+          type: number
+          format: double
+        hernieuwbaarNietRestwarmte:
+          type: number
+          format: double
+        nietHernieuwbaarNietRestwarmte:
+          type: number
+          format: double
+        nietHernieuwbaarRestwarmte:
+          type: number
+          format: double
+        gekoppeldeEnergiestromenBekend:
+          type: boolean
+        teKoppelenEnergiestroomIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+      required:
+        - energiestroomType
+        - naam
+    EnergiestroomDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        energiestroomType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        producent:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        producentSubtype:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        energiedrager:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        uitgaandeEnergieType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        hernieuwbaarBekend:
+          type: boolean
+        meetpuntOokVoorGeexporteerdeStroom:
+          type: boolean
+        hernieuwbaarRestwarmte:
+          type: number
+          format: double
+        hernieuwbaarNietRestwarmte:
+          type: number
+          format: double
+        nietHernieuwbaarNietRestwarmte:
+          type: number
+          format: double
+        nietHernieuwbaarRestwarmte:
+          type: number
+          format: double
+        gekoppeldeEnergiestromenBekend:
+          type: boolean
+        gekoppeldeEnergiestromen:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnergiestroomOutputRestDto"
+    EnergiestroomOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    PutCertificaatInputRestDto:
+      type: object
+      properties:
+        status:
+          type: string
+          enum:
+            - GELDIG
+            - ONGELDIG
+            - INGETROKKEN
+            - GEANNULEERD
+            - VERVALLEN
+            - VERVANGEN
+        reden:
+          type: string
+          maxLength: 1024
+          minLength: 0
+      required:
+        - reden
+        - status
+    CertificaatOutputRestDto:
+      type: object
+      properties:
+        id:
+          type: string
+        datumIngediend:
+          type: string
+          format: date
+        epCode:
+          type: string
+        energiedeskundige:
+          type: string
+        opdrachtnaam:
+          type: string
+        naamGebouweenheid:
+          type: string
+        bestemming:
+          type: string
+        gebouwId:
+          type: string
+        gebouweenheidId:
+          type: string
+        gemeente:
+          type: string
+        postcode:
+          type: string
+        adres:
+          type: string
+        certificaatnummer:
+          type: string
+        status:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        reden:
+          type: string
+        pdf:
+          type: string
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        energiescore:
+          type: string
+        label:
+          type: string
+        ahe:
+          type: string
+    PutBevochtigingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        teKoppelenOpwekkerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+      required:
+        - gekoppeldeOpwekkersOnbekend
+        - naam
+    BevochtigingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        gekoppeldeOpwekkerIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerOutputRestDto"
+        gekoppeldeRuimteclustersIds:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterVentilatieOutputRestDto"
+    PutAanbevelingFeedbackInputRestDto:
+      type: object
+      properties:
+        feedback:
+          type: string
+          maxLength: 512
+          minLength: 0
+      required:
+        - feedback
+    AanbevelingFeedbackDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        feedback:
+          type: string
+    PostVerlichtingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        verlichtingstechnologieType:
+          type: string
+        bezettingsregelingType:
+          type: string
+        daglichtregelingType:
+          type: string
+        percentageOppervlakteVerlichtingszone:
+          type: string
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - naam
+        - percentageOppervlakteVerlichtingszone
+    PostVentilatieInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        teKoppelenOpwekkerId:
+          type: string
+          format: uuid
+        regelingType:
+          type: string
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - naam
+        - teKoppelenOpwekkerId
+    PostSchildeelOpbouwInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageTotaleOppervlakte:
+          type: string
+        schildeelOpbouwType:
+          type: string
+        massiefMateriaalType:
+          type: string
+        afwerkingType:
+          type: string
+        luchtlaag:
+          type: string
+        beglazingType:
+          type: string
+        profielType:
+          type: string
+        isolatieLagen:
+          type: array
+          items:
+            $ref: "#/components/schemas/PutIsolatieInputRestDto"
+          maxItems: 2
+          minItems: 0
+        poortMateriaal:
+          type: string
+        poortIsolatie:
+          type: string
+        raamstijlType:
+          type: string
+        schildeelId:
+          type: string
+          format: uuid
+        uWaarde:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeBekend:
+          type: boolean
+        uWaardeGlasOnbekend:
+          type: boolean
+        uWaardeGlas:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeGlasBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        gWaardeGlasOnbekend:
+          type: boolean
+        gWaardeGlas:
+          type: number
+          format: double
+          maximum: 1.0
+          minimum: 0.0
+        gWaardeGlasBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeProfielBekend:
+          type: boolean
+        uWaardeProfiel:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeProfielBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeRaamstijlBekend:
+          type: boolean
+        uWaardeRaamstijl:
+          type: number
+          format: double
+          minimum: 0.0
+        uWaardeRaamstijlBerekend:
+          type: number
+          format: double
+          minimum: 0.0
+      required:
+        - naam
+        - schildeelId
+    IsolatieCalculationResponse:
+      type: object
+      description: Detail over de berekening van een schildeel isolatie.
+      properties:
+        id:
+          type: string
+          format: uuid
+        rWaarde:
+          type: number
+          format: double
+      title: Berekening isolatie R-waarde response
+    SchildeelCalculationOutputRestDto:
+      type: object
+      properties:
+        isolatielagen:
+          type: array
+          items:
+            $ref: "#/components/schemas/IsolatieCalculationResponse"
+        jsonRequest:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+    SchildeelInProfielCalculationOutputRestDto:
+      type: object
+      properties:
+        jsonRequest:
+          type: string
+        uWaarde:
+          type: number
+          format: double
+        uWaardeGlas:
+          type: number
+          format: double
+        gWaardeGlas:
+          type: number
+          format: double
+        uWaardeProfiel:
+          type: number
+          format: double
+        uWaardePaneel:
+          type: number
+          format: double
+        uWaardeRaamStijl:
+          type: number
+          format: double
+    PostSanitairWarmWaterInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        tappunten:
+          type: array
+          items:
+            $ref: "#/components/schemas/SanitairWarmWaterTappuntenInputRestDto"
+        soortTappuntenOnbekend:
+          type: boolean
+        aantalDouchesOfBaden:
+          type: string
+        teKoppelenOpwekkerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        circulatieLeidingAanwezig:
+          type: string
+        combilusAanwezig:
+          type: string
+        lengteLeiding:
+          type: number
+          format: double
+        isolatieLeiding:
+          type: string
+        liggingLeiding:
+          type: string
+        warmteopslag:
+          type: string
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - naam
+    PostRuimteverwarmingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        ruimteverwarmingType:
+          type: string
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        teKoppelenOpwekkerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+        systeemType:
+          type: string
+        afgifteSysteemType:
+          type: string
+        warmtetransportMedium:
+          type: string
+        installatieRegeling:
+          type: string
+        combilus:
+          type: string
+        opwekkingAanwezig:
+          type: boolean
+        afgiftesysteemAanwezig:
+          type: boolean
+        regelingVerwarmingAanwezig:
+          type: boolean
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - naam
+        - ruimteverwarmingType
+    PostRuimteclusterVentilatieInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageVolume:
+          type: string
+        ventilatieAanwezig:
+          type: boolean
+        bevochtigingAanwezig:
+          type: boolean
+        toLinkBevochtigingen:
+          type: array
+          items:
+            type: string
+            format: uuid
+        teKoppelenVentilatieId:
+          type: string
+          format: uuid
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - bevochtigingAanwezig
+        - gebouweenheidId
+        - naam
+        - percentageVolume
+        - ventilatieAanwezig
+    PostRuimteclusterRuimteverwarmingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageVolume:
+          type: string
+        ruimteverwarmingAanwezig:
+          type: boolean
+        toLinkRuimteverwarmingen:
+          type: array
+          items:
+            type: string
+            format: uuid
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - naam
+        - percentageVolume
+        - ruimteverwarmingAanwezig
+    PostRuimteclusterKoelingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        percentageVolume:
+          type: string
+        koelingAanwezig:
+          type: boolean
+        toLinkKoelingen:
+          type: array
+          items:
+            type: string
+            format: uuid
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - koelingAanwezig
+        - naam
+        - percentageVolume
+    PostOpwekkerInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        opwekkerSoort:
+          type: string
+        opwekkerType:
+          type: string
+        fabricagejaar:
+          type: integer
+          format: int32
+        fabricagejaarOnbekend:
+          type: boolean
+        collectorType:
+          type: string
+        oppervlakte:
+          type: number
+          format: double
+        oppervlakteOnbekend:
+          type: boolean
+        vermogenOmvormer:
+          type: number
+          format: double
+        vermogenOmvormerOnbekend:
+          type: boolean
+        piekvermogen:
+          type: number
+          format: double
+        piekvermogenOnbekend:
+          type: boolean
+        lokaleProducent:
+          type: boolean
+        energiedrager:
+          type: string
+        orientatie:
+          type: string
+        orientatieOnbekend:
+          type: boolean
+        wkkType:
+          type: string
+        restwarmterecuperatieType:
+          type: string
+        thermischVermogen:
+          type: number
+          format: double
+        thermischVermogenOnbekend:
+          type: boolean
+        elektrischVermogen:
+          type: number
+          format: double
+        elektrischVermogenOnbekend:
+          type: boolean
+        warmteopslagSww:
+          type: string
+        locatieOpwekker:
+          type: string
+        testrendement:
+          type: number
+          format: double
+        testrendementOnbekend:
+          type: boolean
+        verbrandingswaarde:
+          type: string
+        percentageHernieuwbaar:
+          type: number
+          format: double
+          maximum: 100
+          minimum: 0
+        percentageHernieuwbaarOnbekend:
+          type: boolean
+        equivalentePrimaireEnergiefactor:
+          type: number
+          format: double
+        equivalentePrimaireEnergiefactorOnbekend:
+          type: boolean
+        thermischRendement:
+          type: number
+          format: double
+          maximum: 100
+          minimum: 0
+        thermischRendementOnbekend:
+          type: boolean
+        energylabelRvGekend:
+          type: boolean
+        energieEfficientieklasseRv:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerLabelInputRestDto"
+          uniqueItems: true
+        configuratieOpslagvatWarmtewisselaar:
+          type: string
+        volumeVoorraadvat:
+          type: integer
+          format: int32
+        volumeVoorraadvatOnbekend:
+          type: boolean
+        voorraadvatGeisoleerd:
+          type: string
+        energylabelSwwGekend:
+          type: boolean
+        energieEfficientieSww:
+          type: number
+          format: double
+        energieEfficientieSwwOnbekend:
+          type: boolean
+        energieEfficientieklasseSww:
+          type: string
+        capaciteitsprofielSww:
+          type: string
+        warmhoudverliesS:
+          type: integer
+          format: int32
+        warmhoudverliesSOnbekend:
+          type: boolean
+        nietCondenserendeKetelType:
+          type: string
+        toepassingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerToepassingInputRestDto"
+        reversibeleOpwekkerSoortWarmte:
+          type: string
+        reversibeleOpwekkerSoortKoeling:
+          type: string
+        compressiekoelmachineType:
+          type: string
+        warmtepompType:
+          type: string
+        warmtebron:
+          type: string
+        afgiftemedium:
+          type: string
+        warmtebronVerdamper:
+          type: string
+        afgiftemediumCondensor:
+          type: string
+        copTestOnbekend:
+          type: boolean
+        copTest:
+          type: number
+          format: double
+          maximum: 9
+          minimum: 0
+        scopOnbekend:
+          type: boolean
+        scop:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0.0
+        seerOnbekend:
+          type: boolean
+        seer:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0.0
+        ventilatieType:
+          type: string
+        soortRegelingVentilatoren:
+          type: string
+        testrendementWtwOnbekend:
+          type: boolean
+        wtwAanwezig:
+          type: boolean
+        testrendementWtw:
+          type: number
+          format: double
+        warmteterugwinningType:
+          type: string
+        vochtrecuperatie:
+          type: boolean
+        automatischeDebietsregeling:
+          type: boolean
+        instelwaardeInUitgaandDebiet:
+          type: boolean
+        bypassAanwezig:
+          type: boolean
+        bypassType:
+          type: string
+        koeltorenAanwezig:
+          type: boolean
+        freeChilling:
+          type: boolean
+        koelmiddelEigenschappenGekend:
+          type: boolean
+        koelmiddelNaam:
+          type: string
+        koelmiddelNaamAndere:
+          type: string
+        ozonlaagafbrekendeStoffen:
+          type: boolean
+        eerNom:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0.0
+        eerNomOnbekend:
+          type: boolean
+        ecolabel:
+          type: boolean
+        ingevoerdeGwpWaarde:
+          type: integer
+          format: int32
+          maximum: 20000
+          minimum: 0
+        aparteMeting:
+          type: boolean
+        vrf:
+          type: boolean
+        opdrachtId:
+          type: string
+          format: uuid
+      required:
+        - naam
+        - opdrachtId
+        - opwekkerSoort
+    PostOpdrachtInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+          maxLength: 100
+          minLength: 0
+        datumPlaatsbezoek:
+          type: string
+          format: date
+        startMeetperiode:
+          type: string
+          format: date
+        eindeMeetperiode:
+          type: string
+          format: date
+        periodeJaarInterval:
+          type: integer
+          format: int32
+        prijsEpc:
+          type: integer
+          format: int32
+          maximum: 2147483647
+        verplichteMeetgegevensAfwezig:
+          type: boolean
+        opmerkingMeetgegevens:
+          type: string
+          maxLength: 512
+          minLength: 0
+      required:
+        - datumPlaatsbezoek
+        - eindeMeetperiode
+        - naam
+        - prijsEpc
+        - startMeetperiode
+        - verplichteMeetgegevensAfwezig
+    DuplicateOpdrachtInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+          maxLength: 100
+          minLength: 0
+        datumPlaatsbezoek:
+          type: string
+          format: date
+        startMeetperiode:
+          type: string
+          format: date
+        eindeMeetperiode:
+          type: string
+          format: date
+        periodeJaarInterval:
+          type: integer
+          format: int32
+        prijsEpc:
+          type: integer
+          format: int32
+          maximum: 2147483647
+        verplichteMeetgegevensAfwezig:
+          type: boolean
+        opmerkingMeetgegevens:
+          type: string
+          maxLength: 512
+          minLength: 0
+      required:
+        - datumPlaatsbezoek
+        - eindeMeetperiode
+        - naam
+        - prijsEpc
+        - startMeetperiode
+        - verplichteMeetgegevensAfwezig
+    FilterDto:
+      type: object
+      properties:
+        energiedeskundigen:
+          type: array
+          items:
+            type: string
+        opdrachtStatussen:
+          type: array
+          items:
+            type: string
+            enum:
+              - INGEVOERD
+              - BEREKEND
+              - INGEDIEND
+              - VEROUDERD
+        certificaatStatussen:
+          type: array
+          items:
+            type: string
+            enum:
+              - GELDIG
+              - ONGELDIG
+              - INGETROKKEN
+              - GEANNULEERD
+              - VERVALLEN
+              - VERVANGEN
+        bestemmingen:
+          type: array
+          items:
+            type: string
+            enum:
+              - KANTOOR
+              - HANDELSZAAK
+              - HOTEL
+              - RESTAURANT_CAFE
+              - KLEUTER_LAGER
+              - SECUNDAIR
+              - HOGER_OF_UNIVERSITAIR
+              - SPORTHAL
+              - ZWEMBAD
+              - SPORT_OVERIGE
+              - ZIEKENHUIS
+              - WOONZORGCENTRUM
+              - MEDISCHE_GROEPSPRAKTIJK
+              - KINDERDAGVERBLIJF
+              - GEZONDHEIDSZORG_OVERIGE
+              - WIJKHUIS
+              - JEUGDBEWEGING
+              - MAATSCHAP_DIENST_OVERIGE
+              - BIBLIOTHEEK
+              - EVENEMENTENHAL
+              - MUSEUM
+              - CINEMA
+              - PODIUMKUNSTEN
+              - CULTUUR_OVERIGE
+              - LUCHTHAVEN
+              - POSTKANTOOR
+              - GEMEENTEHUIS
+              - STATIONSGEBOUW
+              - POLITIEKANTOOR
+              - BRANDWEERKAZERNE
+              - GERECHTSHOF
+              - GEVANGENIS
+              - OPENBAAR_OVERIGE
+              - ANDERE
+        publiekGebouw:
+          type: boolean
+        overheidsgebouw:
+          type: boolean
+        aanmaakdatum:
+          $ref: "#/components/schemas/FilterRangeDtoLocalDate"
+        indiendatum:
+          $ref: "#/components/schemas/FilterRangeDtoLocalDate"
+        labels:
+          type: array
+          items:
+            type: string
+            enum:
+              - X
+              - F
+              - E
+              - D
+              - C
+              - B
+              - A
+        energiescore:
+          $ref: "#/components/schemas/FilterRangeDtoInteger"
+        searchString:
+          type: string
+    FilterRangeDtoInteger:
+      type: object
+      properties:
+        van:
+          type: integer
+          format: int32
+        tot:
+          type: integer
+          format: int32
+    FilterRangeDtoLocalDate:
+      type: object
+      properties:
+        van:
+          type: string
+          format: date
+        tot:
+          type: string
+          format: date
+    PostMetingInputRestDto:
+      type: object
+      properties:
+        startMeterstand:
+          type: number
+          format: double
+        eindMeterstand:
+          type: number
+          format: double
+        tellerId:
+          type: string
+          format: uuid
+      required:
+        - tellerId
+    PostMeterInputRestDto:
+      type: object
+      properties:
+        beschrijving:
+          type: string
+        eanCode:
+          type: string
+        meternummer:
+          type: string
+        locatieBeschrijving:
+          type: string
+        opmerking:
+          type: string
+          maxLength: 512
+          minLength: 0
+        energiestroomId:
+          type: string
+          format: uuid
+        locatieMeetpunt:
+          type: string
+        nutsmeter:
+          type: boolean
+        nutsbedrijf:
+          type: string
+        nutsbedrijfVrijIngevuld:
+          type: string
+        meterType:
+          type: string
+        meeteenheid:
+          type: string
+        tellerType:
+          type: string
+        inhoud:
+          type: string
+          format: binary
+      required:
+        - beschrijving
+        - energiestroomId
+        - locatieMeetpunt
+        - meternummer
+        - nutsmeter
+    PostKoelingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        koelingType:
+          type: string
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        teKoppelenOpwekkerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+        afgifteSysteemTypeKoeling:
+          type: string
+        koudetransportMedium:
+          type: string
+        installatieRegeling:
+          type: string
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - koelingType
+        - naam
+    PostGeometrieVloerenInputRestDto:
+      type: object
+      properties:
+        metBegrenzingVolleGrond:
+          type: boolean
+        percentageMetBegrenzingVolleGrond:
+          type: string
+        metBegrenzingKelder:
+          type: boolean
+        percentageMetBegrenzingKelder:
+          type: string
+        metBegrenzingAor:
+          type: boolean
+        percentageMetBegrenzingAor:
+          type: string
+        metBegrenzingBuiten:
+          type: boolean
+        percentageMetBegrenzingBuiten:
+          type: string
+        metBegrenzingAvr:
+          type: boolean
+        percentageMetBegrenzingAvr:
+          type: string
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+    PostGeometrieGevelsInputRestDto:
+      type: object
+      properties:
+        metBegrenzingBuiten:
+          type: boolean
+        percentageMetBegrenzingBuiten:
+          type: string
+        metBegrenzingVolleGrond:
+          type: boolean
+        percentageMetBegrenzingVolleGrond:
+          type: string
+        metBegrenzingAorOfKelder:
+          type: boolean
+        percentageMetBegrenzingAorOfKelder:
+          type: string
+        metBegrenzingAvr:
+          type: boolean
+        percentageMetBegrenzingAvr:
+          type: string
+        poortenDeurenAanwezig:
+          type: boolean
+        lichteGevelsAanwezig:
+          type: boolean
+        percentageLichteGevels:
+          type: string
+        opengaandeDelenAanwezig:
+          type: boolean
+        opengaandeDelen:
+          type: string
+        venstersAanwezig:
+          type: boolean
+        percentageVensters:
+          type: string
+        raamroostersAanwezig:
+          type: boolean
+        panelenAanwezig:
+          type: boolean
+        paneelType:
+          type: string
+        paneelIsolatieAanwezigheid:
+          type: string
+        zonweringAanwezig:
+          type: boolean
+        percentageZonwering:
+          type: string
+        zonweringType:
+          type: string
+        bedieningType:
+          type: string
+        gebouweenheidId:
+          type: string
+          format: uuid
+        uWaardePaneelBekend:
+          type: boolean
+        uWaardePaneel:
+          type: number
+          format: double
+          minimum: 0.0
+      required:
+        - gebouweenheidId
+    PostGeometrieDakenInputRestDto:
+      type: object
+      properties:
+        platDak:
+          type: boolean
+        percentagePlatDak:
+          type: string
+        hellendDak:
+          type: boolean
+        percentageHellendDak:
+          type: string
+        plafondAor:
+          type: boolean
+        percentagePlafondAor:
+          type: string
+        plafondAvr:
+          type: boolean
+        percentagePlafondAvr:
+          type: string
+        venstersPlatDak:
+          type: boolean
+        percentageVenstersPlatDak:
+          type: string
+        venstersHellendDak:
+          type: boolean
+        percentageVenstersHellendDak:
+          type: string
+        raamroostersAanwezig:
+          type: boolean
+        zonweringAanwezig:
+          type: boolean
+        percentageZonwering:
+          type: string
+        zonweringType:
+          type: string
+        bedieningType:
+          type: string
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+    PostGeometrieAlgemeenInputRestDto:
+      type: object
+      properties:
+        bestemming:
+          type: string
+        bestemmingBeschrijving:
+          type: string
+        bruikbareVloeroppervlakte:
+          type: integer
+          format: int32
+          minimum: 1
+        bruikbareVloeroppervlakteOnbekend:
+          type: boolean
+        aantalBouwlagen:
+          type: integer
+          format: int32
+          minimum: 1
+        bebouwingType:
+          type: string
+        orientatieVoorgevel:
+          type: string
+        thermischeMassa:
+          type: string
+        luchtdichtheid:
+          type: number
+          format: double
+        luchtdichtheidOnbekend:
+          type: boolean
+        publiekGebouw:
+          type: boolean
+        overheidsgebouw:
+          type: boolean
+        aantalMaaltijdenPerDienst:
+          type: integer
+          format: int32
+          maximum: 2147483647
+          minimum: 0
+        aantalMaaltijdenPerDienstOnbekend:
+          type: boolean
+        functies:
+          type: array
+          items:
+            $ref: "#/components/schemas/GeometrieFunctieInputRestDto"
+        hcoNummer:
+          type: string
+        hcoNummerOnbestaand:
+          type: boolean
+        bouwjaar:
+          type: integer
+          format: int32
+        bouwjaarOnbekend:
+          type: boolean
+        deelUitgeslotenUitBv:
+          type: boolean
+        oppervlakteUitgeslotenDeel:
+          type: integer
+          format: int32
+          minimum: 1
+        energiegebruikDeelBuitenBvInMetingen:
+          type: boolean
+        onroerendErfgoed:
+          $ref: "#/components/schemas/OnroerendErfgoedRestDto"
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+    PostGebouwInputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        naam:
+          type: string
+        adresBeschrijving:
+          type: string
+        automatiseringControleSysteemVerplicht:
+          type: boolean
+        vbrGebouweenheden:
+          type: array
+          items:
+            $ref: "#/components/schemas/GebouweenheidIdNaamInputRestDto"
+        opdrachtId:
+          type: string
+          format: uuid
+        vbrGebouwId:
+          type: string
+      required:
+        - automatiseringControleSysteemVerplicht
+        - opdrachtId
+    PostGebouweenheidInputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        naam:
+          type: string
+        adresBeschrijving:
+          type: string
+        gebouwId:
+          type: string
+          format: uuid
+        vbrGebouweenheidId:
+          type: string
+      required:
+        - gebouwId
+        - vbrGebouweenheidId
+    PostGebouweenheidImageInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+          maxLength: 30
+          minLength: 0
+        bestemmingAndereDanNietResidentieel:
+          type: boolean
+        inhoud:
+          type: string
+          format: binary
+      required:
+        - bestemmingAndereDanNietResidentieel
+        - naam
+    EnergiescoreOutputRestDto:
+      type: object
+      properties:
+        energieScore:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVanAlleGeveldelen:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVanAlleVloerdelen:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVanAlleDakdelenZoldervloerenEnPlafonds:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVoorAlleVensters:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVoorAlleBeglazing:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVoorAlleLichteGevels:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVoorAllePoorten:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeInstallatierendementVoorAlleInstallatiesXVoorRuimteverwarming:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gemiddeldeUWaardeVanDeGebouweenheid:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleGevelsAOROfKelder:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleGevelsBuiten:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleGevelsVolleGrond:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleHellendeDaken:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleLichteGevels:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAllePlafondsAOR:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAllePlatteDaken:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAllePoortenOfDeuren:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleVenstersHellendeDaken:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleVenstersInGevel:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleVenstersPlatteDaken:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleVloerenAOR:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleVloerenBuiten:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleVloerenKelder:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoOppervlakteAlleVloerenVolleGrond:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        beschermdVolume:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        totaalPrimairEnergiegebruik:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        primairEnergiegebruikRuimteverwarming:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        primairEnergiegebruikSanitairWarmWater:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        primairEnergiegebruikHulpenergie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        primairEnergiegebruikVerlichting:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        primairEnergiegebruikKoeling:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        primairEnergiebesparingWkk:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        installaties:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieResponse"
+        aanbevelingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/AanbevelingResponse"
+        opwekkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpwekkerResponse"
+        schildeelOpbouwen:
+          type: array
+          items:
+            $ref: "#/components/schemas/SchildeelOpbouwResponse"
+        geleverdeEnergieen:
+          type: array
+          items:
+            $ref: "#/components/schemas/GeleverdeEnergieResponse"
+        startPeriode:
+          type: string
+          format: date
+        eindPeriode:
+          type: string
+          format: date
+        berekendOp:
+          type: string
+          format: date-time
+        jsonRequest:
+          type: string
+        validatieErrors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidatieErrorRestDto"
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+    GeleverdeEnergieResponse:
+      type: object
+      description: 'Detail over het geleverde energie '
+      properties:
+        id:
+          type: string
+        berekendeSPFp:
+          type: number
+          format: double
+      title: Geleverde energie response
+    InstallatieResponse:
+      type: object
+      description: Detail over de installatie
+      properties:
+        id:
+          type: string
+        gemiddeldeRendement:
+          $ref: "#/components/schemas/ResultaatRestDto"
+      title: Installatie response
+    OpwekkerResponse:
+      type: object
+      description: Detail over de opwekker
+      properties:
+        id:
+          type: string
+        minimumSPF:
+          type: number
+          format: double
+        minimumThermischRendement:
+          type: number
+          format: double
+        minimumElektrischRendement:
+          type: number
+          format: double
+        minimumSEER:
+          type: number
+          format: double
+      title: Opwekker response
+    SchildeelOpbouwResponse:
+      type: object
+      description: Detail over het schildeel opbouw
+      properties:
+        id:
+          type: string
+        isolaties:
+          type: array
+          items:
+            $ref: "#/components/schemas/IsolatieCalculationResponse"
+        uwaarde:
+          type: number
+          format: double
+        uwaardeGlas:
+          type: number
+          format: double
+        gwaardeGlas:
+          type: number
+          format: double
+        uwaardeProfielBekend:
+          type: boolean
+        uwaardeProfiel:
+          type: number
+          format: double
+        uwaardeBekend:
+          type: boolean
+        gwaardeGlasBekend:
+          type: boolean
+        uwaardeGlasBekend:
+          type: boolean
+      title: Schildeel opbouw response
+    PostEnergiestroomInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        energiestroomType:
+          type: string
+        producent:
+          type: string
+        producentSubtype:
+          type: string
+        energiedrager:
+          type: string
+        uitgaandeEnergieType:
+          type: string
+        hernieuwbaarBekend:
+          type: boolean
+        meetpuntOokVoorGeexporteerdeStroom:
+          type: boolean
+        hernieuwbaarRestwarmte:
+          type: number
+          format: double
+        hernieuwbaarNietRestwarmte:
+          type: number
+          format: double
+        nietHernieuwbaarNietRestwarmte:
+          type: number
+          format: double
+        nietHernieuwbaarRestwarmte:
+          type: number
+          format: double
+        gekoppeldeEnergiestromenBekend:
+          type: boolean
+        teKoppelenEnergiestroomIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+        opdrachtId:
+          type: string
+          format: uuid
+      required:
+        - energiestroomType
+        - naam
+        - opdrachtId
+    PostBevochtigingInputRestDto:
+      type: object
+      properties:
+        naam:
+          type: string
+        gekoppeldeOpwekkersOnbekend:
+          type: boolean
+        teKoppelenOpwekkerIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+          uniqueItems: true
+        gebouweenheidId:
+          type: string
+          format: uuid
+      required:
+        - gebouweenheidId
+        - gekoppeldeOpwekkersOnbekend
+        - naam

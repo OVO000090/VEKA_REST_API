@@ -1,102 +1,90 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
-  title: VEKA energiepremies API
-  description: Rest API services energiepremies van het Vlaams Energie- en Klimaatagentschap
+  title: VEKA Energiepremies API
+  description: Rest API services voor energiepremies
+  contact:
+    name: VEKA
+    url: https://www.energiesparen.be
+    email: veka@vlaanderen.be
   license:
     name: European Union Public Licence (EUPL)
     url: https://joinup.ec.europa.eu/collection/eupl/eupl-text-11-12
-  version: '1.0'
+  version: "v1"
 servers:
   - url: https://energie-dev-secure.api.vlaanderen.be
 tags:
   - name: Energiepremies
-    description: Certificaat Controller
+    description: ENERGIEPREMIES API
 paths:
   /energiepremies-api/v1/certificaat:
     get:
       tags:
         - Energiepremies
-      summary: >-
-        Geef de gegevens terug van het certificaat op basis van attestnummer en
-        uiterste datum ingediend.
-      operationId: getCertificaatByAttestnummerUsingGET
+      description: Geef de gegevens terug van het certificaat op basis van attestnummer
+        en uiterste datum ingediend.
+      operationId: getCertificaatByAttestnummer
       parameters:
         - name: attestnummer
           in: query
-          description: attestnummer
           required: true
-          style: form
           schema:
             type: string
         - name: uitersteDatumIngediend
           in: query
-          description: uitersteDatumIngediend
           required: false
-          style: form
           schema:
             type: string
             format: date
       responses:
-        '200':
+        "200":
           description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/CertificaatOutputRestDto'
-        '201':
-          description: Het object is aangemaakt.
-        '204':
+        "204":
           description: Geen data om terug te geven.
-        '400':
-          description: Ongeldige request
-        '403':
-          description: Forbidden
-        '404':
+        "404":
           description: Er zijn geen gegevens gevonden.
-        '500':
+          content:
+            application/json:
+              schema:
+                example:
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  errors:
+                    - detail: Resource niet gevonden
+                  detail: Resource not found
+                  status: 404
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  title: Not Found
+        "400":
+          description: Ongeldige request
+          content:
+            application/json:
+              schema:
+                example:
+                  timestamp: 2024-09-02T15:03:37.449+02:00
+                  errors:
+                    - detail: Minimaal param1 of param2 zijn verplicht.
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
+                  status: 400
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+        "403":
+          description: Forbidden
+        "500":
           description: Er is een fout opgetreden.
+          content:
+            application/json:
+              schema:
+                example:
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  title: Internal Server Error
 components:
-  schemas:
-    Adres:
-      title: Adres
-      type: object
-      properties:
-        busnummer:
-          type: string
-        gemeente:
-          type: string
-        huisnummer:
-          type: string
-        land:
-          type: string
-        postcode:
-          type: string
-        straat:
-          type: string
-      description: Detail over het adres.
-    CertificaatOutputRestDto:
-      title: CertificaatOutputRestDto
-      type: object
-      properties:
-        adres:
-          $ref: '#/components/schemas/Adres'
-        attestnummer:
-          type: string
-        attestnummerLaatstGeldend:
-          type: string
-        datumGeldigheid:
-          type: string
-          format: date-time
-        datumIngediend:
-          type: string
-          format: date-time
-        gebouwId:
-          type: integer
-          format: int64
-        gebouweenheidId:
-          type: integer
-          format: int64
-        label:
-          type: string
-        typePand:
-          type: string
+  schemas: {}
