@@ -52,7 +52,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = a784028d-601f-4e31-899b-29c6280b5334"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = bc1dee84-4f10-4295-9ee4-e5004f3a2a73"}
   /api/datadiensten/v1/gebouweenheden/epc-labels/locaties:
     get:
       tags:
@@ -78,7 +78,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 1fe44eb3-fa8b-442b-b49a-bf5c4bd37339"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = c94022e4-bbe8-4cd0-81a6-3be5587cddc2"}
   /api/datadiensten/v1/mcs/meldingen:
     get:
       tags:
@@ -106,7 +106,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 75de333b-1f61-4702-8ae5-8ee1f0b66690"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = c5677150-6bb4-4b28-8135-fbc679199fd3"}
   /api/datadiensten/v1/mvp/werken:
     get:
       tags:
@@ -134,7 +134,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
-              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = 9d100710-bd3f-41be-858f-ad18a7ee2302"}
+              example: {"type":"https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1","title":"Onverwachte fout","status":500,"detail":"Er is een onverwachte fout opgetreden. Raadpleeg de logs voor meer informatie. CorrelatieId = d1008c7b-cd7e-44bb-987f-a648b38cfa9f"}
 components:
   schemas:
     Gebouweenheden.Bouwjaren:
