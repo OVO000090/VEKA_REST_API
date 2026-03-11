@@ -31,6 +31,10 @@ paths:
       responses:
         "201":
           description: Het object is aangemaakt.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MeldingCentraleStooktoestellenOutput'
         "400":
           description: Ongeldige request
           content:
@@ -78,6 +82,10 @@ paths:
       responses:
         "201":
           description: Het object is aangemaakt.
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/MeldingCentraleStooktoestellenOutput'
         "400":
           description: Ongeldige request
           content:
@@ -308,3 +316,17 @@ components:
         - gegevensActiviteit
         - kenmerkenToestel
         - ondernemingsnummer
+    MeldingCentraleStooktoestellenOutput:
+      title: MeldingCentraleStooktoestellenOutput
+      type: object
+      properties:
+        externeReferte:
+          type: string
+        meldingsnummer:
+          type: string
+        message:
+          type: string
+        opmerkingen:
+          type: array
+          items:
+            type: string

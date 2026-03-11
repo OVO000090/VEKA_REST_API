@@ -118,30 +118,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/EnergieAttesten"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -149,15 +137,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -166,7 +169,8 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
-  /energie-attesten-api/v1/energie-attesten/{id}:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+  /energie-attesten/{id}:
     get:
       tags:
         - Energie attesten
@@ -181,30 +185,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/EnergieAttestDetail"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -212,15 +204,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -229,6 +236,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/schildelen:
     get:
       tags:
@@ -244,30 +252,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/AttestSchildelen"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -275,15 +271,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -292,6 +303,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/opwekker/{opwekkerId}:
     get:
       tags:
@@ -313,30 +325,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/Opwekker"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -344,15 +344,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -361,6 +376,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-verlichting:
     get:
       tags:
@@ -377,30 +393,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/InstallatiesVoorVerlichting"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -408,15 +412,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -425,6 +444,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ventilatie-en-bevochtiging:
     get:
       tags:
@@ -441,30 +461,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/InstallatiesVoorVentilatieEnBevochtiging"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -472,15 +480,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -489,6 +512,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-sanitair-warm-water:
     get:
       tags:
@@ -505,30 +529,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/InstallatiesVoorSanitairWarmWater"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -536,15 +548,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -553,6 +580,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-ruimteverwarming:
     get:
       tags:
@@ -569,30 +597,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/InstallatiesVoorRuimteverwarming"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -600,15 +616,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -617,6 +648,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/installaties-voor-koeling:
     get:
       tags:
@@ -632,30 +664,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/InstallatiesVoorKoeling"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -663,15 +683,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -680,6 +715,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/indicatoren:
     get:
       tags:
@@ -695,30 +731,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/EnergieIndicatoren"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -726,15 +750,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -743,6 +782,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/fotos/{fotoId}:
     get:
       tags:
@@ -764,30 +804,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/DocumentInhoud"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -795,15 +823,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -812,6 +855,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/erkenning:
     get:
       tags:
@@ -827,30 +871,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/Erkenning"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -858,15 +890,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -875,6 +922,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
   /energie-attesten-api/v1/energie-attesten/{id}/energie-metingen:
     get:
       tags:
@@ -890,30 +938,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/EnergieMeting"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -921,15 +957,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -938,7 +989,8 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
-  /energie-attesten/{id}/energie-meters/{meterId}/documenten:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+  /energie-attesten-api/v1/energie-attesten/{id}/energie-meters/{meterId}/documenten:
     get:
       tags:
         - Energie attesten
@@ -958,30 +1010,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/AttestDocumenten"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -989,15 +1029,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -1006,7 +1061,8 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
-  /energie-attesten/{id}/documenten:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+  /energie-attesten-api/v1/energie-attesten/{id}/documenten:
     get:
       tags:
         - Energie attesten
@@ -1021,30 +1077,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/AttestDocumenten"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -1052,15 +1096,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -1069,7 +1128,8 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
-  /energie-attesten/{id}/attesten/{documentId}:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+  /energie-attesten-api/v1/energie-attesten/{id}/attesten/{documentId}:
     get:
       tags:
         - Energie attesten
@@ -1090,30 +1150,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/DocumentInhoud"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -1121,15 +1169,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -1138,7 +1201,8 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
-  /energie-attesten/{id}/adviezen:
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+  /energie-attesten-api/v1/energie-attesten/{id}/adviezen:
     get:
       tags:
         - Energie attesten
@@ -1153,30 +1217,18 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  detail: Resource not found
-                  errors:
-                    - detail: Resource niet gevonden
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  title: Not Found
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  status: 404
+                $ref: "#/components/schemas/Adviezen"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
-                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
-                    het errors attribuut voor meer informatie.
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   timestamp: 2024-09-02T15:03:37.449+02:00
@@ -1184,15 +1236,30 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
                   status: 400
+                  detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
+                    het errors attribuut voor meer informatie.
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  errors:
+                    - detail: Resource niet gevonden
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  title: Not Found
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  status: 404
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   errors:
                     - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                       errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
@@ -1201,6 +1268,7 @@ paths:
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   status: 500
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
 components:
   schemas:
     PutVerlichtingInputRestDto:
@@ -1226,8 +1294,7 @@ components:
           type: string
         waarden:
           type: array
-          items:
-            $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+          items: {}
     CodeOmschrijvingOutputRestDto:
       type: object
       properties:
@@ -1283,6 +1350,8 @@ components:
         valideerEnergiescore:
           type: string
         feedbackEnergiedeskundige:
+          type: string
+        maatadviesEnergiedeskundige:
           type: string
         aandeelHernieuwbareEnergie:
           type: string
@@ -1355,6 +1424,8 @@ components:
         downloadCertificaat:
           type: string
         downloadZipCertificaten:
+          type: string
+        adresgegevensWijzigen:
           type: string
         berekenUWaardeSchildeel:
           type: string
@@ -1486,6 +1557,9 @@ components:
           type: string
         onderbrekingIsolatiemateriaal:
           type: string
+        rwaardeBerekend:
+          type: number
+          format: double
         rWaardeBerekend:
           type: number
           format: double
@@ -1520,6 +1594,46 @@ components:
           type: string
         raamstijlType:
           type: string
+        uwaarde:
+          type: number
+          format: double
+        uwaardeBekend:
+          type: boolean
+        uwaardeBerekend:
+          type: number
+          format: double
+        uwaardeGlasOnbekend:
+          type: boolean
+        uwaardeGlasBerekend:
+          type: number
+          format: double
+        uwaardeGlas:
+          type: number
+          format: double
+        gwaardeGlasOnbekend:
+          type: boolean
+        gwaardeGlasBerekend:
+          type: number
+          format: double
+        gwaardeGlas:
+          type: number
+          format: double
+        uwaardeRaamstijlBerekend:
+          type: number
+          format: double
+        uwaardeProfielBekend:
+          type: boolean
+        uwaardeProfielBerekend:
+          type: number
+          format: double
+        uwaardeProfiel:
+          type: number
+          format: double
+        uwaardeRaamstijlBekend:
+          type: boolean
+        uwaardeRaamstijl:
+          type: number
+          format: double
         uWaarde:
           type: number
           format: double
@@ -1605,6 +1719,9 @@ components:
           $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
         dunneReflecterendeLaagType:
           $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        rwaardeBerekend:
+          type: number
+          format: double
         rWaardeBerekend:
           type: number
           format: double
@@ -1650,6 +1767,51 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/IsolatieOutputDetailRestDto"
+        uwaarde:
+          type: number
+          format: double
+        uwaardeBerekend:
+          type: number
+          format: double
+        uwaardeGlasOnbekend:
+          type: boolean
+        uwaardeGlasBerekend:
+          type: number
+          format: double
+        uwaardeGlas:
+          type: number
+          format: double
+        gwaardeGlasOnbekend:
+          type: boolean
+        gwaardeGlasBerekend:
+          type: number
+          format: double
+        gwaardeGlas:
+          type: number
+          format: double
+        uwaardePaneelBekend:
+          type: boolean
+        uwaardePaneel:
+          type: number
+          format: double
+        uwaardeRaamstijlBerekend:
+          type: number
+          format: double
+        uwaardeProfielBekend:
+          type: boolean
+        uwaardeProfielBerekend:
+          type: number
+          format: double
+        uwaardeProfiel:
+          type: number
+          format: double
+        uwaardeRaamstijlBekend:
+          type: boolean
+        uwaardeRaamstijl:
+          type: number
+          format: double
+        uwaardeBekend:
+          type: boolean
         uWaarde:
           type: number
           format: double
@@ -2550,6 +2712,56 @@ components:
         extraInfo:
           type: string
       title: Aanbeveling response
+    AandeelHernieuwbareEnergieGebouwOutputRestDto:
+      type: object
+      properties:
+        indicatorVoorLangetermijndoelstelling:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingElektriciteitsbehoefte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingWarmtebehoefte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingHernieuwbareWarmte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        indicatorVoorLangetermijndoelstellingRestwarmte:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        eigengebruikHernieuwbareElektriciteitsproductie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        aandeelElektriciteitInTotaleEnergiegebruik:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        aandeelWarmteInTotaleEnergiegebruik:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeexporteerdeHernieuwbareEnergie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeexporteerdeNietHernieuwbareEnergie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeleverdeHernieuwbareEnergieAanEenheid:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        gewogenHoeveelheidGeleverdeNietHernieuwbareEnergieAanEenheid:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoHernieuwbareEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoRestwarmteGebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        nettoNietRestwarmteNietHernieuwbareEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        totaleNettoEnergiegebruikGeleverdEnGeexporteerdOverMeetperiode:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        koolstofEfficientie:
+          $ref: "#/components/schemas/ResultaatRestDto"
+        energieLabel:
+          type: string
+        aanbevelingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/AanbevelingResponse"
+        id:
+          type: string
+          format: uuid
+        validatieErrors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ValidatieErrorRestDto"
     AandeelHernieuwbareEnergieOutputRestDto:
       type: object
       properties:
@@ -2612,6 +2824,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ValidatieErrorRestDto"
+        gebouwen:
+          type: array
+          items:
+            $ref: "#/components/schemas/AandeelHernieuwbareEnergieGebouwOutputRestDto"
     OpdrachtOutputRestDto:
       type: object
       properties:
@@ -2664,6 +2880,11 @@ components:
           format: int64
         onroerendErfgoedStatuutChanged:
           type: boolean
+        grarValidationFailed:
+          type: boolean
+        aantalGebouweenheden:
+          type: integer
+          format: int64
     ResultaatRestDto:
       type: object
       properties:
@@ -2685,7 +2906,14 @@ components:
         startMeterstand:
           type: number
           format: double
+        startMeterstandOnbekend:
+          type: boolean
         eindMeterstand:
+          type: number
+          format: double
+        eindMeterstandOnbekend:
+          type: boolean
+        gebruikMeetperiode:
           type: number
           format: double
     MetingDetailOutputRestDto:
@@ -2707,7 +2935,14 @@ components:
         eindMeterstand:
           type: number
           format: double
+        startMeterstandOnbekend:
+          type: boolean
+        eindMeterstandOnbekend:
+          type: boolean
         saldoMeterstand:
+          type: number
+          format: double
+        gebruikMeetperiode:
           type: number
           format: double
     PutMeterInputRestDto:
@@ -2717,20 +2952,28 @@ components:
           type: string
         eanCode:
           type: string
+          maxLength: 64
+          minLength: 0
         meternummer:
           type: string
+          maxLength: 64
+          minLength: 0
+        afwijkendeMeetperiode:
+          type: boolean
         locatieBeschrijving:
           type: string
         opmerking:
           type: string
           maxLength: 512
           minLength: 0
+        afwezigOfKwaliteitsvoorwaardenNietVoldaan:
+          type: boolean
         inhoud:
           type: string
           format: binary
       required:
+        - afwijkendeMeetperiode
         - beschrijving
-        - meternummer
     MeterDetailOutputRestDto:
       type: object
       properties:
@@ -2759,6 +3002,10 @@ components:
           type: string
         meternummer:
           type: string
+        afwijkendeMeetperiode:
+          type: boolean
+        afwezigOfKwaliteitsvoorwaardenNietVoldaan:
+          type: boolean
         meeteenheid:
           $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
         tellerType:
@@ -2936,6 +3183,11 @@ components:
           type: string
         bedieningType:
           type: string
+        uwaardePaneelBekend:
+          type: boolean
+        uwaardePaneel:
+          type: number
+          format: double
         uWaardePaneelBekend:
           type: boolean
         uWaardePaneel:
@@ -2998,6 +3250,11 @@ components:
           $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
         bedieningType:
           $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        uwaardePaneelBekend:
+          type: boolean
+        uwaardePaneel:
+          type: number
+          format: double
         uWaardePaneelBekend:
           type: boolean
         uWaardePaneel:
@@ -3246,6 +3503,7 @@ components:
           type: string
         naam:
           type: string
+          minLength: 1
         bestemmingAndereDanNietResidentieel:
           type: boolean
       required:
@@ -3264,11 +3522,14 @@ components:
           type: string
         automatiseringControleSysteemVerplicht:
           type: boolean
+        automatiseringControleSysteemAanwezig:
+          type: boolean
         vbrGebouweenheden:
           type: array
           items:
             $ref: "#/components/schemas/GebouweenheidIdNaamInputRestDto"
       required:
+        - automatiseringControleSysteemAanwezig
         - automatiseringControleSysteemVerplicht
     GebouwDetailOutputRestDto:
       type: object
@@ -3290,6 +3551,10 @@ components:
           type: integer
           format: int32
         automatiseringControleSysteemVerplicht:
+          type: boolean
+        automatiseringControleSysteemAanwezig:
+          type: boolean
+        alleGebouweenhedenAndereDanNietResidentieel:
           type: boolean
     GebouweenheidInputRestDto:
       type: object
@@ -3318,6 +3583,10 @@ components:
           type: string
         land:
           type: string
+        telefoonNummer:
+          type: string
+        email:
+          type: string
       title: Adres
     GebouweenheidDetailOutputRestDto:
       type: object
@@ -3335,6 +3604,8 @@ components:
           type: string
         feedbackEnergiedeskundige:
           type: string
+        maatadviesEnergiedeskundige:
+          type: string
         vbrGebouweenheidId:
           type: string
         adres:
@@ -3350,6 +3621,15 @@ components:
         copyFromId:
           type: string
           format: uuid
+    MaatadviesEnergiedeskundigeRestDto:
+      type: object
+      properties:
+        maatadvies:
+          type: string
+          maxLength: 512
+          minLength: 0
+      required:
+        - maatadvies
     ImporteerLinkRequest:
       type: object
       properties:
@@ -3367,6 +3647,19 @@ components:
           minLength: 0
       required:
         - feedback
+    GebouweenheidAdresgegevensWijzigenRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        vbrGebouwId:
+          type: string
+        vbrGebouweenheidId:
+          type: string
+      required:
+        - vbrGebouwId
     PutEnergiestroomInputRestDto:
       type: object
       properties:
@@ -3475,6 +3768,10 @@ components:
             - GEANNULEERD
             - VERVALLEN
             - VERVANGEN
+        vbrGebouwId:
+          type: string
+        vbrGebouweenheidId:
+          type: string
         reden:
           type: string
           maxLength: 1024
@@ -3482,6 +3779,7 @@ components:
       required:
         - reden
         - status
+        - vbrGebouwId
     CertificaatOutputRestDto:
       type: object
       properties:
@@ -3653,6 +3951,46 @@ components:
         schildeelId:
           type: string
           format: uuid
+        uwaarde:
+          type: number
+          format: double
+        uwaardeBekend:
+          type: boolean
+        uwaardeBerekend:
+          type: number
+          format: double
+        uwaardeGlasOnbekend:
+          type: boolean
+        uwaardeGlasBerekend:
+          type: number
+          format: double
+        uwaardeGlas:
+          type: number
+          format: double
+        gwaardeGlasOnbekend:
+          type: boolean
+        gwaardeGlasBerekend:
+          type: number
+          format: double
+        gwaardeGlas:
+          type: number
+          format: double
+        uwaardeRaamstijlBerekend:
+          type: number
+          format: double
+        uwaardeProfielBekend:
+          type: boolean
+        uwaardeProfielBerekend:
+          type: number
+          format: double
+        uwaardeProfiel:
+          type: number
+          format: double
+        uwaardeRaamstijlBekend:
+          type: boolean
+        uwaardeRaamstijl:
+          type: number
+          format: double
         uWaarde:
           type: number
           format: double
@@ -3714,6 +4052,9 @@ components:
         id:
           type: string
           format: uuid
+        rwaarde:
+          type: number
+          format: double
         rWaarde:
           type: number
           format: double
@@ -3727,6 +4068,9 @@ components:
             $ref: "#/components/schemas/IsolatieCalculationResponse"
         jsonRequest:
           type: string
+        uwaarde:
+          type: number
+          format: double
         uWaarde:
           type: number
           format: double
@@ -3735,6 +4079,24 @@ components:
       properties:
         jsonRequest:
           type: string
+        uwaarde:
+          type: number
+          format: double
+        uwaardeGlas:
+          type: number
+          format: double
+        gwaardeGlas:
+          type: number
+          format: double
+        uwaardePaneel:
+          type: number
+          format: double
+        uwaardeProfiel:
+          type: number
+          format: double
+        uwaardeRaamStijl:
+          type: number
+          format: double
         uWaarde:
           type: number
           format: double
@@ -4275,6 +4637,7 @@ components:
             type: string
             enum:
               - X
+              - G
               - F
               - E
               - D
@@ -4303,13 +4666,34 @@ components:
         tot:
           type: string
           format: date
+    PageOutputRestDtoOpdrachtOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        count:
+          type: integer
+          format: int64
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/OpdrachtOutputRestDto"
     PostMetingInputRestDto:
       type: object
       properties:
         startMeterstand:
           type: number
           format: double
+        startMeterstandOnbekend:
+          type: boolean
         eindMeterstand:
+          type: number
+          format: double
+        eindMeterstandOnbekend:
+          type: boolean
+        gebruikMeetperiode:
           type: number
           format: double
         tellerId:
@@ -4324,8 +4708,14 @@ components:
           type: string
         eanCode:
           type: string
+          maxLength: 64
+          minLength: 0
         meternummer:
           type: string
+          maxLength: 64
+          minLength: 0
+        afwijkendeMeetperiode:
+          type: boolean
         locatieBeschrijving:
           type: string
         opmerking:
@@ -4349,14 +4739,16 @@ components:
           type: string
         tellerType:
           type: string
+        afwezigOfKwaliteitsvoorwaardenNietVoldaan:
+          type: boolean
         inhoud:
           type: string
           format: binary
       required:
+        - afwijkendeMeetperiode
         - beschrijving
         - energiestroomId
         - locatieMeetpunt
-        - meternummer
         - nutsmeter
     PostKoelingInputRestDto:
       type: object
@@ -4466,6 +4858,11 @@ components:
         gebouweenheidId:
           type: string
           format: uuid
+        uwaardePaneelBekend:
+          type: boolean
+        uwaardePaneel:
+          type: number
+          format: double
         uWaardePaneelBekend:
           type: boolean
         uWaardePaneel:
@@ -4596,6 +4993,8 @@ components:
           type: string
         automatiseringControleSysteemVerplicht:
           type: boolean
+        automatiseringControleSysteemAanwezig:
+          type: boolean
         vbrGebouweenheden:
           type: array
           items:
@@ -4606,6 +5005,7 @@ components:
         vbrGebouwId:
           type: string
       required:
+        - automatiseringControleSysteemAanwezig
         - automatiseringControleSysteemVerplicht
         - opdrachtId
     PostGebouweenheidInputRestDto:
@@ -4796,6 +5196,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/IsolatieCalculationResponse"
+        uwaardeGlasBekend:
+          type: boolean
+        gwaardeGlasBekend:
+          type: boolean
         uwaarde:
           type: number
           format: double
@@ -4811,10 +5215,6 @@ components:
           type: number
           format: double
         uwaardeBekend:
-          type: boolean
-        gwaardeGlasBekend:
-          type: boolean
-        uwaardeGlasBekend:
           type: boolean
       title: Schildeel opbouw response
     PostEnergiestroomInputRestDto:
@@ -4863,6 +5263,21 @@ components:
         - energiestroomType
         - naam
         - opdrachtId
+    MappableRestDto: {}
+    PageOutputRestDtoMappableRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        count:
+          type: integer
+          format: int64
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/MappableRestDto"
     PostBevochtigingInputRestDto:
       type: object
       properties:
@@ -4883,3 +5298,1070 @@ components:
         - gebouweenheidId
         - gekoppeldeOpwekkersOnbekend
         - naam
+    TellerDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        tellerCode:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        tellerInfo:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    MetingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    SchildeelOpbouwOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    GebouwOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    TellerOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    GebruikerOutputRestDto:
+      type: object
+      properties:
+        voornaam:
+          type: string
+        naam:
+          type: string
+        roepnaam:
+          type: string
+        erkenningsnummer:
+          type: string
+        erkenningsstatus:
+          type: string
+        doelgroep:
+          type: string
+        onderneming:
+          $ref: "#/components/schemas/OndernemingOutputRestDTO"
+        registratierollen:
+          type: array
+          items:
+            $ref: "#/components/schemas/RegistratieRolOutputRestDTO"
+    OndernemingOutputRestDTO:
+      type: object
+      properties:
+        kboNummer:
+          type: string
+        ondernemingsnaam:
+          type: string
+    RegistratieRolOutputRestDTO:
+      type: object
+      properties:
+        rol:
+          type: string
+        status:
+          type: string
+    GebouweenheidOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    VerlichtingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    VentilatieOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    SchildeelOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        schildeelType:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+    SanitairWarmWaterOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        naam:
+          type: string
+    AanbevelingOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    MeterOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+    Adres:
+      type: object
+      properties:
+        straat:
+          type: string
+        huisnummer:
+          type: string
+        busnummer:
+          type: string
+        gemeente:
+          type: string
+        postcode:
+          type: string
+        adresId:
+          type: string
+    EnergieAttest:
+      type: object
+      properties:
+        id:
+          type: string
+        energieAttestNummer:
+          type: string
+        energieAttestStatus:
+          type: string
+        datumIngediend:
+          type: string
+          format: date
+        datumGeldigheid:
+          type: string
+          format: date
+        energieAttestType:
+          type: string
+        hoofdBestemming:
+          type: string
+        bestemming:
+          type: string
+        adressen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Adres"
+        gebouweenheidId:
+          type: string
+        gebouwId:
+          type: string
+        publiekGebouw:
+          type: boolean
+        overheidsgebouw:
+          type: boolean
+        gebouwbeheersysteemVerplicht:
+          type: boolean
+        gebouwbeheersysteemAanwezig:
+          type: boolean
+        detail:
+          $ref: "#/components/schemas/Reference"
+    EnergieAttesten:
+      type: object
+      properties:
+        energieAttesten:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnergieAttest"
+    Reference:
+      type: object
+      properties:
+        id:
+          type: string
+        url:
+          type: string
+    EnergieAttestDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        energieAttestNummer:
+          type: string
+        energieAttestStatus:
+          type: string
+        datumIngediend:
+          type: string
+          format: date
+        datumGeldigheid:
+          type: string
+          format: date
+        energieAttestType:
+          type: string
+        hoofdBestemming:
+          type: string
+        bestemming:
+          type: string
+        adressen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Adres"
+        gebouweenheidId:
+          type: string
+        gebouwId:
+          type: string
+        publiekGebouw:
+          type: boolean
+        overheidsgebouw:
+          type: boolean
+        gebouwbeheersysteemVerplicht:
+          type: boolean
+        gebouwbeheersysteemAanwezig:
+          type: boolean
+        detail:
+          $ref: "#/components/schemas/Reference"
+        energieIndicatoren:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnergieIndicatorSerializable"
+        bouwvorm:
+          type: string
+        brutoVloerOpperVlakte:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        deelBuitenBeschermdVolumeOppervlakte:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        thermischeMassa:
+          type: string
+        infiltratiedebiet:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        adviezen:
+          $ref: "#/components/schemas/Reference"
+        energieMetingen:
+          $ref: "#/components/schemas/Reference"
+        alleEnergieIndicatoren:
+          $ref: "#/components/schemas/Reference"
+        schildelen:
+          $ref: "#/components/schemas/Reference"
+        installatiesVoorSanitairWarmWater:
+          $ref: "#/components/schemas/Reference"
+        installatiesVoorRuimteverwarming:
+          $ref: "#/components/schemas/Reference"
+        installatiesVoorVentilatieEnBevochtiging:
+          $ref: "#/components/schemas/Reference"
+        installatiesVoorVerlichting:
+          $ref: "#/components/schemas/Reference"
+        installatiesVoorKoeling:
+          $ref: "#/components/schemas/Reference"
+        documenten:
+          $ref: "#/components/schemas/Reference"
+        erkenning:
+          $ref: "#/components/schemas/Reference"
+    EnergieIndicatorSerializable:
+      type: object
+      properties:
+        soort:
+          type: string
+        eis: {}
+        doelstelling: {}
+        waarde: {}
+        meeteenheid:
+          type: string
+        conformiteit:
+          type: string
+    WaardeMetMeeteenheidDouble:
+      type: object
+      properties:
+        waarde:
+          type: number
+          format: double
+        meeteenheid:
+          type: string
+    AttestSchildelen:
+      type: object
+      properties:
+        schildelen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Schildeel"
+    Beglazing:
+      type: object
+      properties:
+        beglazingType:
+          type: string
+        uwaardeGlas:
+          $ref: "#/components/schemas/WaardeMetEisDouble"
+        gwaardeGlas:
+          $ref: "#/components/schemas/WaardeMetEisDouble"
+    Constructiedeel:
+      type: object
+      properties:
+        categorie:
+          type: string
+        soort:
+          type: string
+        naam:
+          type: string
+        type:
+          type: string
+        subtype:
+          type: string
+        begrenzing:
+          type: string
+        orientatie:
+          type: string
+        nettoOppervlakte:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        oppervlaktefractie:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+        rwaarde:
+          $ref: "#/components/schemas/WaardeMetEisDouble"
+        uwaarde:
+          $ref: "#/components/schemas/WaardeMetEisDouble"
+        isolatielagen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Isolatielaag"
+        luchtlaag:
+          type: string
+        beglazing:
+          $ref: "#/components/schemas/Beglazing"
+        profiel:
+          $ref: "#/components/schemas/Profiel"
+        raamstijl:
+          $ref: "#/components/schemas/Raamstijl"
+        paneel:
+          $ref: "#/components/schemas/Paneel"
+        opengaandeDelenInLichteGevels:
+          type: string
+        ventilatieroosterAanwezig:
+          type: boolean
+        zonwering:
+          $ref: "#/components/schemas/Zonwering"
+        materiaalDeurOfPoort:
+          type: string
+        isolatieDeurOfPoort:
+          type: string
+        conformiteit:
+          type: string
+        energiedoelstelling:
+          type: string
+        energiedoelstellingPrioriteit:
+          type: string
+    Isolatielaag:
+      type: object
+      properties:
+        isolatiemateriaal:
+          type: string
+        isolatiemateriaalType:
+          type: string
+        onderbrekingIsolatie:
+          type: string
+        onderbrekingMateriaal:
+          type: string
+        dikte:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        rwaarde:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        lambda:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+    Paneel:
+      type: object
+      properties:
+        paneelType:
+          type: string
+        isolatiePaneel:
+          type: string
+        uwaarde:
+          $ref: "#/components/schemas/WaardeMetEisDouble"
+    Profiel:
+      type: object
+      properties:
+        profielType:
+          type: string
+        uwaarde:
+          $ref: "#/components/schemas/WaardeMetEisDouble"
+    Raamstijl:
+      type: object
+      properties:
+        raamstijlType:
+          type: string
+        uwaarde:
+          $ref: "#/components/schemas/WaardeMetEisDouble"
+    Schildeel:
+      type: object
+      properties:
+        schildeelType:
+          type: string
+        nettoOppervlakte:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        oppervlaktefractie:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+        constructiedelen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Constructiedeel"
+        volledigBeglaasd:
+          type: boolean
+    WaardeMetEisDouble:
+      type: object
+      properties:
+        waarde:
+          type: number
+          format: double
+        meeteenheid:
+          type: string
+        doelstelling:
+          type: number
+          format: double
+        eis:
+          type: number
+          format: double
+        bepaling:
+          type: string
+    WaardeMetMeeteenheidInteger:
+      type: object
+      properties:
+        waarde:
+          type: integer
+          format: int32
+        meeteenheid:
+          type: string
+    Zonwering:
+      type: object
+      properties:
+        zonweringType:
+          type: string
+        zonweringBediening:
+          type: string
+        oppervlaktefractie:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+    Opwekker:
+      type: object
+      properties:
+        id:
+          type: string
+        collectiviteit:
+          type: string
+        typeOpwekker:
+          type: string
+        soortOpwekker:
+          type: string
+        typeKetel:
+          type: string
+        typeWarmtepomp:
+          type: string
+        typeCompressiekoelmachine:
+          type: string
+        typeWKK:
+          type: string
+        typeZonneboiler:
+          type: string
+        typeVentilatie:
+          type: string
+        toepassingen:
+          type: array
+          items:
+            type: string
+        naamOpwekker:
+          type: string
+        fabricagejaar:
+          type: integer
+          format: int32
+        energiedrager:
+          type: string
+        energiedragerDetail:
+          type: string
+        hernieuwbaarPercentage:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        locatie:
+          type: string
+        thermischVermogen:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        warmtebron:
+          type: string
+        warmtebronDetail:
+          type: string
+        afgiftemedium:
+          type: string
+        afgiftemediumDetail:
+          type: string
+        warmtebronVerdamper:
+          type: string
+        warmtebronVerdamperDetail:
+          type: string
+        afgiftemediumCondensor:
+          type: string
+        afgiftemediumCondensorDetail:
+          type: string
+        elektrischVermogenRange:
+          type: string
+        elektrischVermogen:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        piekvermogen:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        vermogenOmvormer:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        apertuuroppervlakte:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        orientatie:
+          type: string
+        typeCollector:
+          type: string
+        hellingsgraad:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        isOpslagvatAanwezig:
+          type: boolean
+        isWarmtewisselaarAanwezig:
+          type: boolean
+        configuratieOpslagvatWarmtewisselaar:
+          type: string
+        volumeOpslagvat:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+        warmhoudverliesS:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+        energieLabels:
+          type: array
+          items:
+            type: string
+        energieEfficientieklasseRV:
+          type: string
+        energieEfficientieklasseSWW:
+          type: string
+        energieEfficientieSWW:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        capaciteitsprofiel:
+          type: string
+        testrendementDeellastOw:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        testrendementDeellastBw:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        isVrf:
+          type: boolean
+        isFreeChillingAanwezig:
+          type: boolean
+        isEcolabelAanwezig:
+          type: boolean
+        isKoelmiddelGekend:
+          type: boolean
+        koelmiddel:
+          type: string
+        isOzonlaagafbreekbarestoffen:
+          type: boolean
+        isKoeltorenAanwezig:
+          type: boolean
+        regelingVentilatoren:
+          type: string
+        isWTW:
+          type: boolean
+        testrendementWTW:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidDouble"
+        typeWarmteterugwinning:
+          type: string
+        isVochtrecuperatie:
+          type: boolean
+        isAutomatischeDebietsregeling:
+          type: boolean
+        isInstelwaardeInUitDebietGelijkNominaal:
+          type: boolean
+        bypass:
+          type: string
+        detail:
+          $ref: "#/components/schemas/Reference"
+        COPtest:
+          type: number
+          format: double
+        EERnom:
+          type: number
+          format: double
+        GWPwaarde:
+          type: integer
+          format: int32
+    InstallatieVerlichting:
+      type: object
+      properties:
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlakte:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+        verlichtingstechnologieType:
+          type: string
+        bezettingsregelingType:
+          type: string
+        daglichtregelingType:
+          type: string
+    InstallatiesVoorVerlichting:
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieVerlichting"
+    InstallatieBevochtiging:
+      type: object
+      properties:
+        id:
+          type: string
+        naam:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Opwekker"
+    InstallatieVentilatie:
+      type: object
+      properties:
+        id:
+          type: string
+        naam:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Opwekker"
+        gekoppeldeRuimteclusters:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterVentilatieEnBevochtiging"
+        regelingType:
+          type: string
+    InstallatiesVoorVentilatieEnBevochtiging:
+      type: object
+      properties:
+        installatiesVoorVentilatie:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieVentilatie"
+        installatiesVoorBevochting:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieBevochtiging"
+        ruimteclusters:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterVentilatieEnBevochtiging"
+    RuimteclusterVentilatieEnBevochtiging:
+      type: object
+      properties:
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlaktefractie:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+        gekoppeldeInstallatiesVoorBevochtiging:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieBevochtiging"
+    InstallatieSanitairWarmWater:
+      type: object
+      properties:
+        id:
+          type: string
+        naam:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Opwekker"
+        soortTappunten:
+          type: array
+          items:
+            type: string
+        aantalDouchesOfBaden:
+          type: string
+        distributieType:
+          type: string
+        lengteLeiding:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+        liggingLeiding:
+          type: string
+        isolatieLeiding:
+          type: string
+        isOpslagvatAanwezig:
+          type: string
+    InstallatiesVoorSanitairWarmWater:
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieSanitairWarmWater"
+    InstallatieRuimteverwarming:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        naam:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Opwekker"
+        warmtetransportmedium:
+          type: string
+        warmteregeling:
+          type: string
+        afgiftesysteem:
+          type: string
+        typeElektrischeWeerstandsVerwarming:
+          type: string
+        gekoppeldeRuimteclusters:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterRuimteverwarming"
+    InstallatiesVoorRuimteverwarming:
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieRuimteverwarming"
+        ruimteclusters:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterRuimteverwarming"
+    RuimteclusterRuimteverwarming:
+      type: object
+      properties:
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlaktefractie:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+    InstallatieKoeling:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        naam:
+          type: string
+        gekoppeldeOpwekkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Opwekker"
+        koudetransportmedium:
+          type: string
+        regelingKoelingPerRuimte:
+          type: string
+        afgiftesysteem:
+          type: string
+        gekoppeldeRuimteclusters:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterKoeling"
+    InstallatiesVoorKoeling:
+      type: object
+      properties:
+        installaties:
+          type: array
+          items:
+            $ref: "#/components/schemas/InstallatieKoeling"
+        ruimteclusters:
+          type: array
+          items:
+            $ref: "#/components/schemas/RuimteclusterKoeling"
+    RuimteclusterKoeling:
+      type: object
+      properties:
+        id:
+          type: string
+        naam:
+          type: string
+        oppervlaktefractie:
+          $ref: "#/components/schemas/WaardeMetMeeteenheidInteger"
+    EnergieIndicatoren:
+      type: object
+      properties:
+        energieIndicatoren:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnergieIndicatorSerializable"
+    DocumentInhoud:
+      type: object
+      properties:
+        id:
+          type: string
+        inhoud:
+          type: string
+          format: byte
+    Erkenning:
+      type: object
+      properties:
+        id:
+          type: string
+        rol:
+          type: string
+        erkenningsnummer:
+          type: string
+        persoon:
+          $ref: "#/components/schemas/Persoon"
+        namensRechtspersoon:
+          type: boolean
+        rechtspersoon:
+          $ref: "#/components/schemas/Rechtspersoon"
+    Persoon:
+      type: object
+      properties:
+        naam:
+          type: string
+        roepnaam:
+          type: string
+        voornaam:
+          type: string
+    Rechtspersoon:
+      type: object
+      properties:
+        kboNummer:
+          type: string
+        naam:
+          type: string
+        rechtsvorm:
+          type: string
+    DuurMeetPeriode:
+      type: object
+      properties:
+        meeteenheid:
+          type: string
+        waarde:
+          type: integer
+          format: int32
+    EnergieMeter:
+      type: object
+      properties:
+        soortEnergieMeter:
+          type: string
+        typeEnergieMeter:
+          type: string
+        nummerEnergieMeter:
+          type: string
+        isAfwijkingMeetperiode:
+          type: boolean
+        isGeenKwaliteitsvolleMeter:
+          type: boolean
+        isGebruiktInBerekening:
+          type: boolean
+        nutsbedrijf:
+          type: string
+        locatieEnergieMeter:
+          type: string
+        beschrijvingEnergieMeter:
+          type: string
+        energiestroom:
+          $ref: "#/components/schemas/Energiestroom"
+        meterstanden:
+          type: array
+          items:
+            $ref: "#/components/schemas/Meterstand"
+        documenten:
+          $ref: "#/components/schemas/Reference"
+        eancode:
+          type: string
+    EnergieMeting:
+      type: object
+      properties:
+        meetPeriode:
+          $ref: "#/components/schemas/MeetPeriode"
+        energiegebruikDeelBuitenBeschermdVolumeOpgenomen:
+          type: boolean
+        energieMeters:
+          type: array
+          items:
+            $ref: "#/components/schemas/EnergieMeter"
+    Energiestroom:
+      type: object
+      properties:
+        id:
+          type: string
+        soortEnergiestroom:
+          type: string
+        naamEnergiestroom:
+          type: string
+        typeEnergiestroom:
+          type: string
+        opwekker:
+          $ref: "#/components/schemas/Opwekker"
+        typeEnergie:
+          type: string
+        gekoppeldeLokaleOpwekkers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Opwekker"
+    MeetPeriode:
+      type: object
+      properties:
+        startMeetPeriode:
+          type: string
+          format: date
+        eindeMeetPeriode:
+          type: string
+          format: date
+        duurMeetPeriode:
+          $ref: "#/components/schemas/DuurMeetPeriode"
+    Meterstand:
+      type: object
+      properties:
+        startMeterstand:
+          $ref: "#/components/schemas/MeterstandWaarde"
+        eindMeterstand:
+          $ref: "#/components/schemas/MeterstandWaarde"
+        saldoMeterstand:
+          $ref: "#/components/schemas/MeterstandWaarde"
+        isGebruik:
+          type: boolean
+        isInjectie:
+          type: boolean
+        isDag:
+          type: boolean
+        isNacht:
+          type: boolean
+    MeterstandWaarde:
+      type: object
+      properties:
+        meetwaarde:
+          type: integer
+          format: int32
+        meeteenheid:
+          type: string
+    AttestDocumenten:
+      type: object
+      properties:
+        documenten:
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentDetail"
+    DocumentDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        naam:
+          type: string
+        extensie:
+          type: string
+        inhoud:
+          $ref: "#/components/schemas/Reference"
+    Aanbeveling:
+      type: object
+      properties:
+        categorie:
+          type: string
+        titel:
+          type: string
+        informatie:
+          type: string
+        huidigeSituatie:
+          type: string
+        aanbevelingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/AanbevelingDetail"
+        opmerkingEnergiedeskundige:
+          type: string
+        volgnummer:
+          type: integer
+          format: int32
+    AanbevelingDetail:
+      type: object
+      properties:
+        omschrijving:
+          type: string
+        volgnummer:
+          type: integer
+          format: int32
+    Adviezen:
+      type: object
+      properties:
+        aanbevelingen:
+          type: array
+          items:
+            $ref: "#/components/schemas/Aanbeveling"
+        opmerkingEnergiedeskundige:
+          type: string
+        maatadviesEnergiedeskundige:
+          type: string
+    AanbevelingDetailOutputRestDto:
+      type: object
+      properties:
+        links:
+          $ref: "#/components/schemas/LinkRestDto"
+        message:
+          type: string
+        id:
+          type: string
+          format: uuid
+        rang:
+          type: integer
+          format: int32
+        referentie:
+          $ref: "#/components/schemas/CodeOmschrijvingOutputRestDto"
+        titel:
+          type: string
+        huidigeSituatie:
+          type: string
+        aanbeveling:
+          type: string
+        extraInfo:
+          type: string
+        feedback:
+          $ref: "#/components/schemas/AanbevelingFeedbackDetailOutputRestDto"

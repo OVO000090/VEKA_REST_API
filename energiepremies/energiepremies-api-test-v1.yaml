@@ -38,53 +38,103 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  timestamp: 2024-09-04T15:03:37.449+02:00
-                  errors:
-                    - detail: Resource niet gevonden
-                  detail: Resource not found
-                  status: 404
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  title: Not Found
+                $ref: "#/components/schemas/CertificaatOutputRestDto"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
+                  status: 400
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
                   timestamp: 2024-09-02T15:03:37.449+02:00
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
                     het errors attribuut voor meer informatie.
-                  status: 400
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
-                  path: /voorbeeld-api/voorbeeld-endpoint
-                  title: Bad Request
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  status: 404
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  title: Not Found
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  errors:
+                    - detail: Resource niet gevonden
+                  detail: Resource not found
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  timestamp: 2024-09-03T15:03:37.449+02:00
-                  errors:
-                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
                   status: 500
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   title: Internal Server Error
+                  timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
 components:
-  schemas: {}
+  schemas:
+    AdresRestDto:
+      type: object
+      description: Detail over het adres.
+      properties:
+        straat:
+          type: string
+        huisnummer:
+          type: string
+        busnummer:
+          type: string
+        postcode:
+          type: string
+        gemeente:
+          type: string
+        land:
+          type: string
+        telefoonNummer:
+          type: string
+        email:
+          type: string
+      title: Adres
+    CertificaatOutputRestDto:
+      type: object
+      properties:
+        label:
+          type: string
+        attestnummer:
+          type: string
+        gebouwId:
+          type: integer
+          format: int64
+        gebouweenheidId:
+          type: integer
+          format: int64
+        datumIngediend:
+          type: string
+          format: date-time
+        adres:
+          $ref: "#/components/schemas/AdresRestDto"
+        typePand:
+          type: string
+        datumGeldigheid:
+          type: string
+          format: date-time
+        attestnummerLaatstGeldend:
+          type: string

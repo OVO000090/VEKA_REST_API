@@ -69,15 +69,15 @@ paths:
             application/json:
               schema:
                 example:
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+                  timestamp: 2024-09-02T15:03:37.449+02:00
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
                     het errors attribuut voor meer informatie.
                   status: 400
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
-                  path: /voorbeeld-api/voorbeeld-endpoint
-                  title: Bad Request
-                  timestamp: 2024-09-02T15:03:37.449+02:00
         "403":
           description: Forbidden
         "500":
@@ -86,15 +86,15 @@ paths:
             application/json:
               schema:
                 example:
-                  errors:
-                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
-                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  status: 500
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   title: Internal Server Error
                   timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
   /examens-api/v1/examendagen:
     post:
       tags:
@@ -116,15 +116,15 @@ paths:
             application/json:
               schema:
                 example:
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+                  timestamp: 2024-09-02T15:03:37.449+02:00
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
                     het errors attribuut voor meer informatie.
                   status: 400
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
-                  path: /voorbeeld-api/voorbeeld-endpoint
-                  title: Bad Request
-                  timestamp: 2024-09-02T15:03:37.449+02:00
         "403":
           description: Forbidden
         "500":
@@ -133,15 +133,15 @@ paths:
             application/json:
               schema:
                 example:
-                  errors:
-                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
-                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  status: 500
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   title: Internal Server Error
                   timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
   /examens-api/v1/examendagen/{examendagId}/examens:
     post:
       tags:
@@ -170,15 +170,15 @@ paths:
             application/json:
               schema:
                 example:
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+                  timestamp: 2024-09-02T15:03:37.449+02:00
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
                     het errors attribuut voor meer informatie.
                   status: 400
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
-                  path: /voorbeeld-api/voorbeeld-endpoint
-                  title: Bad Request
-                  timestamp: 2024-09-02T15:03:37.449+02:00
         "403":
           description: Forbidden
         "500":
@@ -187,15 +187,15 @@ paths:
             application/json:
               schema:
                 example:
-                  errors:
-                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
-                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  status: 500
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   title: Internal Server Error
                   timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
   /examens-api/v1/examens:
     get:
       tags:
@@ -211,54 +211,60 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  errors:
-                    - detail: Resource niet gevonden
-                  detail: Resource not found
-                  status: 404
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  title: Not Found
-                  timestamp: 2024-09-04T15:03:37.449+02:00
+                type: array
+                items:
+                  $ref: "#/components/schemas/ExamenOutputRestDto"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+                  timestamp: 2024-09-02T15:03:37.449+02:00
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
                     het errors attribuut voor meer informatie.
                   status: 400
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
-                  path: /voorbeeld-api/voorbeeld-endpoint
-                  title: Bad Request
-                  timestamp: 2024-09-02T15:03:37.449+02:00
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  title: Not Found
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  errors:
+                    - detail: Resource niet gevonden
+                  detail: Resource not found
+                  status: 404
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  errors:
-                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
-                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  status: 500
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   title: Internal Server Error
                   timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
   /examens-api/v1/examens/{id}/inschrijvingen:
     get:
       tags:
@@ -274,54 +280,60 @@ paths:
       responses:
         "200":
           description: OK
-        "204":
-          description: Geen data om terug te geven.
-        "404":
-          description: Er zijn geen gegevens gevonden.
           content:
             application/json:
               schema:
-                example:
-                  errors:
-                    - detail: Resource niet gevonden
-                  detail: Resource not found
-                  status: 404
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
-                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
-                  title: Not Found
-                  timestamp: 2024-09-04T15:03:37.449+02:00
+                type: array
+                items:
+                  $ref: "#/components/schemas/InschrijvingOutputRestDto"
+        "204":
+          description: Geen data om terug te geven.
         "400":
           description: Ongeldige request
           content:
             application/json:
               schema:
                 example:
+                  path: /voorbeeld-api/voorbeeld-endpoint
+                  title: Bad Request
+                  timestamp: 2024-09-02T15:03:37.449+02:00
                   errors:
                     - detail: Minimaal param1 of param2 zijn verplicht.
                   detail: Er zijn één of meerdere validatie fouten opgetreden. Controleer
                     het errors attribuut voor meer informatie.
                   status: 400
                   type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.1
-                  path: /voorbeeld-api/voorbeeld-endpoint
-                  title: Bad Request
-                  timestamp: 2024-09-02T15:03:37.449+02:00
         "403":
           description: Forbidden
+        "404":
+          description: Er zijn geen gegevens gevonden.
+          content:
+            application/json:
+              schema:
+                example:
+                  path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
+                  title: Not Found
+                  timestamp: 2024-09-04T15:03:37.449+02:00
+                  errors:
+                    - detail: Resource niet gevonden
+                  detail: Resource not found
+                  status: 404
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.4.5
         "500":
           description: Er is een fout opgetreden.
           content:
             application/json:
               schema:
                 example:
-                  errors:
-                    - errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
-                      detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
-                  status: 500
-                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
                   path: /voorbeeld-api/voorbeeld-endpoint/4d3930c8-8c75-433f-a9f1-7684e7cc5000
                   title: Internal Server Error
                   timestamp: 2024-09-03T15:03:37.449+02:00
+                  errors:
+                    - detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                      errorCode: 12738bac-8707-4eb2-b746-a7b97e5723a4
+                  detail: "Onverwachte systeemfout. Error id: 12738bac-8707-4eb2-b746-a7b97e5723a4"
+                  status: 500
+                  type: https://datatracker.ietf.org/doc/html/rfc2616#section-10.5.1
   /examens-api/v1/examendagen/{examendagId}/examens/{examenId}:
     delete:
       tags:
@@ -463,6 +475,7 @@ components:
           type: string
         examenType:
           type: string
+          minLength: 1
       required:
         - examenId
         - examenType
@@ -485,3 +498,54 @@ components:
         examendagId:
           type: integer
           format: int64
+    ExamenOutputRestDto:
+      type: object
+      properties:
+        examenId:
+          type: integer
+          format: int64
+        registratieRol:
+          type: string
+        datum:
+          type: string
+          format: date
+        uur:
+          type: string
+        centrumNaam:
+          type: string
+        centrumAdres:
+          $ref: "#/components/schemas/CentrumAdres"
+        maxAantalDeelnemers:
+          type: integer
+          format: int32
+        uitersteInschrijvingsdatum:
+          type: string
+          format: date
+        isVerborgen:
+          type: boolean
+        examenType:
+          type: string
+        examendagId:
+          type: integer
+          format: int64
+    InschrijvingOutputRestDto:
+      type: object
+      properties:
+        rijksregisternummer:
+          type: string
+        naam:
+          type: string
+        voornaam:
+          type: string
+        geboorteDatum:
+          type: string
+          format: date
+        email:
+          type: string
+        telefoonNummer:
+          type: string
+        inschrijvingsDatum:
+          type: string
+          format: date
+        paswoord:
+          type: string
